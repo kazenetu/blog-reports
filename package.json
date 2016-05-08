@@ -1,0 +1,13 @@
+{
+	"name": "blog-reports",
+	"version": "1.0.0",
+	"author": "kazenetu",
+	"url": "https://github.com/kazenetu/blog-reports",
+	"keywords": [
+		"gulp-markdown"
+	],
+	"devDependencies":{
+		"gulp": "*",
+		"gulp-markdown": "*"
+	}
+}
