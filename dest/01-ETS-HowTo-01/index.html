@@ -2,21 +2,21 @@
 <h1 id="-">はじめに</h1>
 <p>TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。<br><a href="https://github.com/kazenetu/enchantjs-typescript">https://github.com/kazenetu/enchantjs-typescript</a><br>「starter/use-framework/template/」を使ってサンプルプログラムを開発してみます。</p>
 <h1 id="-">今回のゴール</h1>
+<p>サンプル「template」のビルド環境を構築する</p>
 <h1 id="-">開発環境</h1>
-<p>下記がインストールされている前提です。  </p>
+<p>下記がインストールされている前提です。<br>カッコ内は私の環境です。  </p>
 <ul>
 <li>Node.js（5.6.0以上）</li>
 <li>npm(3以上)</li>
 </ul>
-<h1 id="-">詳細説明</h1>
+<h1 id="-">ビルド環境を構築手順</h1>
 <ol>
-<li>templateフォルダのコピー<br>スターターキット(starter.zip)をダウンロードして「use-framework/template」を好きなところにコピーしてください。</li>
-<li></li>
+<li>templateフォルダのコピー<br>スターターキット(starter.zip)をダウンロードして展開し、「./use-framework/template」を好きなところにコピーしてください。  </li>
+<li><code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">npm install</code> を行い、必要なモジュールをダウンロードしてください。</li>
+<li><code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">npm run build</code> または <code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">gulp default</code>を行い、main.tsをビルドしmain.jsを作成します。</li>
 </ol>
-<pre><code>protected onInitialize(): void {
-    //TODO 画面サイズやfpsの変更を記述してください。
-}
-</code></pre><h1 id="-">おわりに</h1>
-<p>よかったらクリックしてください。
-<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ" /></a>
-<a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ" /></a><br /><a href="http://game.blogmura.com/game_work/">にほんブログ村</a></p>
+<p>ビルド環境の構築が終わりました。<br>以降は<code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">npm run build</code> または <code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">gulp default</code>でビルドを行います。</p>
+<pre><code style="background-color: #BBB; padding-top:0.5em;padding-bottom:0.5em;">
+private a:number;</code></pre><h1 id="-">おわりに</h1>
+<p>今回はビルド環境の構築を行いました。<br>次回からコーディングを行います。</p>
+<p>よかったらクリックしてください。<br><a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ" /></a><br><a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ" /></a><br /><a href="http://game.blogmura.com/game_work/">にほんブログ村</a></p>
