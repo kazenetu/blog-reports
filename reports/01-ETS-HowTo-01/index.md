@@ -6,27 +6,33 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「starter/use-framework/template/」を使ってサンプルプログラムを開発してみます。
 
 # 今回のゴール
-
+サンプル「template」のビルド環境を構築する
 
 # 開発環境
 下記がインストールされている前提です。  
+カッコ内は私の環境です。  
 * Node.js（5.6.0以上）
 * npm(3以上)
 
-# 詳細説明
+# ビルド環境を構築手順
 1. templateフォルダのコピー  
-   スターターキット(starter.zip)をダウンロードして「use-framework/template」を好きなところにコピーしてください。
-1. 
+   スターターキット(starter.zip)をダウンロードして展開し、「./use-framework/template」を好きなところにコピーしてください。  
+1. ```npm install``` を行い、必要なモジュールをダウンロードしてください。
+1. ```npm run build``` または ```gulp default```を行い、main.tsをビルドしmain.jsを作成します。
 
-```
-protected onInitialize(): void {
-    //TODO 画面サイズやfpsの変更を記述してください。
-}
+ビルド環境の構築が終わりました。  
+以降は```npm run build``` または ```gulp default```でビルドを行います。
+
+``` javascript
+
+private a:number;
+
 ```
 
 # おわりに
+今回はビルド環境の構築を行いました。  
+次回からコーディングを行います。
 
-
-よかったらクリックしてください。
-<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ" /></a>
+よかったらクリックしてください。  
+<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ" /></a>  
 <a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ" /></a><br /><a href="http://game.blogmura.com/game_work/">にほんブログ村</a>
