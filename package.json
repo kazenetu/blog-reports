@@ -9,6 +9,7 @@
 	"devDependencies":{
 		"gulp": "*",
 		"gulp-markdown": "*",
-		"highlight.js":"*"
+		"highlight.js":"*",
+		"gulp-inline-css":"*"
 	}
 }
