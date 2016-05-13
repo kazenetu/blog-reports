@@ -2,29 +2,33 @@ var gulp = require('gulp');
 var markdown = require('gulp-markdown');
 var hl = require('highlight.js').highlightAuto;
 var marked = require('marked');
+var inlineCss = require('gulp-inline-css');
 
-gulp.task('default', function () {
-    var renderer = new marked.Renderer();
-    renderer.codespan = function(code){
-      return '<code style="background-color: #BBB; font-weight: bold; font-size:1.2em;">' + code + '</code>';
-    }
+gulp.task('_createHtml', function () {
     marked.Parser.parse = function(src, options, renderer) {
       var parser = new marked.Parser(options, renderer);
       var parseValue = parser.parse(src)
-                        .replace(/<pre><code /g,'<pre  style="background-color: #BBB;padding:1em 1em 1em 1em;"><code ');
+                        .replace(/<\/code><\/pre>/g,'\n</code></pre>');
 
-      return '<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>\n'+parseValue+'</body></html>';
+      return '<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8">'
+      +'<link rel="stylesheet" href="../../node_modules/highlight.js/styles/vs.css">'
+      +'<link rel="stylesheet" href="../../css/code.css">'
+      +'</head><body>\n'+parseValue+'</body></html>';
     };
 
     return gulp.src(['./reports/**/*.md','!./**/node_modules/**/*.md'])
         .pipe(markdown(
           {
               highlight: function (src) {
-                return hl(src).value
-                  .replace(/class="hljs-keyword"/g,'style="color: #00F; font-weight: bold;"');
+                return hl(src).value;
               }
-              ,renderer:renderer
           }
         ))
-        .pipe(gulp.dest('./dest'));
+        .pipe(gulp.dest('./temp'));
+});
+
+gulp.task('default',['_createHtml'], function () {
+  return gulp.src(['./temp/**/*.html','!./temp/*.html'])
+      .pipe(inlineCss())
+      .pipe(gulp.dest('dest/'));
 });
