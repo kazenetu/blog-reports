@@ -1,0 +1,14 @@
+hr { display: block; height: 2px; border: 0; border-top: 1px solid #aaa;border-bottom: 1px solid #eee; margin: 1em 0; padding: 0; }
+code, kbd, samp {background-color:#EEF ;color: #000; font-family: monospace, monospace; _font-family: 'courier new', monospace; font-size: 0.98em; }
+pre {
+  white-space: pre; white-space: pre-wrap; word-wrap: break-word;
+  overflow:auto;
+  background-color: #EFF4E4;
+}
+pre code{
+  background-color: #EFF4E4;
+}
+pre code::after{
+  content: " ";
+              display:block;
+}
