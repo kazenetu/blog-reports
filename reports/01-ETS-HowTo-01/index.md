@@ -23,9 +23,11 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ビルド環境の構築が終わりました。  
 以降は```npm run build``` または ```gulp default```でビルドを行います。
 
-``` javascript
+``` typescript
 
 private a:number;
+
+private b:number;
 
 ```
 
