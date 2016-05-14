@@ -1,4 +1,4 @@
-[WIP]TypeScriptでenchant.jsを使ってサンプルを作ってみる その1
+TypeScriptでenchant.jsを使ってサンプルを作ってみる その1
 
 # はじめに
 TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。  
@@ -7,6 +7,9 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 
 # 今回のゴール
 サンプル「template」のビルド環境を構築する
+
+## ソースコード
+[https://github.com/kazenetu/blog-reports/tree/master/reports/01-ETS-HowTo-01/template](https://github.com/kazenetu/blog-reports/tree/master/reports/01-ETS-HowTo-01/template)
 
 # 開発環境
 下記がインストールされている前提です。  
@@ -22,14 +25,6 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 
 ビルド環境の構築が終わりました。  
 以降は```npm run build``` または ```gulp default```でビルドを行います。
-
-``` typescript
-
-private a:number;
-
-private b:number;
-
-```
 
 # おわりに
 今回はビルド環境の構築を行いました。  
