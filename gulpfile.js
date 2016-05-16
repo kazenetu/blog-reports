@@ -16,12 +16,21 @@ gulp.task('_createHtml', function () {
       +'</head><body>\n'+parseValue+'</body></html>';
     };
 
+    var renderer = new marked.Renderer();
+    renderer.heading = function (text, level) {
+      return '<br><b>' + text + '</b><br>';
+    };
+    renderer.paragraph = function(text) {
+      return text + '<br>\n';
+    };
+
     return gulp.src(['./reports/**/*.md','!./**/node_modules/**/*.md'])
         .pipe(markdown(
           {
               highlight: function (src) {
                 return hl(src).value;
               }
+              ,renderer: renderer
           }
         ))
         .pipe(gulp.dest('./temp'));
