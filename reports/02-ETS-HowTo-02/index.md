@@ -9,7 +9,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「Hello world」を表示します。
 
 ##  前提
-ビルド環境の構築を参照して、下記を実行してください。  
+[ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
 ・ templateフォルダの展開  
 ・ ```npm install```の実行  
 
