@@ -1,6 +1,8 @@
 class GameMain extends Rf.ETS.FrameWork.GameMain {
     //TODO プロパティやフィールドを記述してください。
     private hellow:Rf.ETS.FrameWork.Label = null;
+    private isFall:boolean = false;
+    private fallSpeed:number = 0;
 
     /**
      * 初期化イベント
@@ -46,9 +48,15 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
         this.hellow.textAlign = "center";
         this.hellow.x = 100;
         this.hellow.y = 100;
+        this.hellow.touchEnabled = true;
 
-        //TODO イベントを記述してください。
-
+        //ラベルのタップで落下するイベント
+        this.hellow.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
+          if(this.isFall === false){
+            this.isFall = true;
+            this.fallSpeed = 2;
+          }
+        });
     }
 
     /**
@@ -57,10 +65,16 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      * @name FrameWork.GameMain#onRun
      */
     protected onRun(): void {
-        //ラベルを移動させる
-        this.hellow.y += 4;
-        if(this.hellow.y > 480){
-          this.hellow.y -= 480;
+        //タップされた場合はラベルを移動させる
+        if(this.isFall){
+          this.hellow.y += this.fallSpeed;
+          if(this.fallSpeed < 10){
+            this.fallSpeed += 1;
+          }
+          if(this.hellow.y > 480){
+            this.hellow.y = 100;
+            this.isFall = false;
+          }
         }
     }
 }

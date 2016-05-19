@@ -9,6 +9,8 @@ var GameMain = (function (_super) {
         _super.apply(this, arguments);
         //TODO プロパティやフィールドを記述してください。
         this.hellow = null;
+        this.isFall = false;
+        this.fallSpeed = 0;
     }
     /**
      * 初期化イベント
@@ -42,6 +44,7 @@ var GameMain = (function (_super) {
      * @param {Object} parent - 親Group
      */
     GameMain.prototype.onLoad = function (parent) {
+        var _this = this;
         //ラベルを生成
         this.hellow = new Rf.ETS.FrameWork.Label(parent);
         this.hellow.text = "Hello world";
@@ -49,8 +52,15 @@ var GameMain = (function (_super) {
         this.hellow.touchEnabled = false;
         this.hellow.textAlign = "center";
         this.hellow.x = 100;
-        this.hellow.y = 0;
-        //TODO イベントを記述してください。
+        this.hellow.y = 100;
+        this.hellow.touchEnabled = true;
+        //ラベルのタップで落下するイベント
+        this.hellow.on(enchant.Event.TOUCH_END, function (e) {
+            if (_this.isFall === false) {
+                _this.isFall = true;
+                _this.fallSpeed = 2;
+            }
+        });
     };
     /**
      * 実行イベント
@@ -58,10 +68,16 @@ var GameMain = (function (_super) {
      * @name FrameWork.GameMain#onRun
      */
     GameMain.prototype.onRun = function () {
-        //ラベルを移動させる
-        this.hellow.y += 4;
-        if (this.hellow.y > 480) {
-            this.hellow.y -= 480;
+        //タップされた場合はラベルを移動させる
+        if (this.isFall) {
+            this.hellow.y += this.fallSpeed;
+            if (this.fallSpeed < 10) {
+                this.fallSpeed += 1;
+            }
+            if (this.hellow.y > 480) {
+                this.hellow.y = 100;
+                this.isFall = false;
+            }
         }
     };
     return GameMain;
