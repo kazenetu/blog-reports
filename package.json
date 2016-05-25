@@ -8,7 +8,7 @@
 	],
 	"devDependencies":{
 		"gulp": "*",
-		"gulp-markdown": "*",
+		"gulp-markdown": "1.2.0",
 		"highlight.js":"*",
 		"gulp-inline-css":"*"
 	}
