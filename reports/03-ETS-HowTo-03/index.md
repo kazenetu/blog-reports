@@ -19,8 +19,8 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 # 開発環境
 下記がインストールされている前提です。  
 カッコ内は私の環境です。  
-* Node.js（5.6.0以上）
-* npm(3以上)
+・Node.js（5.6.0）  
+・npm(3.8.3)  
 
 # 実装手順
 1.template/main.tsを開き、下記の実装をしてください。
