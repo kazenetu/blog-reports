@@ -6,9 +6,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。
 
 # 今回のゴール
-タップ(またはクリック)すると落下するキャラクタを表示します。
-
--- ここまで --  
+前回のソースを修正して、タップ(またはクリック)すると落下するグラフィックを表示します。
 
 ##  前提
 [ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
@@ -16,7 +14,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ・ ```npm install```の実行  
 
 ## ソースコード
-[https://github.com/kazenetu/blog-reports/tree/master/reports/03-ETS-HowTo-03/template](https://github.com/kazenetu/blog-reports/tree/master/reports/03-ETS-HowTo-03/template)
+[https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template](https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template)
 
 # 開発環境
 下記がインストールされている前提です。  
@@ -30,10 +28,10 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 
 ``` typesctipt
 class GameMain extends Rf.ETS.FrameWork.GameMain {
-    //TODO プロパティやフィールドを記述してください。
-    private hellow:Rf.ETS.FrameWork.Label = null; //※1
-    private isFall:boolean = false; //※1
-    private fallSpeed:number = 0; //※1
+    //フィールド
+    private sprite: Rf.ETS.FrameWork.Sprite = null; //※1
+    private isFall:boolean = false;
+    private fallSpeed:number = 0;
 
     /**
      * 初期化イベント
@@ -50,24 +48,39 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
     }
 
     /**
+      * リソース設定イベント
+      * @method
+      * @name FrameWork.GameMain#resourceLoad
+      */
+    protected onResourceSetting(): void { //※3
+        //this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定
+        this.resourceManager.SetResourcePath("./assets/resources/");
+
+        //リソースのキーとファイルパスを記述
+        this.resourceManager.AddResourceName("charaImage", "chara.png");
+    }
+
+    /**
      * ロードイベント
      * @method
      * @name FrameWork.GameMain#onLoad
      * @param {Object} parent - 親Group
      */
-    protected onLoad(parent: enchant.Group): void { //※3
-        //ラベルを生成 //※3.1
-        this.hellow = new Rf.ETS.FrameWork.Label(parent);
-        this.hellow.text = "Hello world";
-        this.hellow.width = 100;
-        this.hellow.touchEnabled = false;
-        this.hellow.textAlign = "center";
-        this.hellow.x = 100;
-        this.hellow.y = 100;
-        this.hellow.touchEnabled = true;
+    protected onLoad(parent: enchant.Group): void { //※4
+        //グラフィックを生成
+        this.sprite = new Rf.ETS.FrameWork.Sprite(32, 32, parent); //※4.1
+        //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
+        this.sprite.FileName = this.resourceManager.GetResourceName("charaImage"); //※4.2
+        //その他の情報の設定(enchant.js共通） //※4.3
+        this.sprite.originX = 16; //中心で回転するように設定
+        this.sprite.originY = 16; //中心で回転するように設定
+        this.sprite.frame = 26 * 2; //サンプル画像で正面画像を表示する
+        this.sprite.touchEnabled = true;
+        this.sprite.x = 100;
+        this.sprite.y = 100;
 
-        //ラベルのタップで落下するイベント //※3.2
-        this.hellow.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
+        //グラフィックのタップで落下するイベント //※4.4
+        this.sprite.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
           if(this.isFall === false){
             this.isFall = true;
             this.fallSpeed = 2;
@@ -80,15 +93,15 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      * @method
      * @name FrameWork.GameMain#onRun
      */
-    protected onRun(): void { //※4
-        //タップされた場合はラベルを移動させる
+    protected onRun(): void { //※5
+        //タップされた場合はグラフィックを落下させる
         if(this.isFall){
-          this.hellow.y += this.fallSpeed;
+          this.sprite.y += this.fallSpeed;
           if(this.fallSpeed < 10){
             this.fallSpeed += 1;
           }
-          if(this.hellow.y > 480){
-            this.hellow.y = 100;
+          if(this.sprite.y > 480){
+            this.sprite.y = 100;
             this.isFall = false;
           }
         }
@@ -96,30 +109,38 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 }
 ```
 
-実装内容は以下のとおりです。
+実装内容は以下のとおりです。  
+※太字は前回からの修正点です。
 1. フィールドの定義  
- * hellow  
-   ラベルクラス
+ * sprite  
+   グラフィック(スプライト)クラス
  * isFall  
    落下フラグ（trueで落下状態）
  * fallSpeed  
    落下スピード(2->10)
 1. onInitializeメソッド（一回だけ呼ばれる）  
  * 画面サイズとfps(1秒間の描画回数)を設定
+1. onResourceSettingメソッド（一回だけ呼ばれる）  
+実装を追加したメソッドです。  
+ * リソースのルートパスを設定する
+ * リソースのキーとファイルパスの組み合わせを設定する
 1. onLoadメソッド（一回だけ呼ばれる）  
- 1. 「hellow」フィールドの生成・設定  
-    前回から追加した点は下記のコードです  
-    * this.hellow.touchEnabled = true;
- 1. イベント定義(タップ・クリックでラベルを落下させる)
+ 1. 「sprite」フィールドの生成  
+ ※Rf.ETS.FrameWork.Sprite独自の書き方
+ 1. リソースの設定
+ ※Rf.ETS.FrameWork.Sprite独自の書き方
+ 1. その他の設定
+ ※enchant.jsと同じ書き方
+ 1. イベント定義(タップ・クリックでspriteを落下させる)
 1. onRunメソッド（描画ごとに呼ばれる）  
-  * 「落下フラグ」フィールドがtrueの場合、「hellow」フィールドを落下させる。  
+  * 「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  
   * 画面下まで落下したらもとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
 
 2.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
 今回はイベントの実装を行いました。  
-次回はグラフィックの表示を行います。
+次回はマップデータの読み込みと表示を行います。
 
 <br>
 よかったらクリックしてください。  

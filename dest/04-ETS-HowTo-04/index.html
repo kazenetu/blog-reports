@@ -1,0 +1,127 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+[WIP]TypeScriptでenchant.jsを使ってサンプルを作ってみる その4<br>
+<br><b>はじめに</b><br>TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。<br><a href="https://github.com/kazenetu/enchantjs-typescript">https://github.com/kazenetu/enchantjs-typescript</a><br>「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。<br>
+<br><b>今回のゴール</b><br>前回のソースを修正して、タップ(またはクリック)すると落下するグラフィックを表示します。<br>
+<br><b>前提</b><br><a href="http://kazenetu.exblog.jp/22812282/">ビルド環境の構築</a>を参照して、下記を実行してください。<br>・ templateフォルダの展開<br>・ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">npm install</span>の実行  <br>
+<br><b>ソースコード</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template">https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template</a><br>
+<br><b>開発環境</b><br>下記がインストールされている前提です。<br>カッコ内は私の環境です。<br>・Node.js（5.6.0）<br>・npm(3.8.3)  <br>
+<br><b>実装手順</b><br>1.template/main.tsを開き、下記の実装をしてください。
+※処理を追加していないメソッドは除外しています。<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-typesctipt code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #00f;">class</span> <span class="hljs-title" style="color: #a31515;">GameMain</span> <span class="hljs-title" style="color: #a31515;">extends</span> <span class="hljs-title" style="color: #a31515;">Rf</span>.<span class="hljs-title" style="color: #a31515;">ETS</span>.<span class="hljs-title" style="color: #a31515;">FrameWork</span>.<span class="hljs-title" style="color: #a31515;">GameMain</span> </span>{
+    <span class="hljs-comment" style="color: #008000;">//フィールド</span>
+    <span class="hljs-keyword" style="color: #00f;">private</span> sprite: Rf.ETS.FrameWork.Sprite = <span class="hljs-literal" style="color: #a31515;">null</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+    <span class="hljs-keyword" style="color: #00f;">private</span> isFall:boolean = <span class="hljs-literal" style="color: #a31515;">false</span>;
+    <span class="hljs-keyword" style="color: #00f;">private</span> fallSpeed:number = <span class="hljs-number">0</span>;
+
+    <span class="hljs-comment" style="color: #008000;">/**
+     * 初期化イベント
+     * <span class="hljs-doctag" style="color: #808080;">@method</span>
+     * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onInitialize
+     */</span>
+    <span class="hljs-keyword" style="color: #00f;">protected</span> onInitialize(): void { <span class="hljs-comment" style="color: #008000;">//※2</span>
+        <span class="hljs-comment" style="color: #008000;">//サイズを320x480に変更</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth = <span class="hljs-number">320</span>;
+        <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight = <span class="hljs-number">480</span>;
+
+        <span class="hljs-comment" style="color: #008000;">//fpsを設定</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.fps = <span class="hljs-number">20</span>;
+    }
+
+    <span class="hljs-comment" style="color: #008000;">/**
+      * リソース設定イベント
+      * <span class="hljs-doctag" style="color: #808080;">@method</span>
+      * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#resourceLoad
+      */</span>
+    <span class="hljs-keyword" style="color: #00f;">protected</span> onResourceSetting(): void { <span class="hljs-comment" style="color: #008000;">//※3</span>
+        <span class="hljs-comment" style="color: #008000;">//this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.SetResourcePath(<span class="hljs-string" style="color: #a31515;">"./assets/resources/"</span>);
+
+        <span class="hljs-comment" style="color: #008000;">//リソースのキーとファイルパスを記述</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.AddResourceName(<span class="hljs-string" style="color: #a31515;">"charaImage"</span>, <span class="hljs-string" style="color: #a31515;">"chara.png"</span>);
+    }
+
+    <span class="hljs-comment" style="color: #008000;">/**
+     * ロードイベント
+     * <span class="hljs-doctag" style="color: #808080;">@method</span>
+     * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onLoad
+     * <span class="hljs-doctag" style="color: #808080;">@param</span> {Object} parent - 親Group
+     */</span>
+    <span class="hljs-keyword" style="color: #00f;">protected</span> onLoad(parent: enchant.Group): void { <span class="hljs-comment" style="color: #008000;">//※4</span>
+        <span class="hljs-comment" style="color: #008000;">//グラフィックを生成</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite = new Rf.ETS.FrameWork.Sprite(<span class="hljs-number">32</span>, <span class="hljs-number">32</span>, parent); <span class="hljs-comment" style="color: #008000;">//※4.1</span>
+        <span class="hljs-comment" style="color: #008000;">//イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.FileName = <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.GetResourceName(<span class="hljs-string" style="color: #a31515;">"charaImage"</span>); <span class="hljs-comment" style="color: #008000;">//※4.2</span>
+        <span class="hljs-comment" style="color: #008000;">//その他の情報の設定(enchant.js共通） //※4.3</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.originX = <span class="hljs-number">16</span>; <span class="hljs-comment" style="color: #008000;">//中心で回転するように設定</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.originY = <span class="hljs-number">16</span>; <span class="hljs-comment" style="color: #008000;">//中心で回転するように設定</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.frame = <span class="hljs-number">26</span> * <span class="hljs-number">2</span>; <span class="hljs-comment" style="color: #008000;">//サンプル画像で正面画像を表示する</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.touchEnabled = <span class="hljs-literal" style="color: #a31515;">true</span>;
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.x = <span class="hljs-number">100</span>;
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.y = <span class="hljs-number">100</span>;
+
+        <span class="hljs-comment" style="color: #008000;">//グラフィックのタップで落下するイベント //※4.4</span>
+        <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.on(enchant.Event.TOUCH_END,(e:enchant.Event)=&gt;{
+          <span class="hljs-keyword" style="color: #00f;">if</span>(<span class="hljs-keyword" style="color: #00f;">this</span>.isFall === <span class="hljs-literal" style="color: #a31515;">false</span>){
+            <span class="hljs-keyword" style="color: #00f;">this</span>.isFall = <span class="hljs-literal" style="color: #a31515;">true</span>;
+            <span class="hljs-keyword" style="color: #00f;">this</span>.fallSpeed = <span class="hljs-number">2</span>;
+          }
+        });
+    }
+
+    <span class="hljs-comment" style="color: #008000;">/**
+     * 実行イベント
+     * <span class="hljs-doctag" style="color: #808080;">@method</span>
+     * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onRun
+     */</span>
+    <span class="hljs-keyword" style="color: #00f;">protected</span> onRun(): void { <span class="hljs-comment" style="color: #008000;">//※5</span>
+        <span class="hljs-comment" style="color: #008000;">//タップされた場合はグラフィックを落下させる</span>
+        <span class="hljs-keyword" style="color: #00f;">if</span>(<span class="hljs-keyword" style="color: #00f;">this</span>.isFall){
+          <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.y += <span class="hljs-keyword" style="color: #00f;">this</span>.fallSpeed;
+          <span class="hljs-keyword" style="color: #00f;">if</span>(<span class="hljs-keyword" style="color: #00f;">this</span>.fallSpeed &lt; <span class="hljs-number">10</span>){
+            <span class="hljs-keyword" style="color: #00f;">this</span>.fallSpeed += <span class="hljs-number">1</span>;
+          }
+          <span class="hljs-keyword" style="color: #00f;">if</span>(<span class="hljs-keyword" style="color: #00f;">this</span>.sprite.y &gt; <span class="hljs-number">480</span>){
+            <span class="hljs-keyword" style="color: #00f;">this</span>.sprite.y = <span class="hljs-number">100</span>;
+            <span class="hljs-keyword" style="color: #00f;">this</span>.isFall = <span class="hljs-literal" style="color: #a31515;">false</span>;
+          }
+        }
+    }
+}
+</span></pre>
+実装内容は以下のとおりです。<br>※太字は前回からの修正点です。<br>
+<ol>
+<li>フィールドの定義  <ul>
+<li>sprite<br>グラフィック(スプライト)クラス</li>
+<li>isFall<br>落下フラグ（trueで落下状態）</li>
+<li>fallSpeed<br>落下スピード(2-&gt;10)</li>
+</ul>
+</li>
+<li>onInitializeメソッド（一回だけ呼ばれる）  <ul>
+<li>画面サイズとfps(1秒間の描画回数)を設定</li>
+</ul>
+</li>
+<li>onResourceSettingメソッド（一回だけ呼ばれる）<br>実装を追加したメソッドです。  <ul>
+<li>リソースのルートパスを設定する</li>
+<li>リソースのキーとファイルパスの組み合わせを設定する</li>
+</ul>
+</li>
+<li>onLoadメソッド（一回だけ呼ばれる）  <ol>
+<li>「sprite」フィールドの生成<br>※Rf.ETS.FrameWork.Sprite独自の書き方</li>
+<li>リソースの設定
+※Rf.ETS.FrameWork.Sprite独自の書き方</li>
+<li>その他の設定
+※enchant.jsと同じ書き方</li>
+<li>イベント定義(タップ・クリックでspriteを落下させる)</li>
+</ol>
+</li>
+<li>onRunメソッド（描画ごとに呼ばれる）  <ul>
+<li>「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  </li>
+<li>画面下まで落下したらもとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  </li>
+</ul>
+</li>
+</ol>
+2.<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">npm run build</span> または <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">gulp default</span>でビルドを行います。<br>
+<br><b>おわりに</b><br>今回はイベントの実装を行いました。<br>次回はマップデータの読み込みと表示を行います。<br>
+<br>
+よかったらクリックしてください。<br><a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a><br><a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+</body></html>
