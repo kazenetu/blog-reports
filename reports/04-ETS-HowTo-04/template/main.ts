@@ -1,6 +1,6 @@
 class GameMain extends Rf.ETS.FrameWork.GameMain {
-    //TODO プロパティやフィールドを記述してください。
-    private hellow:Rf.ETS.FrameWork.Label = null;
+    //フィールド
+    private sprite: Rf.ETS.FrameWork.Sprite = null;
     private isFall:boolean = false;
     private fallSpeed:number = 0;
 
@@ -24,13 +24,11 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
       * @name FrameWork.GameMain#resourceLoad
       */
     protected onResourceSetting(): void {
-        //TODO this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定してください。
-        //例）
-        //this.resourceManager.SetResourcePath("./assets/resources/");
+        //this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定
+        this.resourceManager.SetResourcePath("./assets/resources/");
 
-        //TODO リソースのキーとファイルパスを記述してください。
-        //例）
-        //this.resourceManager.AddResourceName("charaImage", "chara.png");
+        //リソースのキーとファイルパスを記述
+        this.resourceManager.AddResourceName("charaImage", "chara.png");
     }
 
     /**
@@ -40,18 +38,20 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      * @param {Object} parent - 親Group
      */
     protected onLoad(parent: enchant.Group): void {
-        //ラベルを生成
-        this.hellow = new Rf.ETS.FrameWork.Label(parent);
-        this.hellow.text = "Hello world";
-        this.hellow.width = 100;
-        this.hellow.touchEnabled = false;
-        this.hellow.textAlign = "center";
-        this.hellow.x = 100;
-        this.hellow.y = 100;
-        this.hellow.touchEnabled = true;
+        //グラフィックを生成
+        this.sprite = new Rf.ETS.FrameWork.Sprite(32, 32, parent);
+        //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
+        this.sprite.FileName = this.resourceManager.GetResourceName("charaImage");
+        //その他の情報の設定(enchant.js共通）
+        this.sprite.originX = 16; //中心で回転するように設定
+        this.sprite.originY = 16; //中心で回転するように設定
+        this.sprite.frame = 26 * 2; //サンプル画像で正面画像を表示する
+        this.sprite.touchEnabled = true;
+        this.sprite.x = 100;
+        this.sprite.y = 100;
 
-        //ラベルのタップで落下するイベント
-        this.hellow.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
+        //グラフィックのタップで落下するイベント
+        this.sprite.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
           if(this.isFall === false){
             this.isFall = true;
             this.fallSpeed = 2;
@@ -65,14 +65,14 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      * @name FrameWork.GameMain#onRun
      */
     protected onRun(): void {
-        //タップされた場合はラベルを移動させる
+        //タップされた場合はグラフィックを落下させる
         if(this.isFall){
-          this.hellow.y += this.fallSpeed;
+          this.sprite.y += this.fallSpeed;
           if(this.fallSpeed < 10){
             this.fallSpeed += 1;
           }
-          if(this.hellow.y > 480){
-            this.hellow.y = 100;
+          if(this.sprite.y > 480){
+            this.sprite.y = 100;
             this.isFall = false;
           }
         }

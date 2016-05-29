@@ -8,7 +8,7 @@ var GameMain = (function (_super) {
     function GameMain() {
         _super.apply(this, arguments);
         //TODO プロパティやフィールドを記述してください。
-        this.hellow = null;
+        this.sprite = null;
         this.isFall = false;
         this.fallSpeed = 0;
     }
@@ -30,12 +30,10 @@ var GameMain = (function (_super) {
       * @name FrameWork.GameMain#resourceLoad
       */
     GameMain.prototype.onResourceSetting = function () {
-        //TODO this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定してください。
-        //例）
-        //this.resourceManager.SetResourcePath("./assets/resources/");
-        //TODO リソースのキーとファイルパスを記述してください。
-        //例）
-        //this.resourceManager.AddResourceName("charaImage", "chara.png");
+        //this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定
+        this.resourceManager.SetResourcePath("./assets/resources/");
+        //リソースのキーとファイルパスを記述
+        this.resourceManager.AddResourceName("charaImage", "chara.png");
     };
     /**
      * ロードイベント
@@ -45,17 +43,19 @@ var GameMain = (function (_super) {
      */
     GameMain.prototype.onLoad = function (parent) {
         var _this = this;
-        //ラベルを生成
-        this.hellow = new Rf.ETS.FrameWork.Label(parent);
-        this.hellow.text = "Hello world";
-        this.hellow.width = 100;
-        this.hellow.touchEnabled = false;
-        this.hellow.textAlign = "center";
-        this.hellow.x = 100;
-        this.hellow.y = 100;
-        this.hellow.touchEnabled = true;
-        //ラベルのタップで落下するイベント
-        this.hellow.on(enchant.Event.TOUCH_END, function (e) {
+        //グラフィックを生成
+        this.sprite = new Rf.ETS.FrameWork.Sprite(32, 32, parent);
+        //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
+        this.sprite.FileName = this.resourceManager.GetResourceName("charaImage");
+        //その他の情報の設定(enchant.js共通）
+        this.sprite.originX = 16; //中心で回転するように設定
+        this.sprite.originY = 16; //中心で回転するように設定
+        this.sprite.frame = 26 * 2; //サンプル画像で正面画像を表示する
+        this.sprite.touchEnabled = true;
+        this.sprite.x = 100;
+        this.sprite.y = 100;
+        //グラフィックのタップで落下するイベント
+        this.sprite.on(enchant.Event.TOUCH_END, function (e) {
             if (_this.isFall === false) {
                 _this.isFall = true;
                 _this.fallSpeed = 2;
@@ -70,12 +70,12 @@ var GameMain = (function (_super) {
     GameMain.prototype.onRun = function () {
         //タップされた場合はラベルを移動させる
         if (this.isFall) {
-            this.hellow.y += this.fallSpeed;
+            this.sprite.y += this.fallSpeed;
             if (this.fallSpeed < 10) {
                 this.fallSpeed += 1;
             }
-            if (this.hellow.y > 480) {
-                this.hellow.y = 100;
+            if (this.sprite.y > 480) {
+                this.sprite.y = 100;
                 this.isFall = false;
             }
         }
