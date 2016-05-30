@@ -6,7 +6,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。
 
 # 今回のゴール
-前回のソースを修正して、タップ(またはクリック)すると落下するグラフィックを表示します。
+[前回のソース](http://kazenetu.exblog.jp/22858195/)を修正して、タップ(またはクリック)すると落下するグラフィックを表示します。
 
 ##  前提
 [ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
@@ -23,7 +23,10 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ・npm(3.8.3)  
 
 # 実装手順
-1.template/main.tsを開き、下記の実装をしてください。
+1.template/assets/resources/ に 表示させるグラフィック(chara.png)を追加してください。  
+![表示させるグラフィック](./template/assets/resources/chara.png)
+
+2.template/main.tsを開き、下記の実装をしてください。
 ※処理を追加していないメソッドは除外しています。
 
 ``` typesctipt
@@ -136,7 +139,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
   * 「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  
   * 画面下まで落下したらもとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
 
-2.```npm run build``` または ```gulp default```でビルドを行います。
+3.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
 今回はイベントの実装を行いました。  
