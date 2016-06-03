@@ -7,7 +7,7 @@ var GameMain = (function (_super) {
     __extends(GameMain, _super);
     function GameMain() {
         _super.apply(this, arguments);
-        //TODO プロパティやフィールドを記述してください。
+        //フィールド
         this.sprite = null;
         this.isFall = false;
         this.fallSpeed = 0;
@@ -68,7 +68,7 @@ var GameMain = (function (_super) {
      * @name FrameWork.GameMain#onRun
      */
     GameMain.prototype.onRun = function () {
-        //タップされた場合はラベルを移動させる
+        //タップされた場合はグラフィックを落下させる
         if (this.isFall) {
             this.sprite.y += this.fallSpeed;
             if (this.fallSpeed < 10) {
