@@ -1,4 +1,4 @@
-[WIP]TypeScriptでenchant.jsを使ってサンプルを作ってみる その4
+TypeScriptでenchant.jsを使ってサンプルを作ってみる その4
 
 # はじめに
 TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。  
