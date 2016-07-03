@@ -46,7 +46,6 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
         this.sprite.charaIndex = 0;
         this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
 
-        //その他の情報の設定(enchant.js共通）
         this.sprite.touchEnabled = true;
         this.sprite.x = 100;
         this.sprite.y = 100;

@@ -1,6 +1,4 @@
-[WIP]TypeScriptでenchant.jsを使ってサンプルを作ってみる その5
-
--- ここまで
+TypeScriptでenchant.jsを使ってサンプルを作ってみる その5
 
 # はじめに
 TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。  
@@ -8,21 +6,31 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。
 
 # 今回のゴール
-[前回のソース](http://kazenetu.exblog.jp/22858195/)を修正して、タップ(またはクリック)すると落下するグラフィックを表示します。
+[前回](http://kazenetu.exblog.jp/22908182/)ではタップ(またはクリック)すると落下するグラフィックを表示しました。
+今回はグラフィックの表示にRf.ETS.FrameWork.Spriteではなく、Rf.ETS.FrameWork.Characterを使って実装します。
+また、Rf.ETS.FrameWork.Spriteとの違いを分かりやすくするため、アニメーションも実装します。
+落下前はアニメーションを行い、落下時はアニメーションを停止します。
 
 ##  前提
 [ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
+※バージョンが1.0.7に更新されています。
 ・ templateフォルダの展開  
 ・ ```npm install```の実行  
 
 ## ソースコード
-[https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template](https://github.com/kazenetu/blog-reports/tree/master/reports/04-ETS-HowTo-04/template)
+[https://github.com/kazenetu/blog-reports/tree/master/reports/05-ETS-HowTo-05/template](https://github.com/kazenetu/blog-reports/tree/master/reports/05-ETS-HowTo-05/template)
 
 # 開発環境
 下記がインストールされている前提です。  
 カッコ内は私の環境です。  
 ・Node.js（5.6.0）  
 ・npm(3.8.3)  
+
+# Rf.ETS.FrameWork.Characterとは
+Rf.ETS.FrameWork.Spriteクラスのサブクラスです。  
+下記の機能が追加されています。  
+・アニメーション設定（パターンなど）  
+・アニメーション制御  
 
 # 実装手順
 1.template/assets/resources/ に 表示させるグラフィック(chara.png)を追加してください。  
@@ -34,7 +42,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ``` typesctipt
 class GameMain extends Rf.ETS.FrameWork.GameMain {
     //フィールド
-    private sprite: Rf.ETS.FrameWork.Sprite = null; //※1
+    private sprite: Rf.ETS.FrameWork.Character = null; //※1
     private isFall:boolean = false;
     private fallSpeed:number = 0;
 
@@ -73,13 +81,13 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      */
     protected onLoad(parent: enchant.Group): void { //※4
         //グラフィックを生成
-        this.sprite = new Rf.ETS.FrameWork.Sprite(32, 32, parent); //※4.1
+        this.sprite = new Rf.ETS.FrameWork.Character(32, 32, parent); //※4.1
         //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
         this.sprite.FileName = this.resourceManager.GetResourceName("charaImage"); //※4.2
-        //その他の情報の設定(enchant.js共通） //※4.3
-        this.sprite.originX = 16; //中心で回転するように設定
-        this.sprite.originY = 16; //中心で回転するように設定
-        this.sprite.frame = 26 * 2; //サンプル画像で正面画像を表示する
+        //その他の設定(Rf.ETS.FrameWork.Character独自の機能) //※4.3
+        this.sprite.charaIndex = 0;
+        this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
+
         this.sprite.touchEnabled = true;
         this.sprite.x = 100;
         this.sprite.y = 100;
@@ -89,6 +97,8 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
           if(this.isFall === false){
             this.isFall = true;
             this.fallSpeed = 2;
+            //アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能) //※4.5
+            this.sprite.SuspendAnime();
           }
         });
     }
@@ -99,17 +109,22 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
      * @name FrameWork.GameMain#onRun
      */
     protected onRun(): void { //※5
-        //タップされた場合はグラフィックを落下させる
-        if(this.isFall){
-          this.sprite.y += this.fallSpeed;
-          if(this.fallSpeed < 10){
-            this.fallSpeed += 1;
-          }
-          if(this.sprite.y > 480){
-            this.sprite.y = 100;
-            this.isFall = false;
-          }
+      //歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)
+      this.sprite.Run();
+
+      //タップされた場合はグラフィックを落下させる
+      if(this.isFall){
+        this.sprite.y += this.fallSpeed;
+        if(this.fallSpeed < 10){
+          this.fallSpeed += 1;
         }
+        if(this.sprite.y > 480){
+          this.sprite.y = 100;
+          this.isFall = false;
+          //アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)
+          this.sprite.ResumeAnime();
+        }
+      }
     }
 }
 ```
@@ -118,7 +133,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 ※太字は前回からの修正点です。
 1. フィールドの定義  
  * sprite  
-   グラフィック(スプライト)クラス
+   __キャラクタクラス__
  * isFall  
    落下フラグ（trueで落下状態）
  * fallSpeed  
@@ -129,23 +144,33 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 実装を追加したメソッドです。  
  * リソースのルートパスを設定する
  * リソースのキーとファイルパスの組み合わせを設定する
-1. onLoadメソッド（一回だけ呼ばれる）  
+1. onLoadメソッド（一回だけ呼ばれる）
  1. 「sprite」フィールドの生成  
  ※Rf.ETS.FrameWork.Sprite独自の書き方
- 1. リソースの設定
+ 1. リソースの設定  
  ※Rf.ETS.FrameWork.Sprite独自の書き方
- 1. その他の設定
- ※enchant.jsと同じ書き方
+ 1. その他の設定  
+ __※Rf.ETS.FrameWork.Character独自の機能__  
+　　__・キャラクタの種類(charaIndex)__  
+　　__・キャラクタの向き(Dir)__  
+ ※Rf.ETS.FrameWork.Character独自の機能  
+  ・タップ(クリック)可能  
+  ・位置を設定  
  1. イベント定義(タップ・クリックでspriteを落下させる)
+ 1. __アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能)__  
+ ※イベント定義(タップ・クリックでspriteを落下させる)内の処理
 1. onRunメソッド（描画ごとに呼ばれる）  
+　　* __歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)__  
   * 「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  
-  * 画面下まで落下したらもとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
+  * 画面下まで落下したら
+   * もとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
+   * __アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)__
 
 3.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
-今回はグラフィックの表示を行いました。  
-次回はより簡単にキャラクターのグラフィックを利用できるように修正します。  
+今回はより簡単にキャラクターのグラフィックを利用できるように修正しました。  
+次回はキャラクタグラフィックを変更した上でその対応をしてみます。
 
 <br>
 よかったらクリックしてください。  
