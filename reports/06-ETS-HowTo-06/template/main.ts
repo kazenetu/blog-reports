@@ -43,10 +43,11 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
         //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
         this.sprite.FileName = this.resourceManager.GetResourceName("charaImage");
         //その他の設定(Rf.ETS.FrameWork.Character独自の機能)
-        this.sprite.charaIndex = 0;
+        this.sprite.charaIndex = 1;
+        this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
         this.sprite.AnimePattern = [0,1,0,2];
         this.sprite.AnimeWidth = 3;
-        this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
+        this.sprite.Init();
 
         this.sprite.touchEnabled = true;
         this.sprite.x = 100;
