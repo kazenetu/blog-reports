@@ -6,19 +6,18 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。
 
 # 今回のゴール
-[前回](http://kazenetu.exblog.jp/22908182/)ではタップ(またはクリック)すると落下するグラフィックを表示しました。
-今回はグラフィックの表示にRf.ETS.FrameWork.Spriteではなく、Rf.ETS.FrameWork.Characterを使って実装します。
-また、Rf.ETS.FrameWork.Spriteとの違いを分かりやすくするため、アニメーションも実装します。
-落下前はアニメーションを行い、落下時はアニメーションを停止します。
+[前回](http://kazenetu.exblog.jp/22961874/)ではタップ(またはクリック)すると落下するグラフィックをRf.ETS.FrameWork.Characterを使って表示しました。  
+Rf.ETS.FrameWork.Characterでは歩行アニメーションが2パターンのものがデフォルト設定になっています。  
+今回はアニメーションパターンが3パターンのものを利用してみます。
 
 ##  前提
 [ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
-※バージョンが1.0.7に更新されています。
+※バージョンが1.0.__8__ に更新されています。  
 ・ templateフォルダの展開  
 ・ ```npm install```の実行  
 
 ## ソースコード
-[https://github.com/kazenetu/blog-reports/tree/master/reports/05-ETS-HowTo-05/template](https://github.com/kazenetu/blog-reports/tree/master/reports/05-ETS-HowTo-05/template)
+[https://github.com/kazenetu/blog-reports/tree/master/reports/06-ETS-HowTo-06/template](https://github.com/kazenetu/blog-reports/tree/master/reports/06-ETS-HowTo-06/template)
 
 # 開発環境
 下記がインストールされている前提です。  
@@ -26,15 +25,9 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ・Node.js（5.6.0）  
 ・npm(3.8.3)  
 
-# Rf.ETS.FrameWork.Characterとは
-Rf.ETS.FrameWork.Spriteクラスのサブクラスです。  
-下記の機能が追加されています。  
-・アニメーション設定（パターンなど）  
-・アニメーション制御  
-
 # 実装手順
-1.template/assets/resources/ に 表示させるグラフィック(chara.png)を追加してください。  
-![表示させるグラフィック](./template/assets/resources/chara.png)
+1.template/assets/resources/ に 表示させるグラフィック(3x4_chara.png)を追加してください。  
+![表示させるグラフィック](./template/assets/resources/3x4_chara.png)
 
 2.template/main.tsを開き、下記の実装をしてください。
 ※処理を追加していないメソッドは除外しています。
@@ -70,7 +63,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
         this.resourceManager.SetResourcePath("./assets/resources/");
 
         //リソースのキーとファイルパスを記述
-        this.resourceManager.AddResourceName("charaImage", "chara.png");
+        this.resourceManager.AddResourceName("charaImage", "3x4_chara.png");
     }
 
     /**
@@ -85,8 +78,11 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
         //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
         this.sprite.FileName = this.resourceManager.GetResourceName("charaImage"); //※4.2
         //その他の設定(Rf.ETS.FrameWork.Character独自の機能) //※4.3
-        this.sprite.charaIndex = 0;
+        this.sprite.charaIndex = 1;
         this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
+        this.sprite.AnimePattern = [0,1,0,2];
+        this.sprite.AnimeWidth = 3;
+        this.sprite.Init();
 
         this.sprite.touchEnabled = true;
         this.sprite.x = 100;
@@ -133,7 +129,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 ※太字は前回からの修正点です。
 1. フィールドの定義  
  * sprite  
-   __キャラクタクラス__
+   キャラクタクラス
  * isFall  
    落下フラグ（trueで落下状態）
  * fallSpeed  
@@ -151,26 +147,33 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
  ※Rf.ETS.FrameWork.Sprite独自の書き方
  1. その他の設定  
  __※Rf.ETS.FrameWork.Character独自の機能__  
-　　__・キャラクタの種類(charaIndex)__  
-　　__・キャラクタの向き(Dir)__  
+　　・キャラクタの種類(charaIndex)  
+　　・キャラクタの向き(Dir)  
+  __・アニメパターン(AnimePattern)__  
+   設定例）AnimePattern = [0,1,0,2]  
+    → 左から0番目、1番目、0番目、2番目の順番でアニメーションする  
+  __・1キャラクタの画像のキャラ数(AnimeWidth)__  
+   設定例）AnimeWidth = 3  
+   → 今回は３種類のアニメーションのため、3を設定  
+  __・初期化メソッド(Init())__  
  ※Rf.ETS.FrameWork.Character独自の機能  
   ・タップ(クリック)可能  
   ・位置を設定  
  1. イベント定義(タップ・クリックでspriteを落下させる)
- 1. __アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能)__  
+ 1. アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能)  
  ※イベント定義(タップ・クリックでspriteを落下させる)内の処理
 1. onRunメソッド（描画ごとに呼ばれる）  
-　　* __歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)__  
+　　* 歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)  
   * 「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  
   * 画面下まで落下したら
    * もとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
-   * __アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)__
+   * アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)
 
 3.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
 今回はより簡単にキャラクターのグラフィックを利用できるように修正しました。  
-次回はキャラクタグラフィックを変更した上でその対応をしてみます。
+次回はマップを表示します。
 
 <br>
 よかったらクリックしてください。  
