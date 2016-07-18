@@ -301,13 +301,13 @@ declare module enchant {
          * @type String
          */
         type:string;
-
+        
         /**
          * The target of the event.
          * @type *
          */
         target:any;
-
+        
         /**
          * The x-coordinate of the event's occurrence.
          * @type Number
@@ -343,10 +343,10 @@ declare module enchant {
          * @constructs
          */
         constructor(type:string);
-
+        
 
     }
-
+    
     /**
      * @scope enchant.EventTarget.prototype
      */
@@ -375,7 +375,7 @@ declare module enchant {
          * @see enchant.EventTarget#addEventListener
          */
         on(eventName:string,func:(arg:any)=>void);
-
+        
         /**
          * Delete an event listener.
          * @param {String} [type] Type of the events.
@@ -869,10 +869,15 @@ declare module enchant {
     }
 
     /**
-     * @scope enchant.Map.prototype
-     */
-    class ExMap extends Map
-    {
+     *	extendMap.enchant.js
+    *
+    *	enchantMapEditor:
+    *	http://github.com/wise9/enchant.js
+    */
+    module extendMap{
+        class ExMap extends Map{
+
+        }
     }
 
     /**
@@ -1220,18 +1225,18 @@ declare namespace Rf.ETS.FrameWork {
 
 declare namespace Rf.ETS.FrameWork {
     /**
-     * マップUI
-     * @classdesc マップUIクラス
+     * 拡張マップUI
+     * @classdesc 拡張マップUIクラス
      * @constructor
      * @memberof FrameWork
-     * @extends enchant.Map
+     * @extends enchant.extendMap.ExMap
      */
-    class ExMap extends enchant.ExMap {
+    class ExMap extends enchant.extendMap.ExMap {
         protected fileName: string;
         /**
          * コンストラクタ
          * @method
-         * @name FrameWork.Map#Map
+         * @name FrameWork.ExMap#ExMap
          * @param {number} tipWidth - マップチップサイズ.幅
          * @param {number} tipHeight - マップチップサイズ.高さ
          * @param {Object} parent - 親Group
@@ -1247,14 +1252,14 @@ declare namespace Rf.ETS.FrameWork {
         /**
          * マップ情報の読み込み
          * @method
-         * @name FrameWork.Map#LoadData
+         * @name FrameWork.ExMap#LoadData
          * @param {Array} mapData - マップ情報（２次元配列）
          */
         LoadData(mapData: any): void;
         /**
          * 複数のマップ情報の読み込み
          * @method
-         * @name FrameWork.Map#LoadDatas
+         * @name FrameWork.ExMap#LoadDatas
          * @param {Array} mapData0 - 前景マップ情報（２次元配列）
          * @param {Array} mapData1 - 背景マップ情報（２次元配列）
          */
@@ -1561,6 +1566,7 @@ declare namespace Rf.ETS.FrameWork {
 /// <reference path="UIParts/Group.d.ts" />
 /// <reference path="UIParts/Label.d.ts" />
 /// <reference path="UIParts/Map.d.ts" />
+/// <reference path="UIParts/ExMap.d.ts" />
 /// <reference path="UIParts/Sprite.d.ts" />
 /// <reference path="UIParts/NoImageSprite.d.ts" />
 /// <reference path="UIParts/Character.d.ts" />
