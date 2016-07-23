@@ -8,6 +8,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
   private touchPanel: Rf.ETS.FrameWork.Sprite = null;
   private touchX:number=-1;
   private touchY:number=-1;
+  private isTouch:boolean = false;
 
   /**
    * 初期化イベント
@@ -217,11 +218,20 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
       //タッチ用スプライトの追加
       this.touchPanel=new Rf.ETS.FrameWork.Sprite(this.mapWidth*16,this.mapHeight*16,this.group);
       this.touchPanel.touchEnabled=true;
-      this.touchPanel.addEventListener(enchant.Event.TOUCH_MOVE, (e: any) => {
-          this.touchX = Math.floor((e.localX) / 16) * 16 + 4;
-          this.touchY = Math.floor((e.localY) / 16) * 16 + 0;
-      });
 
+      this.touchPanel.addEventListener(enchant.Event.TOUCH_START, (e: any) => {
+        this.touchX = e.x;
+        this.touchY = e.y;
+        this.isTouch = true;
+      });
+      this.touchPanel.addEventListener(enchant.Event.TOUCH_MOVE, (e: any) => {
+        this.touchX = e.x;
+        this.touchY = e.y;
+        this.isTouch = true;
+      });
+      this.touchPanel.addEventListener(enchant.Event.TOUCH_END, (e: any) => {
+        this.isTouch = false;
+      });
   }
 
   /**
@@ -230,22 +240,51 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
    * @name FrameWork.GameMain#onRun
    */
   protected onRun(): void {
-      //表示位置の設定:マップの移動
-      this.group.x = -this.touchX + this.screenWidth / 2;
-      if (this.group.x > 0) {
-          this.group.x = 0;
-      }
-      if (this.group.x < -16 * this.mapWidth + this.screenWidth) {
-          this.group.x = -16 * this.mapWidth + this.screenWidth;
-      }
-      this.group.y = -this.touchY + this.screenHeight / 2;
+    let addX = 0;
+    let addY = 0;
 
-      if (this.group.y > 0) {
-          this.group.y = 0;
+    if(this.isTouch === true){
+      //表示位置の設定:マップの移動
+      let centerX = this.screenWidth*0.5;
+      let centerY = this.screenHeight*0.5;
+
+      //中心位置との距離を求める
+      let tempX = this.touchX - centerX;
+      let tempY = this.touchY - centerY;
+
+      if(Math.abs(tempX) < Math.abs(tempY)){
+        //Yの距離のほうが値が大きい
+        if(tempY < 0){
+          addY = -1;
+        }else{
+          addY = 1;
+        }
+      }else{
+        //Xの距離のほうが値が大きい
+        if(tempX < 0){
+          addX = -1;
+        }else{
+          addX = 1;
+        }
       }
-      if (this.group.y <= -16 * this.mapHeight + this.screenHeight) {
-          this.group.y = -16 * this.mapHeight + this.screenHeight;
-      }
+    }
+
+    //値を加算する
+    this.group.x += -16 * addX;
+    if (this.group.x > 0) {
+        this.group.x = 0;
+    }
+    if (this.group.x < -16 * this.mapWidth + this.screenWidth) {
+        this.group.x = -16 * this.mapWidth + this.screenWidth;
+    }
+
+    this.group.y += -16 * addY;
+    if (this.group.y > 0) {
+        this.group.y = 0;
+    }
+    if (this.group.y <= -16 * this.mapHeight + this.screenHeight) {
+        this.group.y = -16 * this.mapHeight + this.screenHeight;
+    }
   }
 }
 //メインクラスのインスタンス作成

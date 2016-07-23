@@ -14,6 +14,7 @@ var GameMain = (function (_super) {
         this.touchPanel = null;
         this.touchX = -1;
         this.touchY = -1;
+        this.isTouch = false;
     }
     /**
      * 初期化イベント
@@ -217,9 +218,18 @@ var GameMain = (function (_super) {
         //タッチ用スプライトの追加
         this.touchPanel = new Rf.ETS.FrameWork.Sprite(this.mapWidth * 16, this.mapHeight * 16, this.group);
         this.touchPanel.touchEnabled = true;
+        this.touchPanel.addEventListener(enchant.Event.TOUCH_START, function (e) {
+            _this.touchX = e.x;
+            _this.touchY = e.y;
+            _this.isTouch = true;
+        });
         this.touchPanel.addEventListener(enchant.Event.TOUCH_MOVE, function (e) {
-            _this.touchX = Math.floor((e.localX) / 16) * 16 + 4;
-            _this.touchY = Math.floor((e.localY) / 16) * 16 + 0;
+            _this.touchX = e.x;
+            _this.touchY = e.y;
+            _this.isTouch = true;
+        });
+        this.touchPanel.addEventListener(enchant.Event.TOUCH_END, function (e) {
+            _this.isTouch = false;
         });
     };
     /**
@@ -228,15 +238,43 @@ var GameMain = (function (_super) {
      * @name FrameWork.GameMain#onRun
      */
     GameMain.prototype.onRun = function () {
-        //表示位置の設定:マップの移動
-        this.group.x = -this.touchX + this.screenWidth / 2;
+        var addX = 0;
+        var addY = 0;
+        if (this.isTouch === true) {
+            //表示位置の設定:マップの移動
+            var centerX = this.screenWidth * 0.5;
+            var centerY = this.screenHeight * 0.5;
+            //中心位置との距離を求める
+            var tempX = this.touchX - centerX;
+            var tempY = this.touchY - centerY;
+            if (Math.abs(tempX) < Math.abs(tempY)) {
+                //Yの距離のほうが値が大きい
+                if (tempY < 0) {
+                    addY = -1;
+                }
+                else {
+                    addY = 1;
+                }
+            }
+            else {
+                //Xの距離のほうが値が大きい
+                if (tempX < 0) {
+                    addX = -1;
+                }
+                else {
+                    addX = 1;
+                }
+            }
+        }
+        //値を加算する
+        this.group.x += -16 * addX;
         if (this.group.x > 0) {
             this.group.x = 0;
         }
         if (this.group.x < -16 * this.mapWidth + this.screenWidth) {
             this.group.x = -16 * this.mapWidth + this.screenWidth;
         }
-        this.group.y = -this.touchY + this.screenHeight / 2;
+        this.group.y += -16 * addY;
         if (this.group.y > 0) {
             this.group.y = 0;
         }
