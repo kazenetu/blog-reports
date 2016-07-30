@@ -1,4 +1,4 @@
-[WIP]TypeScriptでenchant.jsを使ってサンプルを作ってみる その7
+TypeScriptでenchant.jsを使ってサンプルを作ってみる その7
 
 # はじめに
 TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。  
@@ -14,7 +14,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 
 ##  前提
 [ビルド環境の構築](http://kazenetu.exblog.jp/22812282/)を参照して、下記を実行してください。  
-※バージョンが1.0.__8__ に更新されています。  
+※バージョンが1.__1.0__ に更新されています。  
 ・ templateフォルダの展開  
 ・ ```npm install```の実行  
 
@@ -27,166 +27,195 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ・Node.js（5.6.0）  
 ・npm(3.8.3)  
 
---------ここまで
-
---------実際の作成データが必要
-
 # 実装手順
 1.template/assets/resources/ にマップグラフィック(map0.gif)を追加してください。  
 ※[enchant.js Image Materials](http://enchantjs.com/ja/image-materials/)の素材を使用しています。    
 ![マップグラフィック](./template/assets/resources/map0.gif)
 
-2.template/assets/js/plugins/extendMap.enchant.jsを追加してください。  
+2.template/assets/data/ に[enchantMapEditor](https://github.com/wise9/enchantMapEditor)で作成し、「コード生成」ボタンでマップ作成コードをテキストに保存しておいてください。  
+ ※利用可能なGitHubPagesを用意しました。ご利用ください。  
+  [http://kazenetu.github.io/enchantMapEditor/mapeditor.html](http://kazenetu.github.io/enchantMapEditor/mapeditor.html)  
 
 
-3.template/assets/data/ に[enchantMapEditor](https://github.com/wise9/enchantMapEditor)で作成し、「コード生成」ボタンでマップ作成コードをテキストに保存しておいてください。  
-
-
-2.template/main.tsを開き、下記の実装をしてください。
+3.template/main.tsを開き、下記の実装をしてください。  
 ※処理を追加していないメソッドは除外しています。
 
 ``` typesctipt
 class GameMain extends Rf.ETS.FrameWork.GameMain {
-    //フィールド
-    private sprite: Rf.ETS.FrameWork.Character = null; //※1
-    private isFall:boolean = false;
-    private fallSpeed:number = 0;
+  private group: Rf.ETS.FrameWork.Group = null;
 
-    /**
-     * 初期化イベント
-     * @method
-     * @name FrameWork.GameMain#onInitialize
-     */
-    protected onInitialize(): void { //※2
-        //サイズを320x480に変更
-        this.screenWidth = 320;
-        this.screenHeight = 480;
+  private mapHeight: number = 0; //※1
+  private mapWidth: number = 0; //※1
 
-        //fpsを設定
-        this.fps = 20;
-    }
+  private touchPanel: Rf.ETS.FrameWork.Sprite = null; //※1
+  private touchX: number = -1; //※1
+  private touchY: number = -1; //※1
+  private isTouch: boolean = false; //※1
 
-    /**
-      * リソース設定イベント
-      * @method
-      * @name FrameWork.GameMain#resourceLoad
-      */
-    protected onResourceSetting(): void { //※3
-        //this.resourceManager.SetResourcePathメソッドでリソースのルートパスを設定
-        this.resourceManager.SetResourcePath("./assets/resources/");
+  /**
+   * 初期化イベント
+   * @method
+   * @name FrameWork.GameMain#onInitialize
+   */
+  protected onInitialize(): void { //※2
+    //サイズを320x480に変更
+    this.screenWidth = 480;
+    this.screenHeight = 480;
+  }
 
-        //リソースのキーとファイルパスを記述
-        this.resourceManager.AddResourceName("charaImage", "3x4_chara.png");
-    }
+  /**
+    * リソース設定イベント
+    * @method
+    * @name FrameWork.GameMain#resourceLoad
+    */
+  protected onResourceSetting(): void {
+    this.resourceManager.SetResourcePath("./assets/");
+    this.resourceManager.AddResourceName("mapImage", "resources/map0.gif");
+  }
 
-    /**
-     * ロードイベント
-     * @method
-     * @name FrameWork.GameMain#onLoad
-     * @param {Object} parent - 親Group
-     */
-    protected onLoad(parent: enchant.Group): void { //※4
-        //グラフィックを生成
-        this.sprite = new Rf.ETS.FrameWork.Character(32, 32, parent); //※4.1
-        //イメージの設定(Rf.ETS.FrameWork.Sprite独自の機能)
-        this.sprite.FileName = this.resourceManager.GetResourceName("charaImage"); //※4.2
-        //その他の設定(Rf.ETS.FrameWork.Character独自の機能) //※4.3
-        this.sprite.charaIndex = 1;
-        this.sprite.Dir = Rf.ETS.FrameWork.Direction.Down;
-        this.sprite.AnimePattern = [0,1,0,2];
-        this.sprite.AnimeWidth = 3;
-        this.sprite.Init();
+  /**
+   * ロードイベント
+   * @method
+   * @name FrameWork.GameMain#onLoad
+   * @param {Object} parent - 親Group
+   */
+  protected onLoad(parent: enchant.Group): void { //※3
+    //グループインスタンス作成
+    this.group = new Rf.ETS.FrameWork.Group(parent); //※3.1
+    this.group.y = 50;
 
-        this.sprite.touchEnabled = true;
-        this.sprite.x = 100;
-        this.sprite.y = 100;
+    //背景用マップの読み込み
+    let backgroundMap = new Rf.ETS.FrameWork.ExMap(16, 16, this.group); //※3.2
+    backgroundMap.FileName = this.resourceManager.GetResourceName("mapImage");
+    //マップエディタから出力したloadDataメソッドを張り付ける//※3.3
+    backgroundMap.LoadDatas([
+    　　//enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの第一パラメータ（二次元配列）
+    ], [
+      //enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの第二パラメータ（二次元配列）
+    ]);
 
-        //グラフィックのタップで落下するイベント //※4.4
-        this.sprite.on(enchant.Event.TOUCH_END,(e:enchant.Event)=>{
-          if(this.isFall === false){
-            this.isFall = true;
-            this.fallSpeed = 2;
-            //アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能) //※4.5
-            this.sprite.SuspendAnime();
-          }
-        });
-    }
+    //マップ情報の設定 //※3.4
+    this.mapHeight = backgroundMap.height / 16;
+    this.mapWidth = backgroundMap.width / 16;
 
-    /**
-     * 実行イベント
-     * @method
-     * @name FrameWork.GameMain#onRun
-     */
-    protected onRun(): void { //※5
-      //歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)
-      this.sprite.Run();
+    //前景用マップの読み込み //※3.5
+    let frontMap = new Rf.ETS.FrameWork.ExMap(16, 16, this.group);
+    frontMap.FileName = this.resourceManager.GetResourceName("mapImage");
+    //マップエディタから出力したloadDataメソッドを張り付ける
+    frontMap.LoadData([
+      //enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの追加した第三パラメータ（二次元配列）
+    ]);
 
-      //タップされた場合はグラフィックを落下させる
-      if(this.isFall){
-        this.sprite.y += this.fallSpeed;
-        if(this.fallSpeed < 10){
-          this.fallSpeed += 1;
+    //タッチ用スプライトの追加 //※3.6
+    this.touchPanel = new Rf.ETS.FrameWork.Sprite(this.mapWidth * 16, this.mapHeight * 16, this.group);
+    this.touchPanel.touchEnabled = true;
+
+    this.touchPanel.addEventListener(enchant.Event.TOUCH_START, (e: any) => {
+      this.touchX = e.x;
+      this.touchY = e.y;
+      this.isTouch = true;
+    });
+    this.touchPanel.addEventListener(enchant.Event.TOUCH_MOVE, (e: any) => {
+      this.touchX = e.x;
+      this.touchY = e.y;
+      this.isTouch = true;
+    });
+    this.touchPanel.addEventListener(enchant.Event.TOUCH_END, (e: any) => {
+      this.isTouch = false;
+    });
+  }
+
+  /**
+   * 実行イベント
+   * @method
+   * @name FrameWork.GameMain#onRun
+   */
+  protected onRun(): void { //※4
+    let addX = 0;
+    let addY = 0;
+
+    if (this.isTouch === true) {
+      //表示位置の設定:マップの移動 //※4.1
+      let centerX = this.screenWidth * 0.5;
+      let centerY = this.screenHeight * 0.5;
+
+      //中心位置との距離を求める
+      let tempX = this.touchX - centerX;
+      let tempY = this.touchY - centerY;
+
+      if (Math.abs(tempX) < Math.abs(tempY)) {
+        //Yの距離のほうが値が大きい
+        if (tempY < 0) {
+          addY = -1;
+        } else {
+          addY = 1;
         }
-        if(this.sprite.y > 480){
-          this.sprite.y = 100;
-          this.isFall = false;
-          //アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)
-          this.sprite.ResumeAnime();
+      } else {
+        //Xの距離のほうが値が大きい
+        if (tempX < 0) {
+          addX = -1;
+        } else {
+          addX = 1;
         }
       }
     }
+
+    //値を加算する //※4.2
+    this.group.x += -16 * addX;
+    if (this.group.x > 0) {
+      this.group.x = 0;
+    }
+    if (this.group.x < -16 * this.mapWidth + this.screenWidth) {
+      this.group.x = -16 * this.mapWidth + this.screenWidth;
+    }
+
+    this.group.y += -16 * addY;
+    if (this.group.y > 0) {
+      this.group.y = 0;
+    }
+    if (this.group.y <= -16 * this.mapHeight + this.screenHeight) {
+      this.group.y = -16 * this.mapHeight + this.screenHeight;
+    }
+  }
 }
 ```
-
 実装内容は以下のとおりです。  
-※太字は前回からの修正点です。
 1. フィールドの定義  
- * sprite  
-   キャラクタクラス
- * isFall  
-   落下フラグ（trueで落下状態）
- * fallSpeed  
-   落下スピード(2->10)
+ * mapHeight  
+   マップの高さ(横スクロールの限界値)
+ * mapWidth  
+   マップの幅(縦スクロールの限界値)
+ * touchPanel  
+   マップ移動用のSprite(透明レイヤー)
+ * touchX  
+   タッチX位置
+ * touchY  
+   タッチY位置
+ * isTouch  
+   タッチ状態(タッチ時にtrue、タッチ終了時にfalse)
 1. onInitializeメソッド（一回だけ呼ばれる）  
- * 画面サイズとfps(1秒間の描画回数)を設定
-1. onResourceSettingメソッド（一回だけ呼ばれる）  
-実装を追加したメソッドです。  
- * リソースのルートパスを設定する
- * リソースのキーとファイルパスの組み合わせを設定する
+ * 画面サイズを設定
 1. onLoadメソッド（一回だけ呼ばれる）
- 1. 「sprite」フィールドの生成  
- ※Rf.ETS.FrameWork.Sprite独自の書き方
- 1. リソースの設定  
- ※Rf.ETS.FrameWork.Sprite独自の書き方
- 1. その他の設定  
- __※Rf.ETS.FrameWork.Character独自の機能__  
-　　・キャラクタの種類(charaIndex)  
-　　・キャラクタの向き(Dir)  
-  __・アニメパターン(AnimePattern)__  
-   設定例）AnimePattern = [0,1,0,2]  
-    → 左から0番目、1番目、0番目、2番目の順番でアニメーションする  
-  __・1キャラクタの画像のキャラ数(AnimeWidth)__  
-   設定例）AnimeWidth = 3  
-   → 今回は３種類のアニメーションのため、3を設定  
-  __・初期化メソッド(Init())__  
- ※Rf.ETS.FrameWork.Character独自の機能  
-  ・タップ(クリック)可能  
-  ・位置を設定  
- 1. イベント定義(タップ・クリックでspriteを落下させる)
- 1. アニメを停止させる(Rf.ETS.FrameWork.Character独自の機能)  
- ※イベント定義(タップ・クリックでspriteを落下させる)内の処理
+ 1. 「group」フィールドの生成  
+ 1. 背景用マップとしてExMapの生成  
+ ※enchant MapEditorで作成したデータを扱うクラス
+ 1. マップエディタから出力した「loadDataメソッド」の引数を設定する
+ 1. マップの幅と高さ(スクロールの限界値)の設定
+ 1. 前景用マップとしてExMapの生成  
+ ※追加したレイヤー（例えば大きな木の上部）を設定する
+ 1. マップ移動用のSpriteの生成とイベントの設定  
+ ※タッチ時にタッチ位置とタッチ状態をタッチ中(true) に設定  
+ ※タッチ終了時にタッチ状態を未タッチ(false) に設定
 1. onRunメソッド（描画ごとに呼ばれる）  
-　　* 歩行アニメする(Rf.ETS.FrameWork.Character独自の機能)  
-  * 「落下フラグ」フィールドがtrueの場合、「sprite」フィールドを落下させる。  
-  * 画面下まで落下したら
-   * もとの場所に戻し、「落下フラグ」フィールドをfalseに設定する。  
-   * アニメを再開させる(Rf.ETS.FrameWork.Character独自の機能)
+ 1. タッチ位置によってマップ移動の方向を決める
+ 1. マップ移動の方向を「group」フィールドに反映させる  
+ ※マップ端までスクロールした場合はスクロールをストップする  
 
-3.```npm run build``` または ```gulp default```でビルドを行います。
+4.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
-今回はより簡単にキャラクターのグラフィックを利用できるように修正しました。  
-次回はマップを表示します。
+今回はマップを表示しました。  
+最後にマップにキャラクタを表示してみます。
 
 <br>
 よかったらクリックしてください。  
