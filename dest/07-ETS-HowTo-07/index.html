@@ -1,0 +1,184 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+TypeScriptでenchant.jsを使ってサンプルを作ってみる その7<br>
+<br><b>はじめに</b><br>TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」を作成しました。<br><a href="https://github.com/kazenetu/enchantjs-typescript">https://github.com/kazenetu/enchantjs-typescript</a><br>「starter/use-framework/template/」を使ってサンプルプログラムを開発しています。<br>
+<br><b>今回のゴール</b><br>マップを表示します。<br>※Mapデータは<a href="https://github.com/wise9/enchantMapEditor">enchantMapEditor</a>で作成したデータを利用します。  <br>
+※利用可能なGitHubPagesを用意しました。ご利用ください。<br>  <a href="http://kazenetu.github.io/enchantMapEditor/mapeditor.html">http://kazenetu.github.io/enchantMapEditor/mapeditor.html</a>  <br>
+<br><b>前提</b><br><a href="http://kazenetu.exblog.jp/22812282/">ビルド環境の構築</a>を参照して、下記を実行してください。<br>※バージョンが1.<strong>1.0</strong> に更新されています。<br>・ templateフォルダの展開<br>・ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">npm install</span>の実行  <br>
+<br><b>ソースコード</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/07-ETS-HowTo-07/template">https://github.com/kazenetu/blog-reports/tree/master/reports/07-ETS-HowTo-07/template</a><br>
+<br><b>開発環境</b><br>下記がインストールされている前提です。<br>カッコ内は私の環境です。<br>・Node.js（5.6.0）<br>・npm(3.8.3)  <br>
+<br><b>実装手順</b><br>1.template/assets/resources/ にマップグラフィック(map0.gif)を追加してください。<br>※<a href="http://enchantjs.com/ja/image-materials/">enchant.js Image Materials</a>の素材を使用しています。<br><img src="./template/assets/resources/map0.gif" alt="マップグラフィック"><br>
+2.template/assets/data/ に<a href="https://github.com/wise9/enchantMapEditor">enchantMapEditor</a>で作成し、「コード生成」ボタンでマップ作成コードをテキストに保存しておいてください。<br> ※利用可能なGitHubPagesを用意しました。ご利用ください。<br>  <a href="http://kazenetu.github.io/enchantMapEditor/mapeditor.html">http://kazenetu.github.io/enchantMapEditor/mapeditor.html</a>  <br>
+3.template/main.tsを開き、下記の実装をしてください。<br>※処理を追加していないメソッドは除外しています。<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-typesctipt code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-class"><span class="hljs-keyword" style="color: #00f;">class</span> <span class="hljs-title" style="color: #a31515;">GameMain</span> <span class="hljs-title" style="color: #a31515;">extends</span> <span class="hljs-title" style="color: #a31515;">Rf</span>.<span class="hljs-title" style="color: #a31515;">ETS</span>.<span class="hljs-title" style="color: #a31515;">FrameWork</span>.<span class="hljs-title" style="color: #a31515;">GameMain</span> </span>{
+  <span class="hljs-keyword" style="color: #00f;">private</span> group: Rf.ETS.FrameWork.Group = <span class="hljs-literal" style="color: #a31515;">null</span>;
+
+  <span class="hljs-keyword" style="color: #00f;">private</span> mapHeight: number = <span class="hljs-number">0</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> mapWidth: number = <span class="hljs-number">0</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+
+  <span class="hljs-keyword" style="color: #00f;">private</span> touchPanel: Rf.ETS.FrameWork.Sprite = <span class="hljs-literal" style="color: #a31515;">null</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> touchX: number = <span class="hljs-number">-1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> touchY: number = <span class="hljs-number">-1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> isTouch: boolean = <span class="hljs-literal" style="color: #a31515;">false</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+
+  <span class="hljs-comment" style="color: #008000;">/**
+   * 初期化イベント
+   * <span class="hljs-doctag" style="color: #808080;">@method</span>
+   * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onInitialize
+   */</span>
+  <span class="hljs-keyword" style="color: #00f;">protected</span> onInitialize(): void { <span class="hljs-comment" style="color: #008000;">//※2</span>
+    <span class="hljs-comment" style="color: #008000;">//サイズを320x480に変更</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth = <span class="hljs-number">480</span>;
+    <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight = <span class="hljs-number">480</span>;
+  }
+
+  <span class="hljs-comment" style="color: #008000;">/**
+    * リソース設定イベント
+    * <span class="hljs-doctag" style="color: #808080;">@method</span>
+    * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#resourceLoad
+    */</span>
+  <span class="hljs-keyword" style="color: #00f;">protected</span> onResourceSetting(): void {
+    <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.SetResourcePath(<span class="hljs-string" style="color: #a31515;">"./assets/"</span>);
+    <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.AddResourceName(<span class="hljs-string" style="color: #a31515;">"mapImage"</span>, <span class="hljs-string" style="color: #a31515;">"resources/map0.gif"</span>);
+  }
+
+  <span class="hljs-comment" style="color: #008000;">/**
+   * ロードイベント
+   * <span class="hljs-doctag" style="color: #808080;">@method</span>
+   * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onLoad
+   * <span class="hljs-doctag" style="color: #808080;">@param</span> {Object} parent - 親Group
+   */</span>
+  <span class="hljs-keyword" style="color: #00f;">protected</span> onLoad(parent: enchant.Group): void { <span class="hljs-comment" style="color: #008000;">//※3</span>
+    <span class="hljs-comment" style="color: #008000;">//グループインスタンス作成</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group = new Rf.ETS.FrameWork.Group(parent); <span class="hljs-comment" style="color: #008000;">//※3.1</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = <span class="hljs-number">50</span>;
+
+    <span class="hljs-comment" style="color: #008000;">//背景用マップの読み込み</span>
+    let backgroundMap = new Rf.ETS.FrameWork.ExMap(<span class="hljs-number">16</span>, <span class="hljs-number">16</span>, <span class="hljs-keyword" style="color: #00f;">this</span>.group); <span class="hljs-comment" style="color: #008000;">//※3.2</span>
+    backgroundMap.FileName = <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.GetResourceName(<span class="hljs-string" style="color: #a31515;">"mapImage"</span>);
+    <span class="hljs-comment" style="color: #008000;">//マップエディタから出力したloadDataメソッドを張り付ける//※3.3</span>
+    backgroundMap.LoadDatas([
+    　　<span class="hljs-comment" style="color: #008000;">//enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの第一パラメータ（二次元配列）</span>
+    ], [
+      <span class="hljs-comment" style="color: #008000;">//enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの第二パラメータ（二次元配列）</span>
+    ]);
+
+    <span class="hljs-comment" style="color: #008000;">//マップ情報の設定 //※3.4</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight = backgroundMap.height / <span class="hljs-number">16</span>;
+    <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth = backgroundMap.width / <span class="hljs-number">16</span>;
+
+    <span class="hljs-comment" style="color: #008000;">//前景用マップの読み込み //※3.5</span>
+    let frontMap = new Rf.ETS.FrameWork.ExMap(<span class="hljs-number">16</span>, <span class="hljs-number">16</span>, <span class="hljs-keyword" style="color: #00f;">this</span>.group);
+    frontMap.FileName = <span class="hljs-keyword" style="color: #00f;">this</span>.resourceManager.GetResourceName(<span class="hljs-string" style="color: #a31515;">"mapImage"</span>);
+    <span class="hljs-comment" style="color: #008000;">//マップエディタから出力したloadDataメソッドを張り付ける</span>
+    frontMap.LoadData([
+      <span class="hljs-comment" style="color: #008000;">//enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの追加した第三パラメータ（二次元配列）</span>
+    ]);
+
+    <span class="hljs-comment" style="color: #008000;">//タッチ用スプライトの追加 //※3.6</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.touchPanel = new Rf.ETS.FrameWork.Sprite(<span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth * <span class="hljs-number">16</span>, <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight * <span class="hljs-number">16</span>, <span class="hljs-keyword" style="color: #00f;">this</span>.group);
+    <span class="hljs-keyword" style="color: #00f;">this</span>.touchPanel.touchEnabled = <span class="hljs-literal" style="color: #a31515;">true</span>;
+
+    <span class="hljs-keyword" style="color: #00f;">this</span>.touchPanel.addEventListener(enchant.Event.TOUCH_START, (e: any) =&gt; {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.touchX = e.x;
+      <span class="hljs-keyword" style="color: #00f;">this</span>.touchY = e.y;
+      <span class="hljs-keyword" style="color: #00f;">this</span>.isTouch = <span class="hljs-literal" style="color: #a31515;">true</span>;
+    });
+    <span class="hljs-keyword" style="color: #00f;">this</span>.touchPanel.addEventListener(enchant.Event.TOUCH_MOVE, (e: any) =&gt; {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.touchX = e.x;
+      <span class="hljs-keyword" style="color: #00f;">this</span>.touchY = e.y;
+      <span class="hljs-keyword" style="color: #00f;">this</span>.isTouch = <span class="hljs-literal" style="color: #a31515;">true</span>;
+    });
+    <span class="hljs-keyword" style="color: #00f;">this</span>.touchPanel.addEventListener(enchant.Event.TOUCH_END, (e: any) =&gt; {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.isTouch = <span class="hljs-literal" style="color: #a31515;">false</span>;
+    });
+  }
+
+  <span class="hljs-comment" style="color: #008000;">/**
+   * 実行イベント
+   * <span class="hljs-doctag" style="color: #808080;">@method</span>
+   * <span class="hljs-doctag" style="color: #808080;">@name</span> FrameWork.GameMain#onRun
+   */</span>
+  <span class="hljs-keyword" style="color: #00f;">protected</span> onRun(): void { <span class="hljs-comment" style="color: #008000;">//※4</span>
+    let addX = <span class="hljs-number">0</span>;
+    let addY = <span class="hljs-number">0</span>;
+
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.isTouch === <span class="hljs-literal" style="color: #a31515;">true</span>) {
+      <span class="hljs-comment" style="color: #008000;">//表示位置の設定:マップの移動 //※4.1</span>
+      let centerX = <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth * <span class="hljs-number">0.5</span>;
+      let centerY = <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight * <span class="hljs-number">0.5</span>;
+
+      <span class="hljs-comment" style="color: #008000;">//中心位置との距離を求める</span>
+      let tempX = <span class="hljs-keyword" style="color: #00f;">this</span>.touchX - centerX;
+      let tempY = <span class="hljs-keyword" style="color: #00f;">this</span>.touchY - centerY;
+
+      <span class="hljs-keyword" style="color: #00f;">if</span> (Math.abs(tempX) &lt; Math.abs(tempY)) {
+        <span class="hljs-comment" style="color: #008000;">//Yの距離のほうが値が大きい</span>
+        <span class="hljs-keyword" style="color: #00f;">if</span> (tempY &lt; <span class="hljs-number">0</span>) {
+          addY = <span class="hljs-number">-1</span>;
+        } <span class="hljs-keyword" style="color: #00f;">else</span> {
+          addY = <span class="hljs-number">1</span>;
+        }
+      } <span class="hljs-keyword" style="color: #00f;">else</span> {
+        <span class="hljs-comment" style="color: #008000;">//Xの距離のほうが値が大きい</span>
+        <span class="hljs-keyword" style="color: #00f;">if</span> (tempX &lt; <span class="hljs-number">0</span>) {
+          addX = <span class="hljs-number">-1</span>;
+        } <span class="hljs-keyword" style="color: #00f;">else</span> {
+          addX = <span class="hljs-number">1</span>;
+        }
+      }
+    }
+
+    <span class="hljs-comment" style="color: #008000;">//値を加算する //※4.2</span>
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group.x += <span class="hljs-number">-16</span> * addX;
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.x &gt; <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.x = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.x &lt; <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.x = <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth;
+    }
+
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group.y += <span class="hljs-number">-16</span> * addY;
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.y &gt; <span class="hljs-number">0</span>) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = <span class="hljs-number">0</span>;
+    }
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.y &lt;= <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight;
+    }
+  }
+}
+</span></pre>
+実装内容は以下のとおりです。  <br>
+<ol>
+<li>フィールドの定義  <ul>
+<li>mapHeight<br>マップの高さ(横スクロールの限界値)</li>
+<li>mapWidth<br>マップの幅(縦スクロールの限界値)</li>
+<li>touchPanel<br>マップ移動用のSprite(透明レイヤー)</li>
+<li>touchX<br>タッチX位置</li>
+<li>touchY<br>タッチY位置</li>
+<li>isTouch<br>タッチ状態(タッチ時にtrue、タッチ終了時にfalse)</li>
+</ul>
+</li>
+<li>onInitializeメソッド（一回だけ呼ばれる）  <ul>
+<li>画面サイズを設定</li>
+</ul>
+</li>
+<li>onLoadメソッド（一回だけ呼ばれる）<ol>
+<li>「group」フィールドの生成  </li>
+<li>背景用マップとしてExMapの生成<br>※enchant MapEditorで作成したデータを扱うクラス</li>
+<li>マップエディタから出力した「loadDataメソッド」の引数を設定する</li>
+<li>マップの幅と高さ(スクロールの限界値)の設定</li>
+<li>前景用マップとしてExMapの生成<br>※追加したレイヤー（例えば大きな木の上部）を設定する</li>
+<li>マップ移動用のSpriteの生成とイベントの設定<br>※タッチ時にタッチ位置とタッチ状態をタッチ中(true) に設定<br>※タッチ終了時にタッチ状態を未タッチ(false) に設定</li>
+</ol>
+</li>
+<li>onRunメソッド（描画ごとに呼ばれる）  <ol>
+<li>タッチ位置によってマップ移動の方向を決める</li>
+<li>マップ移動の方向を「group」フィールドに反映させる<br>※マップ端までスクロールした場合はスクロールをストップする  </li>
+</ol>
+</li>
+</ol>
+4.<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">npm run build</span> または <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">gulp default</span>でビルドを行います。<br>
+<br><b>おわりに</b><br>今回はマップを表示しました。<br>最後にマップにキャラクタを表示してみます。<br>
+<br>
+よかったらクリックしてください。<br><a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a><br><a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+</body></html>
