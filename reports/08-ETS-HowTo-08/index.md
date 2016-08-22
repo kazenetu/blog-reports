@@ -223,21 +223,21 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 実装内容は以下のとおりです。  (__太字__ は前回からの修正・追記)  
 
 1. フィールドの定義
-    * mapHeight
+    * mapHeight  
       マップの高さ(横スクロールの限界値)
-    * mapWidth
+    * mapWidth  
       マップの幅(縦スクロールの限界値)
-    * __backgroundMap__
+    * __backgroundMap__  
       背景マップ（前回はローカル変数）
-    * __player__
+    * __player__  
       キャラクタオブジェクト
-    * touchPanel
+    * touchPanel  
       マップ移動用のSprite(透明レイヤー)
-    * touchX
+    * touchX  
       タッチX位置
-    * touchY
+    * touchY  
       タッチY位置
-    * isTouch
+    * isTouch  
       タッチ状態(タッチ時にtrue、タッチ終了時にfalse)  
 1. onInitializeメソッド（一回だけ呼ばれる）  
     * 画面サイズを設定  
