@@ -222,25 +222,25 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
 ```
 実装内容は以下のとおりです。  (__太字__ は前回からの修正・追記)  
 
- 1. フィールドの定義  
-    * mapHeight  
+1. フィールドの定義
+    * mapHeight
       マップの高さ(横スクロールの限界値)
-    * mapWidth  
+    * mapWidth
       マップの幅(縦スクロールの限界値)
-    * __backgroundMap__  
+    * __backgroundMap__
       背景マップ（前回はローカル変数）
-    * __player__  
-   キャラクタオブジェクト
-    * touchPanel  
+    * __player__
+      キャラクタオブジェクト
+    * touchPanel
       マップ移動用のSprite(透明レイヤー)
-    * touchX  
+    * touchX
       タッチX位置
-    * touchY  
+    * touchY
       タッチY位置
-    * isTouch  
+    * isTouch
       タッチ状態(タッチ時にtrue、タッチ終了時にfalse)  
 1. onInitializeメソッド（一回だけ呼ばれる）  
-     * 画面サイズを設定
+    * 画面サイズを設定  
 1. onLoadメソッド（一回だけ呼ばれる）
     1. 「group」フィールドの生成  
     1. 背景用マップとしてExMapの生成  
@@ -262,7 +262,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
     1. __キャラクタが中心になるように「group」フィールドの位置情報を設定する__  
     ※マップ端までスクロールした場合はスクロールをストップする  
 
-4.```npm run build``` または ```gulp default```でビルドを行います。
+5.```npm run build``` または ```gulp default```でビルドを行います。
 
 # おわりに
 8回にわたってTypeScriptでenchant.jsを開発するためのライブラリ「ets-framework」の利用例を紹介しました。  
