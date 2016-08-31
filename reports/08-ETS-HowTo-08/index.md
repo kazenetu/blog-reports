@@ -128,7 +128,7 @@ class GameMain extends Rf.ETS.FrameWork.GameMain {
       //enchant MapEditorのコード出力で表示したbackgroundMap.loadDataの追加した第三パラメータ（二次元配列）
     ]);
 
-    //タッチ用スプライトの追加 //※3.6
+    //タッチ用スプライトの追加 //※3.7
     this.touchPanel = new Rf.ETS.FrameWork.Sprite(this.mapWidth * 16, this.mapHeight * 16, this.group);
     this.touchPanel.touchEnabled = true;
 
