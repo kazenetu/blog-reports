@@ -9,7 +9,9 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 [前回作成したマップ表示](http://kazenetu.exblog.jp/23110348/)にキャラクタを表示します。  
 ※Mapデータは[enchantMapEditor](https://github.com/wise9/enchantMapEditor)で作成したデータを利用します。  
 ※利用可能なGitHubPagesを用意しました。ご利用ください。  
-  [http://kazenetu.github.io/enchantMapEditor/mapeditor.html](http://kazenetu.github.io/enchantMapEditor/mapeditor.html)  
+  [http://kazenetu.github.io/enchantMapEditor/mapeditor.html](http://kazenetu.github.io/enchantMapEditor/mapeditor.html)
+
+  完成画面
   ![完成画面](result.png)
 
 ##  前提
