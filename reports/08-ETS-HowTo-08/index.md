@@ -11,7 +11,7 @@ TypeScriptでenchant.jsを開発するためのライブラリ「ets-framework�
 ※利用可能なGitHubPagesを用意しました。ご利用ください。  
   [http://kazenetu.github.io/enchantMapEditor/mapeditor.html](http://kazenetu.github.io/enchantMapEditor/mapeditor.html)
 
-  完成画面
+  完成画面  
   ![完成画面](result.png)
 
 ##  前提
