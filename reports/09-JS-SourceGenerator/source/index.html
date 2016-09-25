@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Source Convertor</title>
+</head>
+<body>
+    <div>
+    <h1>ソースコード ジェネレータ</h1>
+    </div>
+
+    <div>
+    タブで区切ったパラメータを入力してください
+    </div>
+    <textarea id="before" rows="4" cols="40">
+文字列A	string	strA
+数値	int	intB
+    </textarea>
+
+    <div>
+      <select id="formatType"></select>
+      <button id="convert">変更</button>
+    </div>
+
+    <div>
+    生成結果
+    </div>
+
+    <textarea id="after" rows="4" cols="40"></textarea>
+
+    <script>
+    window.onload = function () {
+      var formats=new Object();
+      formats.cs_test = new Object();
+      formats.cs_test.text = "プロパティ名 タイプ プロパティ";
+      formats.cs_test.count = 3;
+      formats.cs_test.format = '/// <summary>'+'\n'+
+                  '/// {0}'+'\n'+
+                  '/// </summary>'+'\n'+
+                  'public {1} {2} {set; get; }'+'\n';
+
+      var formatType = document.getElementById('formatType');
+      for (var formatName in formats) {
+        e = document.createElement("option");
+        e.value = formatName;
+        e.textContent = formatName;
+        formatType.appendChild(e);
+      }
+
+      var button = document.getElementById('convert');
+      button.onclick = function () {
+        var target = formats[formatType.value];
+        var beforeText = document.getElementById('before').value;
+
+        var src = beforeText.split("\n");
+        var desc = new Array();
+        for (var lineIndex = 0; lineIndex < src.length; lineIndex++) {
+            var temp = src[lineIndex].split("\t");
+            var index=0;
+            var formattedText = target.format;
+
+            for (var index = 0; index < temp.length; index++) {
+              formattedText = formattedText.replace("{"+index.toString()+"}",temp[index]);
+            }
+            if(temp.length == target.count){
+              desc.push(formattedText + "\n");
+            }
+        }
+        var after = document.getElementById('after');
+        after.value = desc.join("");
+      };
+    };
+    </script>
+</body>
+</html>
