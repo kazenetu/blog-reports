@@ -11,12 +11,20 @@
     </div>
 
     <div>
-    タブで区切ったパラメータを入力してください
+      <h2>
+        タブで区切ったパラメータを入力してください
+      </h2>
     </div>
-    <textarea id="before" rows="4" cols="40">
+
+    <div>
+      <div>
+        設定値：<label id="description"></label>
+      </div>
+    <textarea id="before" rows="10" cols="80">
 文字列A	string	strA
 数値	int	intB
     </textarea>
+  </div>
 
     <div>
       <select id="formatType"></select>
@@ -27,19 +35,27 @@
     生成結果
     </div>
 
-    <textarea id="after" rows="4" cols="40"></textarea>
+    <textarea id="after" rows="20" cols="80"></textarea>
 
     <script>
     window.onload = function () {
       var formats=new Object();
-      formats.cs_test = new Object();
-      formats.cs_test.text = "プロパティ名 タイプ プロパティ";
-      formats.cs_test.count = 3;
-      formats.cs_test.format = '/// <summary>'+'\n'+
+      formats.cs_property = new Object();
+      formats.cs_property.text = "論理プロパティ名 データ型 物理プロパティ名";
+      formats.cs_property.count = 3;
+      formats.cs_property.format = '/// <summary>'+'\n'+
                   '/// {0}'+'\n'+
                   '/// </summary>'+'\n'+
                   'public {1} {2} {set; get; }'+'\n';
+      formats.vb_property = new Object();
+      formats.vb_property.text = "論理プロパティ名 データ型 物理プロパティ名";
+      formats.vb_property.count = 3;
+      formats.vb_property.format = "''' <summary>" + "\n"+
+                  "''' {0}" + "\n"+
+                  "''' </summary>" + "\n"+
+                  "Public Property {2} As {1}" + "\n";
 
+      // SELECTの選択値を設定
       var formatType = document.getElementById('formatType');
       for (var formatName in formats) {
         e = document.createElement("option");
@@ -48,6 +64,16 @@
         formatType.appendChild(e);
       }
 
+      // 選択項目の変更 イベント
+      formatType.onchange = function(){
+        var target = formats[formatType.value];
+        var description = document.getElementById('description');
+
+        description.innerText = target.text;
+      }
+      formatType.onchange();
+
+      // 変更ボタンクリック イベント
       var button = document.getElementById('convert');
       button.onclick = function () {
         var target = formats[formatType.value];
