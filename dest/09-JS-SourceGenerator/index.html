@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+ソースジェネレーターを作ってみました<br>
+<br><b>はじめに</b><br>「オフィスツールで作成された設計書や仕様書を元にソースコードを自動生成したい」<br>「ランタイムが必要だったりビルド環境が必要なのは使いづらい」<br>「Webサービスを使うと情報を入れるので使えない環境もある」<br>という観点でHTMLとJavaScriptでソースジェネレーターを作ってみました。  <br>
+<br><b>利用方法</b><br><ol>
+<li>ソースコードを<a href="https://github.com/kazenetu/blog-reports/blob/master/reports/09-JS-SourceGenerator/source/index.html">https://github.com/kazenetu/blog-reports/blob/master/reports/09-JS-SourceGenerator/source/index.html</a>をダウンロードしてください。<br>
+</li>
+<li>ダウンロードしたファイルをブラウザで開いてください。
+<img src="./screen.png" alt="表示結果"><br>
+</li>
+<li>画面上部のテキストエリアにタブで区切った文字列をペーストしてください。<br>※ヒントは上の「設定値：」以下を参考にして下ください。<br>
+</li>
+<li>画面中央のドロップダウンを選択し、「変換」ボタンをクリックしてください。<br>
+</li>
+<li>画面下部のテキストエリアに変換結果が出力されます。<br>コピーしてご利用ください。  <br>
+</li>
+</ol>
+<br><b>拡張方法</b><br><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/09-JS-SourceGenerator/source/index.html#L42-L56">source/index.htmlの49行以降のformatsオブジェクト</a>を下記のように拡張します。    <br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-javascript code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">formats.ドロップダウン名 = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-keyword" style="color: #00f;">Object</span>();
+<span class="hljs-comment" style="color: #008000;">// 設定値の説明</span>
+formats.ドロップダウン名.<span class="hljs-built_in" style="color: #00f;">text</span> = <span class="hljs-string" style="color: #a31515;">"論理プロパティ名 データ型 物理プロパティ名"</span>;
+<span class="hljs-comment" style="color: #008000;">// 設定値の数</span>
+formats.ドロップダウン名.count = <span class="hljs-number">3</span>;
+<span class="hljs-comment" style="color: #008000;">// フォーマット {数字} にタブ区入りされた値が設定されます</span>
+formats.ドロップダウン名.format = <span class="hljs-string" style="color: #a31515;">'/// &lt;summary&gt;'</span>+<span class="hljs-string" style="color: #a31515;">'\n'</span>+
+            <span class="hljs-string" style="color: #a31515;">'/// {0}'</span>+<span class="hljs-string" style="color: #a31515;">'\n'</span>+
+            <span class="hljs-string" style="color: #a31515;">'/// &lt;/summary&gt;'</span>+<span class="hljs-string" style="color: #a31515;">'\n'</span>+
+            <span class="hljs-string" style="color: #a31515;">'public {1} {2} {set; get; }'</span>+<span class="hljs-string" style="color: #a31515;">'\n'</span>;
+</span></pre>
+<br><b>おわりに</b><br>ちょっとしたツールを作ってみました。<br>お仕事のお役に立てれば幸いです。  <br>
+よかったらクリックしてください。
+<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a>
+<a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+</body></html>
