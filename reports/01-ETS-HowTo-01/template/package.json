@@ -1,6 +1,7 @@
 {
 	"devDependencies":{
 		"gulp": "*",
+    "typescript": "*",
 		"gulp-typescript": "*"
 	},
 	"scripts": {
