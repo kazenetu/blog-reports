@@ -1,13 +1,35 @@
-# はじめに
-1. Jasperstudio Studioのインストール  
-full-size版の仕様
-1. Mavenの依存設定
-1. Mavenでインストール失敗
+[WIP]JasperReportsでPDFを出力する その1
 
+
+# はじめに
+JavaのWebアプリでPDFを出力するため、JasperReportsを使っています。
+いくつか嵌ったポイントがあったので数回に分けて紹介したいと思います。  
+
+今回は「EclipseプラグインのJasperstudio Studioのインストール」で嵌ったポイントと対応を紹介します。  
 
 # 開発環境
+Eclipse(pleiades4.6 Neon)
 
-# 詳細説明
+# 嵌ったポイント
+「Jasperstudio Studioのインストール手順」として「EclipseマーケットプレースからJasperstudio Studioをインストール」がよく紹介されています。  
+![Eclipseマーケットプレース](1_Eclipsemarket.PNG)
+
+試してみましたが「ソリューションは使用できない」旨のメッセージが表示されてしまいます。  
+（そのまま続行してもインストール中にエラーが発生します）  
+![インストール失敗](2_market_ng.PNG)
+
+# 対応方法
+[https://sourceforge.net/projects/jasperstudio/files/updatesite/6.3.1/](https://sourceforge.net/projects/jasperstudio/files/updatesite/6.3.1/)で公開されているfull-site.zipをダウンロードします。  
+![ダウンロードサイト](3_dl_fullsite.PNG)
+
+----ここから----
+
+1.  full-site.zipを展開
+1.  新規ソフトウェアのインストールを開く
+1. 展開したfull-siteを指定  
+(チェックボックス確認)
+1. インストール完了
+
 
 # おわりに
 
