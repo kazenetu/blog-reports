@@ -1,4 +1,4 @@
-[WIP]JasperReportsでPDFを出力する その1
+JasperReportsでPDFを出力する その1
 
 
 # はじめに
@@ -38,11 +38,12 @@ Eclipse(pleiades4.6 Neon)
 セキュリティ警告が出ますが、OKボタンをクリックしてください。
 ![警告メッセージ](8_warnmsg.PNG)
 
-1. Eclipseを再起動してインストール完了です。
+1. Eclipseを再起動してインストール完了です。  
 ![終了](9_finish.PNG)
 
 # おわりに
-TODO:あとで書く
+Eclipseプラグインをインストールするのも一苦労でした。  
+さらっとインストールできるようになりたいなぁ。  
 
 よかったらクリックしてください。
 <a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ" /></a>
