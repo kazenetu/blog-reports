@@ -1,4 +1,4 @@
-[WIP]JasperReportsでPDFを出力する その2
+JasperReportsでPDFを出力する その2
 
 
 # はじめに
@@ -15,7 +15,7 @@ Eclipse(pleiades4.6 Neon)
 
 # 対応方法
 1. pom.xmlのrepositoriesに書き加えます。  
-```
+``` xml
 <repositories>
     <repository>
         <id>jasperreports</id>
@@ -25,18 +25,35 @@ Eclipse(pleiades4.6 Neon)
 ```  
 
 1. pom.xmlのdependenciesにjasperreportsを追加します。  
-```
+``` xml
 <dependency>
     <groupId>net.sf.jasperreports</groupId>
     <artifactId>jasperreports</artifactId>
     <version>6.3.1</version>
 </dependency>
 ```
+1. jrxmlファイルを作ります。
+![レポート作成例](1_jrxml.png)
+※StaticTextを張り付けたファイルです。
 
-1. TODO
-  1. jrxmlファイルを作る
-  1. サンプルソースファイルを張り付ける
-  1. TIPS参考情報(日本語出力)
+1. サンプルソースファイル  
+jersey(JAX-RS)でPDFファイルを出力する例です。
+
+  ``` Java
+  JRDataSource dataSource = new JRBeanCollectionDataSource(Arrays.asList("dummy"));
+  Map<String, Object> params = new HashMap<>();
+
+  try {
+      String filePath = this.getClass().getClassLoader().getResource(("sample.jrxml")).getPath();
+      JasperReport report = JasperCompileManager.compileReport(filePath);
+
+      return Response.ok(JasperRunManager.runReportToPdf(report, params, dataSource))
+              .build();
+
+  } catch (JRException e) {
+      return Response.serverError().build();
+  }
+   ```
 
 # おわりに
 MavenでJasperReportsを取得して、簡単なPDFを出力することができました。  
