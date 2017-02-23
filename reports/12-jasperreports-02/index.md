@@ -33,7 +33,7 @@ Eclipse(pleiades4.6 Neon)
 </dependency>
 ```
 1. jrxmlファイルを作ります。
-![レポート作成例](1_jrxml.png)
+![レポート作成例](1_jrxml.PNG)
 ※StaticTextを張り付けたファイルです。
 
 1. サンプルソースファイル  
