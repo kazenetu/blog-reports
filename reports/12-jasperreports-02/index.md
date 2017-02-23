@@ -15,23 +15,26 @@ Eclipse(pleiades4.6 Neon)
 
 # 対応方法
 1. pom.xmlのrepositoriesに書き加えます。  
-``` xml
-<repositories>
-    <repository>
-        <id>jasperreports</id>
-        <url>http://jasperreports.sourceforge.net/maven2</url>
-    </repository>
-</repositories>
-```  
+
+  ``` xml
+  <repositories>
+      <repository>
+          <id>jasperreports</id>
+          <url>http://jasperreports.sourceforge.net/maven2</url>
+      </repository>
+  </repositories>
+  ```  
 
 1. pom.xmlのdependenciesにjasperreportsを追加します。  
-``` xml
-<dependency>
-    <groupId>net.sf.jasperreports</groupId>
-    <artifactId>jasperreports</artifactId>
-    <version>6.3.1</version>
-</dependency>
-```
+
+  ``` xml
+  <dependency>
+      <groupId>net.sf.jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+      <version>6.3.1</version>
+  </dependency>
+  ```
+
 1. jrxmlファイルを作ります。
 ![レポート作成例](1_jrxml.PNG)  
 ※StaticTextを張り付けたファイルです。
