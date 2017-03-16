@@ -47,7 +47,7 @@ Bootstrapでツリー表示をする方法を説明します。
   </div>
 </div>
 ```
-ポイントはt`tree-start`、`tree-line`、`tree-end`のdivタグです。  
+ポイントは`tree-start`、`tree-line`、`tree-end`のdivタグです。  
 
 3.cssを作成します。
 
