@@ -1,0 +1,33 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+JasperReportsでPDFを出力する その1<br>
+<br><b>はじめに</b><br>JavaのWebアプリでPDFを出力するため、JasperReportsを使っています。
+いくつか嵌ったポイントがあったので数回に分けて紹介したいと思います。  <br>
+今回は「EclipseプラグインのJasperstudio Studioのインストール」で嵌ったポイントと対応を紹介します。  <br>
+<br><b>開発環境</b><br>Eclipse(pleiades4.6 Neon)<br>
+<br><b>嵌ったポイント</b><br>「Jasperstudio Studioのインストール手順」として「EclipseマーケットプレースからJasperstudio Studioをインストール」がよく紹介されています。<br><img src="1_Eclipsemarket.PNG" alt="Eclipseマーケットプレース"><br>
+試してみましたが「ソリューションは使用できない」旨のメッセージが表示されてしまいます。<br>（そのまま続行してもインストール中にエラーが発生します）<br><img src="2_market_ng.PNG" alt="インストール失敗"><br>
+<br><b>対応方法</b><br><ol>
+<li><a href="https://sourceforge.net/projects/jasperstudio/files/updatesite/6.3.1/">https://sourceforge.net/projects/jasperstudio/files/updatesite/6.3.1/</a>で公開されているfull-site.zipをダウンロードします。<br><img src="3_dl_fullsite.PNG" alt="ダウンロード"><br>
+</li>
+<li>ダウンロードしたfull-site.zipを展開します。
+<img src="4_unzip.PNG" alt="ダウンロード"><br>
+</li>
+<li>Eclipseの新規ソフトウェアのインストールを開き、追加ボタンをクリックします。
+<img src="5_addsoft.PNG" alt="ソフトウェアのインストール"><br>
+</li>
+<li>リポジトリの追加で「ローカル」を選択します。<br>展開したfull-siteを指定します。<br>さらに名前を入力し、OKをクリックしてください。
+<img src="6_addrepo.PNG" alt="リポジトリの追加"><br>
+</li>
+<li>「Business Inteligence,Reporting Tools」を選択し次へボタンをクリックします。
+<img src="7_selectfile.PNG" alt="ソフトウェアの選択">
+セキュリティ警告が出ますが、OKボタンをクリックしてください。
+<img src="8_warnmsg.PNG" alt="警告メッセージ"><br>
+</li>
+<li>Eclipseを再起動してインストール完了です。<br><img src="9_finish.PNG" alt="終了"><br>
+</li>
+</ol>
+<br><b>おわりに</b><br>Eclipseプラグインをインストールするのも一苦労でした。<br>さらっとインストールできるようになりたいなぁ。  <br>
+よかったらクリックしてください。
+<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a>
+<a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+</body></html>

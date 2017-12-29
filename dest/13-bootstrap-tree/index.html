@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+[WIP]Bootstrapでツリー表示する<br>
+<br><b>はじめに</b><br>Bootstrapでツリー表示をする方法を説明します。<br>
+今回作成するツリー表示のイメージです。<br>ヘッダーをクリックすると……<br><img src="close.PNG" alt="縮小した状態">  <br>
+ツリーが表示されます<br><img src="open.PNG" alt="展開した状態">  <br>
+<br><b>全ソース</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/13-bootstrap-tree/sample">https://github.com/kazenetu/blog-reports/tree/master/reports/13-bootstrap-tree/sample</a>をご覧ください。  <br>
+<br><b>詳細説明</b><br>1.下記のようなイメージを作成します。<br><img src="sample/tree.png" alt="ツリーイメージ">  <br>
+<ul>
+<li>[0,0]-[15,15]：途中の項目（テスト1、テスト2）  </li>
+<li>[0,16]-[15,31]：項目の間のライン  </li>
+<li>[0,32]-[15,47]：最後の項目（テストend）</li>
+</ul>
+2.Bootstrapのcollapseを使ってヘッダーのクリックのたびに
+項目の表示制御をするように記述します。  <br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-html code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"container container-color"</span>&gt;
+  &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"panel panel-default tree-header"</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"panel-body"</span>&gt;
+      &lt;a data-toggle=<span class="hljs-string" style="color: #a31515;">"collapse"</span> href=<span class="hljs-string" style="color: #a31515;">"#collapseExample"</span> aria-expanded=<span class="hljs-string" style="color: #a31515;">"true"</span> aria-controls=<span class="hljs-string" style="color: #a31515;">"collapseExample"</span>&gt;
+          ヘッダー
+      &lt;/a&gt;
+    &lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+  &lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+  &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"collapse"</span> <span class="hljs-built_in" style="color: #00f;">id</span>=<span class="hljs-string" style="color: #a31515;">"collapseExample"</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-line"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-start"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-item"</span>&gt;テスト<span class="hljs-number">1</span>&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-line"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-start"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-item"</span>&gt;テスト<span class="hljs-number">2</span>&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-line"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-end"</span>&gt;&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+    &lt;<span class="hljs-keyword" style="color: #00f;">div</span> <span class="hljs-built_in" style="color: #00f;">class</span>=<span class="hljs-string" style="color: #a31515;">"tree-item"</span>&gt;テスト<span class="hljs-keyword" style="color: #00f;">end</span>&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+  &lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+&lt;/<span class="hljs-keyword" style="color: #00f;">div</span>&gt;
+</span></pre>
+ポイントは<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-start</span>、<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-line</span>、<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-end</span>のdivタグです。  <br>
+3.cssを作成します。<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-css code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-selector-class">.tree-start</span>{
+  <span class="hljs-attribute" style="color: #a31515;">background</span>: <span class="hljs-built_in" style="color: #00f;">url</span>(<span class="hljs-string" style="color: #a31515;">'tree.png'</span>) no-repeat <span class="hljs-number">0px</span> <span class="hljs-number">0px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">width</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">height</span>:<span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">float</span>:left;
+  <span class="hljs-attribute" style="color: #a31515;">margin-left</span>: <span class="hljs-number">2em</span>;
+}
+<span class="hljs-selector-class">.tree-line</span>{
+  <span class="hljs-attribute" style="color: #a31515;">background</span>: <span class="hljs-built_in" style="color: #00f;">url</span>(<span class="hljs-string" style="color: #a31515;">'tree.png'</span>) no-repeat <span class="hljs-number">0px</span> -<span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">width</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">height</span>:<span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">margin-left</span>: <span class="hljs-number">2em</span>;
+}
+<span class="hljs-selector-class">.tree-end</span>{
+  <span class="hljs-attribute" style="color: #a31515;">background</span>: <span class="hljs-built_in" style="color: #00f;">url</span>(<span class="hljs-string" style="color: #a31515;">'tree.png'</span>) no-repeat <span class="hljs-number">0px</span> -<span class="hljs-number">32px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">width</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">height</span>:<span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">float</span>:left;
+  <span class="hljs-attribute" style="color: #a31515;">margin-left</span>: <span class="hljs-number">2em</span>;
+}
+
+<span class="hljs-selector-class">.tree-header</span>{
+  <span class="hljs-attribute" style="color: #a31515;">width</span>: <span class="hljs-number">50%</span>;
+  <span class="hljs-attribute" style="color: #a31515;">background-color</span>: smoke;
+  <span class="hljs-attribute" style="color: #a31515;">margin-bottom</span>:  <span class="hljs-number">0px</span> <span class="hljs-meta" style="color: #2b91af;">!important</span>;
+}
+<span class="hljs-selector-class">.tree-item</span>{
+  <span class="hljs-attribute" style="color: #a31515;">font-size</span>: <span class="hljs-number">16px</span>;
+  <span class="hljs-attribute" style="color: #a31515;">margin-top</span>: -<span class="hljs-number">0.2em</span>;
+  <span class="hljs-attribute" style="color: #a31515;">margin-left</span>:<span class="hljs-number">0.5em</span>;
+  <span class="hljs-attribute" style="color: #a31515;">margin-bottom</span>: -<span class="hljs-number">0.2em</span>;
+}
+</span></pre>
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-start</span>、<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-line</span>、<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-end</span>のクラスでは
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree.png</span>を部分的に表示しています。<br>また<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">float:left</span>を設定し、後続の<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-item</span>クラスを同じ行に表示できるようにしています。<br>そのままだと行間が空いてしまい、線が途切れてしまいます。<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">tree-item</span>クラスでは<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">margin-top</span>と<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">margin-bottom</span>にマイナス値を設定して線が途切れないようにしています。  <br>
+<br><b>おわりに</b><br>簡易的にですが、htmlとcssだけでツリー表示ができました。<br>参考になれば幸いです。<br>
+よかったらクリックしてください。
+<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a>
+<a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+</body></html>
