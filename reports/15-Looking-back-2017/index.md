@@ -16,54 +16,54 @@
 。  
 
 # 【お仕事】
-客先常駐と社内業務は半々でした。
+客先常駐と社内業務は半々でした。  
 
-◯社内業務(JavaEE(JAX-RS)+AngularJS 開発フェーズ)  
-　・社内でシステム構成の提案と決定したシステム構成をゼロから作成した。  
-　・JavaやAngularJSに不慣れなチームメンバーを補助するためにテンプレートを作成した。  
-　・個人的に久々のJava開発と初めてのAngularJSとエキサイティングな環境だった。  
-　・WEB+DB Vol.94の「Javaの新定石 最新JavaEEでかんたんWeb開発」が非常になった。  
-　・プライベートで技術検証やツール類の作成を行い、開発を円滑に進められるようにした。  
-　　　・技術検証  
-　　　　・フル版[-jaxrs-angular](https://github.com/kazenetu/-jaxrs-angular)  
-　　　　・簡易版[tiny-jaxrs](https://github.com/kazenetu/tiny-jaxrs)  
-　　　・ツール  
-　　　　・PostgreSQLからPOJOを作成するツール  
-　　　　　　[PostgreSQL2POJO](https://github.com/kazenetu/PostgreSQL2POJO)  
-　　　　・Excelのコピペからソースなどを作成するツール  
-　　　　　　[SourceGenerator](https://github.com/kazenetu/SourceGenerator)  
 
-・総合  
-　・社内向けにシステム構成の提案ができた。  
-　・開発フェーズのリードエンジニアとしてチームメンバーのサポートができた。  
-　・高い評価をいただいた。  
-　・作成するファイル数が少ない簡易版[tiny-jaxrs](https://github.com/kazenetu/tiny-jaxrs)を採用したが、Serviceレイヤーを端折ったのがちょっとしくじったかなと思ったり。  
-　　(結局、Modelインスタンスからトランザクションインスタンスを渡して  
-　　　別のModelインタスタンスを生成する方法にした)  
+〇社内業務(JavaEE(JAX-RS)+AngularJS 開発フェーズ)  
+ * 社内でシステム構成の提案と決定したシステム構成をゼロから作成した。  
+ * JavaやAngularJSに不慣れなチームメンバーを補助するためにテンプレートを作成した。  
+ * プライベートで技術検証やツール類の作成を行い、開発を円滑に進められるようにした。  
+   * 技術検証  
+     * フル版[-jaxrs-angular](https://github.com/kazenetu/-jaxrs-angular)  
+     * 簡易版[tiny-jaxrs](https://github.com/kazenetu/tiny-jaxrs)  
+   * ツール  
+     * PostgreSQLからPOJOを作成するツール   [PostgreSQL2POJO](https://github.com/kazenetu/PostgreSQL2POJO)  
+     * Excelのコピペからソースなどを作成するツール  [SourceGenerator](https://github.com/kazenetu/SourceGenerator)
 
-◯客先常駐(Windowsアプリ)  
-　・未経験の業界で用語や仕様の意味を理解するのに苦労した。  
-　　(まだわからないことが多い……)  
-　・開発しながら弊社チームのチームリーダー補助からチームリーダーを兼任した。  
-　・弊社チームメンバーのスキルにばらつきがあるため、進捗管理とフォーローなど管理面で苦労した。  
-　・VB6以前のような密結合な作りで実装の理解に苦労した。  
-　・担当した機能はパズルのようで楽しく実装できた。 
+　【所感】
+   * 社内向けにシステム構成の提案ができた。  
+   * 開発フェーズのリードエンジニアとしてチームメンバーのサポートができた。  
+   * 個人的に久々のJava開発と初めてのAngularJSとエキサイティングな環境だった。  
+   * WEB+DB Vol.94の「Javaの新定石 最新JavaEEでかんたんWeb開発」が非常になった。  
+   * 高い評価をいただいた。  
+   * 作成するファイル数が少ない簡易版[tiny-jaxrs](https://github.com/kazenetu/tiny-jaxrs)を採用したが、Serviceレイヤーを端折ったなど反省点もあった。    
+(結局、Modelインスタンスからトランザクションインスタンスを渡して、別のModelインタスタンスを生成する方法にした) 
 
-・総合  
-　・弊社チームのリーダーとして管理とフォローを行うも内外のゴタゴタに振り回されて心身ともに疲れることが多かった。  
-　・様々な要因から常駐先の評価もイマイチだった。  
+
+〇客先常駐(Windowsアプリ)  
+ * 未経験の業界で用語や仕様の意味を理解するのに苦労した。  
+   (まだわからないことが多い……)  
+ * 開発しながら弊社チームのチームリーダー補助からチームリーダーを兼任した。  
+ * 弊社チームメンバーのスキルにばらつきがあるため、進捗管理とフォーローなど管理面で苦労した。  
+ * VB6以前のような密結合な作りで実装の理解に苦労した。  
+ * 担当した機能はパズルのようで楽しく実装できた。 
+
+　【所感】
+  * 弊社チームのリーダーとして管理とフォローを行うも、内外のゴタゴタに振り回されて心身ともに疲れることが多かった。  
+  * 様々な要因から常駐先の評価もイマイチだった。  
+  * メンバによって技術スキルやコミュニケーションスキルのばらつきが大きいことがわかった。  
 
 # 【ブログ】
-・[GitHubでの記事管理](https://github.com/kazenetu/blog-reports)に記事を書き上げるもブログに投稿することを忘れていた。  
+* [GitHubでの記事管理](https://github.com/kazenetu/blog-reports)に記事を書き上げるもブログに投稿することを忘れていた。  
 結果、2017年の記事数はゼロだった。
 
 # 【その他】
-・[GitHub](https://github.com/kazenetu)の更新を毎日続けられた。  
-・.NetCoreの勉強を始めた。  
-　開発環境も支障がないため、デプロイ環境などを検証したら次回以降のプロジェクトで提案できそう。  
-　[dotNETCoreTest](https://github.com/kazenetu/dotNETCoreTest)  
-・お給料は前職と比べて少し高くなった。  
-　納得のいく評価もされ、転職はとりあえず成功だと思う。
+* [GitHub](https://github.com/kazenetu)の更新を毎日続けられた。  
+* .NetCoreの勉強を始めた。  
+  開発環境も支障がないため、デプロイ環境などを検証したら次回以降のプロジェクトで提案できそう。  
+  [dotNETCoreTest](https://github.com/kazenetu/dotNETCoreTest)  
+* お給料は前職と比べて少し高くなった。  
+  納得のいく評価もされ、転職はとりあえず成功だと思う。
 
 # 【来年の抱負】
 「管理もできるエンジニア」を目指しつつ、技術スキルの向上を図ろうと思います。  
