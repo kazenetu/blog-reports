@@ -1,4 +1,4 @@
-[WIP]Bootstrapでツリー表示する
+Bootstrapでツリー表示する
 
 # はじめに
 Bootstrapでツリー表示をする方法を説明します。
