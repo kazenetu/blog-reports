@@ -1,6 +1,6 @@
-Bootstrapでツリー表示する
+# Bootstrapでツリー表示する
 
-# はじめに
+## はじめに
 Bootstrapでツリー表示をする方法を説明します。
 
 今回作成するツリー表示のイメージです。  
@@ -10,11 +10,11 @@ Bootstrapでツリー表示をする方法を説明します。
 ツリーが表示されます  
 ![展開した状態](open.PNG)  
 
-# 全ソース
+## 全ソース
 [https://github.com/kazenetu/blog-reports/tree/master/reports/13-bootstrap-tree/sample](https://github.com/kazenetu/blog-reports/tree/master/reports/13-bootstrap-tree/sample)をご覧ください。  
 
 
-# 詳細説明
+## 詳細説明
 
 1.下記のようなイメージを作成します。  
 ![ツリーイメージ](sample/tree.png)  
@@ -92,7 +92,7 @@ Bootstrapでツリー表示をする方法を説明します。
 `tree-item`クラスでは`margin-top`と`margin-bottom`にマイナス値を設定して線が途切れないようにしています。  
 
 
-# おわりに
+## おわりに
 簡易的にですが、htmlとcssだけでツリー表示ができました。  
 参考になれば幸いです。
 
