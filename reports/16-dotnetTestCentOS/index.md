@@ -32,6 +32,8 @@ Windows10 Home
 → ```vagrant init bento/centos-7.2``` を作成するように変更
 
 # おわりに
+まずは仮想環境を用意できるようにしました。  
+次回はさらにASP.NET Coreが実行できるようにします。
 
 # 参考資料
 - WEB+DB PRESS Vol.98 特集2 これから始めるDocker
