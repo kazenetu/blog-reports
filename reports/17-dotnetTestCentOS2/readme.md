@@ -1,11 +1,18 @@
-# はじめに
+# windowsで始める仮想サーバー その2
+
+- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
+- ASP.NET Coreの動作環境作成
+
+## はじめに
 [前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/index.md)は仮想環境の構築を行いました。  
 今回はASP.NET CoreのLinux系OSでの実行環境を構築できるようにします。
 
-# 環境
-Windows10 Home  
+## 環境
+- Windows10 Home  
+- VirtualBox 5.2.6  
+- Vagrant 2.0.2
 
-# 手順
+## 手順
 実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/index.md)を参照してください
 1. Vagrantfileを編集する
    - 80番ポートをホスト(windows)側で8080ポートにマッピングする
@@ -46,17 +53,17 @@ Windows10 Home
 1. コマンドプロンプトで仮想サーバーの停止を行う  
 ```vagrant halt```  
 
-# 発生した問題と対策
+## 発生した問題と対策
 - ファイル共有ができない  
   → ホスト側で```vagrant plugin install vagrant-vbguest```を実行する  
   → ゲスト(CentOS)側で```sudo yum update```を実行する      
   → ホスト側で```vagrant reload```を実行する  
 
-# おわりに
+## おわりに
 とりあえずASP.NET Coreが実行できるようになりました。  
 次回はwindowsでの動作確認のみ実施済みの[https://github.com/kazenetu/ASPdotNETCoreTest](https://github.com/kazenetu/ASPdotNETCoreTest)が  
 CentOSで動作するか確認します。
 
-# 参考資料
+## 参考資料
 - Qiita:[Vagrant ファイル共有　決定版](https://qiita.com/yusk24/items/96a0000716fed7ca62f6)
 - Qiita:[vagrant up 時の共有フォルダのマウントエラー解消方法](https://qiita.com/takutoki/items/33cf1230e032931f9adc)
