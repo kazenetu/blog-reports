@@ -4,7 +4,7 @@
 - ASP.NET Coreの動作環境作成
 
 ## はじめに
-[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/index.md)は仮想環境の構築を行いました。  
+[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS)は仮想環境の構築を行いました。  
 今回はASP.NET CoreのLinux系OSでの実行環境を構築できるようにします。
 
 ## 環境
@@ -13,7 +13,7 @@
 - Vagrant 2.0.2
 
 ## 手順
-実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/index.md)を参照してください
+実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS)を参照してください
 1. Vagrantfileを編集する
    - 80番ポートをホスト(windows)側で8080ポートにマッピングする
    - .NetCore2.0のインストールを行う  
