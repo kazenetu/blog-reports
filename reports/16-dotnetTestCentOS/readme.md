@@ -3,7 +3,7 @@
 - [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
 
 ## はじめに
-ASP.NET CoreのLinux系OSでの実行環境を構築できるようにします。
+ASP.NET CoreのLinux系OSでの実行環境を構築できるようにします。  
 今回はVirtualBoxとVagrantを使ってLinux系の仮想サーバーが作成できるようにします。
 
 ## 環境
