@@ -39,6 +39,8 @@ Windows10 Home
 まずは仮想環境を用意できるようにしました。  
 次回はさらにASP.NET Coreが実行できるようにします。
 
+[今回利用したVagrantfile](./Vagrantfile)
+
 ## 参考資料
 - WEB+DB PRESS Vol.98 特集2 これから始めるDocker
 

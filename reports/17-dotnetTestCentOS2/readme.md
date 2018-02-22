@@ -64,6 +64,8 @@
 次回はwindowsでの動作確認のみ実施済みの[https://github.com/kazenetu/ASPdotNETCoreTest](https://github.com/kazenetu/ASPdotNETCoreTest)が  
 CentOSで動作するか確認します。
 
+[今回利用したVagrantfile](./Vagrantfile)
+
 ## 参考資料
 - Qiita:[Vagrant ファイル共有　決定版](https://qiita.com/yusk24/items/96a0000716fed7ca62f6)
 - Qiita:[vagrant up 時の共有フォルダのマウントエラー解消方法](https://qiita.com/takutoki/items/33cf1230e032931f9adc)
