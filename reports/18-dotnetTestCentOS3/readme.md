@@ -1,4 +1,4 @@
-# windowsで始める仮想サーバー その3
+# Windowsで始める仮想サーバー その3
 
 - [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
 - [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
