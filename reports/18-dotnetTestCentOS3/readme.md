@@ -44,7 +44,7 @@ CentOSで動作するか確認します。
 ```Content root path: /vagrant/ASPdotNETCoreTest```  
 ```Now listening on: http://localhost:5000```  
 ```Application started. Press Ctrl+C to shut down.```  
-1. Windowsでの作業：ブラウザを立ち上げ、「http://localhost:8080/」にアクセスする  
+1. Windowsでの作業：ブラウザを立ち上げ、 ```http://localhost:8080/```にアクセスする  
    下記の操作ができることを確認する
    1. ログイン画面が表示される
    1. test/testでログインする
