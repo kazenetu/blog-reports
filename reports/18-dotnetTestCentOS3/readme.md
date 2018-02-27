@@ -13,7 +13,7 @@ CentOSで動作するか確認します。
 - Windows10 Home  
 - VirtualBox 5.2.6  
 - Vagrant 2.0.2
-- .Net Core 2.1.4
+- .Net Core SDK 2.1.4
 
 ## 手順
 ファイル共有を前提の手順となっています。  
