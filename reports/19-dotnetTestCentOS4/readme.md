@@ -1,4 +1,4 @@
-# [WIP]Windowsで始める仮想サーバー その4「PDF出力の環境作成」
+# Windowsで始める仮想サーバー その4<br>「PDF出力の環境作成」
 
 - [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
 - [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
