@@ -3,6 +3,7 @@
 - [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
 - ASP.NET Coreの動作環境作成
 - [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3)
+- [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
 
 ## はじめに
 [前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS)は仮想環境の構築を行いました。  
