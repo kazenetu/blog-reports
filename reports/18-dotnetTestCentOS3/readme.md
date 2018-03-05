@@ -4,6 +4,7 @@
 - [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
 - ASP.NET Coreサンプルプログラムの実行確認
 - [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
+- [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5)
 
 ## はじめに
 [前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS2)はASP.NET CoreのLinux系OSでの実行環境を構築しました。  
