@@ -1,4 +1,4 @@
-# [WIP]ASP.NET Core2でバーコードイメージを表示する
+# ASP.NET Core2でバーコードイメージを表示する
 
 ## はじめに
 今回はASP.NET Coreでバーコードイメージを表示します。  
@@ -10,6 +10,8 @@
 - .Net Core SDK 2.1.4
 
 ## 手順
+1. Linuxの場合は「libgdiplus」をインストールする  
+   例）CentOSの場合：```sudo yum install -y libgdiplus```
 1. WebAPIを作成する  
    ```dotnet new webapi -o プロジェクトフォルダ名```
 1. csprojファイルに下記を追加
@@ -105,6 +107,8 @@
    ![完成イメージ](runimage.png) 
 
 ## おわりに
+とりあえずWindows、CentOS7で動作することを確認できました。  
+[DinkToPdf](https://www.nuget.org/packages/DinkToPdf/)を併用することでPDF出力もできそうですね。
 
 ## 参考
 ｰ GitHub:[ZXing.Net/Clients/ASP.NetCoreDemo](https://github.com/micjahn/ZXing.Net/blob/master/Clients/ASP.NetCoreDemo)
