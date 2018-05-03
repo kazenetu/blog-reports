@@ -52,6 +52,17 @@ namespace webapi
       app.UseSwaggerUI(c =>
       {
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+
+        // カスタマイズしたHTMLファイルを指定
+        c.IndexStream = () =>
+        {
+          using (var readStream = new System.IO.StreamReader($"{AppContext.BaseDirectory}swaggerIndex.html"))
+          {
+            var html = readStream.ReadToEnd();
+
+            return new System.IO.MemoryStream(System.Text.Encoding.UTF8.GetBytes(html));
+          }
+        };
       });
 
       app.UseMvc();
