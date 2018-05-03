@@ -14,3 +14,6 @@
 
 ### バーコードイメージ表示
 - [ASP.NET Core2でバーコードイメージを表示する](https://github.com/kazenetu/blog-reports/tree/master/reports/21-barcodeDotNetCore)
+
+### WebAPIドキュメント自動生成(SWAGGER UI)
+- [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)
