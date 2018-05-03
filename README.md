@@ -11,3 +11,6 @@
 - [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3)
 - [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
 - [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5)
+
+### バーコードイメージ表示
+- [ASP.NET Core2でバーコードイメージを表示する](https://github.com/kazenetu/blog-reports/tree/master/reports/21-barcodeDotNetCore)
