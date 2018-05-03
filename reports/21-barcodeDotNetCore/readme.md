@@ -5,6 +5,8 @@
 完成イメージは下記になります。  
 ![完成イメージ](runimage.png) 
 
+完全なサンプルコードは[sampleフォルダ](https://github.com/kazenetu/blog-reports/tree/master/reports/21-barcodeDotNetCore/sample)をご覧ください。
+
 ## 環境
 - Windows10 Home  
 - .Net Core SDK 2.1.4
@@ -103,7 +105,7 @@
     ※GitHub「[micjahn/ZXing.Net](https://github.com/micjahn/ZXing.Net/)」の「[ZXing.Net/Clients/ASP.NetCoreDemo/Helper/BarcodeTagHelper.cs](https://github.com/micjahn/ZXing.Net/blob/master/Clients/ASP.NetCoreDemo/Helper/BarcodeTagHelper.cs#L86-L127)」を参考に実装
 1. デバッグ実行・動作確認  
    1. ```dotnet run```を実行  
-   1. ```ルートパス/api/values```にアクセス
+   1. ```ルートパス/api/values```にアクセス  
    ![完成イメージ](runimage.png) 
 
 ## おわりに
