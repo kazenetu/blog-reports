@@ -1,4 +1,6 @@
 # wkhtmltopdfを使ってSWAGGER UIのPDFを作成する
+- [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)
+- wkhtmltopdfを使ってSWAGGER UIのPDFを作成する
 
 ## はじめに
 [前回はWebAPIのドキュメントを自動生成するSWAGGER UI](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)を紹介しました。  

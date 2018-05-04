@@ -1,4 +1,6 @@
 # ASP.NET Core2でSWAGGER UIを使う
+- ASP.NET Core2でSWAGGER UIを使う
+- [wkhtmltopdfを使ってSWAGGER UIのPDFを作成する](https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF)
 
 ## はじめに
 WebAPIの開発で面倒な作業というとWebAPIの仕様書です。  
