@@ -18,3 +18,6 @@
 ### WebAPIドキュメント自動生成(SWAGGER UI)
 - [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)
 - [wkhtmltopdfを使ってSWAGGER UIのPDFを作成する](https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF)
+
+### その他 単発もの
+ｰ [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariable)
