@@ -20,4 +20,4 @@
 - [wkhtmltopdfを使ってSWAGGER UIのPDFを作成する](https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF)
 
 ### その他 単発もの
-ｰ [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariables)
+- [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariables)
