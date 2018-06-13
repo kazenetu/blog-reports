@@ -7,7 +7,7 @@
 - [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5)
 
 ## はじめに
-[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS2)はASP.NET CoreのLinux系OSでの実行環境を構築しました。  
+[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)はASP.NET CoreのLinux系OSでの実行環境を構築しました。  
 今回はwindowsでの動作確認のみ実施済みの[https://github.com/kazenetu/ASPdotNETCoreTest](https://github.com/kazenetu/ASPdotNETCoreTest)が  
 CentOSで動作するか確認します。
 
@@ -19,7 +19,7 @@ CentOSで動作するか確認します。
 
 ## 手順
 ファイル共有を前提の手順となっています。  
-実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS2)の「発生した問題と対策」を実施してください。
+実施する前に[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)の「発生した問題と対策」を実施してください。
 1. Windowsでの作業：サンプルプログラムをダウンロードまたはCloneする
 [https://github.com/kazenetu/ASPdotNETCoreTest](https://github.com/kazenetu/ASPdotNETCoreTest)
 1. Windowsでの作業：サンプルプログラムの「WebApi」フォルダに移動する
