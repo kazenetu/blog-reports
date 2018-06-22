@@ -19,5 +19,9 @@
 - [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)
 - [wkhtmltopdfを使ってSWAGGER UIのPDFを作成する](https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF)
 
+
+### Docker
+- [「Jenkins+.NET Core」のイメージをDockerfileで定義する](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile)
+
 ### その他 単発もの
 - [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariables)
