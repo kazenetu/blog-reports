@@ -81,7 +81,7 @@
   ```sudo docker build /vagrant -t jenkins_dot:latest```
 1. ビルドしたイメージを実行する  
   ```sudo docker run -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
-1. ホストのブラウザで```localhost:8080```にアクセスするとJenkinsの初期画面が表示される
+1. ブラウザで```localhost:8080```にアクセスするとJenkinsの初期画面が表示される
 1. ゲスト(CentOS)でJenkinsのキーコードを取得する  
   ```sudo docker exec jenkins_dot cat /var/jenkins_home/secrets/initialAdminPassword```
 1. ジョブが作成可能な状態までJenkinsのセットアップを続ける
