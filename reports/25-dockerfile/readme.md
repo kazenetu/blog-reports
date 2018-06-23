@@ -92,6 +92,13 @@
         ```dotnet --version```
         1. 保存をクリック
     1. 「ビルドの実行」をクリック
+1. 検証が終わったら終了する
+    1. jenkins_dotコンテナを終了する  
+       ```sudo docker stop jenkins_dot```
+    1. 仮想サーバーをログアウトする  
+       ```exit```
+    1. 仮想サーバーを停止する  
+       ```vagrant halt```
 
 ## おわりに
 これでJenkinsで.NET Coreのテストを行うための準備ができました。  
