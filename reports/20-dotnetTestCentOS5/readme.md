@@ -1,15 +1,15 @@
 # Windowsで始める仮想サーバー その5<br>「ASP.NET CoreでPDF出力」
 
-- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
-- [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
-- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3)
-- [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
+- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md)
+- [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md)
+- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md)
+- [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md)
 - ASP.NET CoreでPDF出力
 
 ## はじめに
-[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)はPDF出力できる環境を作成しました。  
+[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md)はPDF出力できる環境を作成しました。  
 今回はASP.NET CoreでPDF出力できるようにします。  
-※[第2回](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)の手順5で作成したcoretestを使ってみます。  
+※[第2回](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md)の手順5で作成したcoretestを使ってみます。  
 　 あらかじめ仮想サーバー上で```cp coretest /vagrant/ -r```を実行して  
 　ファイル共有のディレクトリにコピーするとWindows上での編集が可能になります。
 

@@ -1,16 +1,16 @@
 # 「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する
-- [「Jenkins+.NET Core」のイメージをDockerfileで定義する](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile)
+- [「Jenkins+.NET Core」のイメージをDockerfileで定義する](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md)
 - 「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する
 
 ## はじめに
-[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile)はJenkinsのDockerイメージを元に.NET Core SDKをインストールしました。  
-今回は[TinyServerClientFramework](https://github.com/kazenetu/TinyServerClientFramework)のWebAPITestを実行してみます。
+[前回](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md)はJenkinsのDockerイメージを元に.NET Core SDKをインストールしました。  
+今回は[TinyServerClientFramework](https://github.com/kazenetu/TinyServerClientFramework/readme.md)のWebAPITestを実行してみます。
 
 ## 環境
 - Windows10 Home  
 - VirtualBox 5.2.6  
 - Vagrant 2.0.2
-- [前回の作業](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile)が完了している前提です。
+- [前回の作業](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md)が完了している前提です。
 
 ## 手順
 1. コマンドプロンプトで仮想サーバーの起動を行う  

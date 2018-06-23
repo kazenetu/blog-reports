@@ -1,9 +1,9 @@
 # wkhtmltopdfを使ってSWAGGER UIのPDFを作成する
-- [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)
+- [ASP.NET Core2でSWAGGER UIを使う](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/readme.md)
 - wkhtmltopdfを使ってSWAGGER UIのPDFを作成する
 
 ## はじめに
-[前回はWebAPIのドキュメントを自動生成するSWAGGER UI](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI)を紹介しました。  
+[前回はWebAPIのドキュメントを自動生成するSWAGGER UI](https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/readme.md)を紹介しました。  
 しかし、このままではWebサーバーを立ち上げない限りWebAPIドキュメントを確認できません。
 
 今回はwkhtmltopdfを実行し、PDFファイルに出力する方法をご紹介します。
@@ -109,7 +109,7 @@ wkhtmltopdfのインストール
 - Windows
   - [DinkToPdfを使ってみた](https://github.com/kazenetu/dotNETCoreTest/blob/master/useDinkToPdf.md)
 - CentOS7
-  - [Windowsで始める仮想サーバー その4「PDF出力の環境作成」](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
+  - [Windowsで始める仮想サーバー その4「PDF出力の環境作成」](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md)
 
 Polyfills設定
 - wkhtmltopdf/wkhtmltopdf issue

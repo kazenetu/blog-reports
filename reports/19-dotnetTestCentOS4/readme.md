@@ -1,10 +1,10 @@
 # Windowsで始める仮想サーバー その4<br>「PDF出力の環境作成」
 
-- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
-- [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)
-- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3)
+- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md)
+- [ASP.NET Coreの動作環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md)
+- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md)
 - PDF出力の環境作成
-- [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5)
+- [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md)
 
 ## はじめに
 ASP.NET CoreでPDF出力を出力できる環境を作成します。  

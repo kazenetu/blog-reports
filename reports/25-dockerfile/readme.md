@@ -12,7 +12,7 @@
 - Vagrant 2.0.2
 
 ## 手順
-1. [Windowsで始める仮想サーバー その2「ASP.NET Coreの動作環境作成」](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2)をベースにDockerをインストールするスクリプトに変更する。  
+1. [Windowsで始める仮想サーバー その2「ASP.NET Coreの動作環境作成」](https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md)をベースにDockerをインストールするスクリプトに変更する。  
     ```
       # -*- mode: ruby -*-
       # vi: set ft=ruby :

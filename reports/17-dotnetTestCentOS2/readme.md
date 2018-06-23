@@ -1,13 +1,13 @@
 # Windowsで始める仮想サーバー その2<br>「ASP.NET Coreの動作環境作成」
 
-- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS)
+- [環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md)
 - ASP.NET Coreの動作環境作成
-- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3)
-- [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4)
-- [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5)
+- [ASP.NET Coreサンプルプログラムの実行確認](https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md)
+- [PDF出力の環境作成](https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md)
+- [ASP.NET CoreでPDF出力](https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md)
 
 ## はじめに
-[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS)は仮想環境の構築を行いました。  
+[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/readme.md)は仮想環境の構築を行いました。  
 今回はASP.NET CoreのLinux系OS(CentOS)での実行環境を構築できるようにします。
 
 ## 環境
@@ -16,7 +16,7 @@
 - Vagrant 2.0.2
 
 ## 手順
-実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS)を参照してください
+実施する前に[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/readme.md)を参照してください
 1. Vagrantfileを編集する
    - 80番ポートをホスト(Windows)側で8080ポートにマッピングする
    - .NetCore2.0のインストールを行う  
