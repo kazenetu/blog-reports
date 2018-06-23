@@ -26,12 +26,12 @@
    1. 「ダウンロードして再起動してインストール」をクリック
 1. Test用ジョブを新規作成
     1. 「item name」に```WebAPITest```を設定、「フリースタイル・プロジェクトのビルド」を選択、OKをクリック
-    1. 「ソース管理」に「Git」を選択、リポジトリに「https://github.com/kazenetu/TinyServerClientFramework.git」を設定  
+    1. 「ソース管理」に「Git」を選択、リポジトリに「```https://github.com/kazenetu/TinyServerClientFramework.git```」を設定  
     1. ビルドに「シェルの追加」を追加  
-    ```
-      cd Example/WebAPITest
-      dotnet test --logger trx;
-    ```
+        ```
+          cd Example/WebAPITest
+          dotnet test --logger trx;
+        ```
     1. ビルド後の処理に「Publish MSTest test result report」を選択
     1. 保存をクリック
 1. 「ビルドの実行」をクリック
