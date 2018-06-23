@@ -81,16 +81,17 @@
   ```sudo docker build /vagrant -t jenkins_dot:latest```
 1. ビルドしたイメージを実行する  
   ```sudo docker run -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
-1. ブラウザで```localhost:8080```にアクセスするとJenkinsの初期画面が表示される
 1. ゲスト(CentOS)でJenkinsのキーコードを取得する  
   ```sudo docker exec jenkins_dot cat /var/jenkins_home/secrets/initialAdminPassword```
-1. ジョブが作成可能な状態までJenkinsのセットアップを続ける
-1. ```dotnet --version```を確認するジョブを作成する
-    1. 「item name」に```DotNetVersion```を設定、「フリースタイル・プロジェクトのビルド」を選択、OKをクリック
-    1. ビルドに「シェルの追加」を追加  
-    ```dotnet --version```
-    1. 保存をクリック
-1. 「ビルドの実行」をクリック
+1. ブラウザで```localhost:8080```にアクセスし、下記を行う
+    1. Jenkinsの初期画面が表示されるため、あらかじめ取得しておいたJenkinsのキーコードを入力する
+    1. ジョブが作成可能な状態までJenkinsのセットアップを続ける
+    1. ```dotnet --version```を確認するジョブを作成する
+        1. 「item name」に```DotNetVersion```を設定、「フリースタイル・プロジェクトのビルド」を選択、OKをクリック
+        1. ビルドに「シェルの追加」を追加  
+        ```dotnet --version```
+        1. 保存をクリック
+    1. 「ビルドの実行」をクリック
 
 ## おわりに
 これでJenkinsで.NET Coreのテストを行うための準備ができました。  
