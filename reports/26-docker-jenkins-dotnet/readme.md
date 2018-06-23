@@ -1,4 +1,3 @@
-<a href="#top"> </a>
 # 「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する
 - [「Jenkins+.NET Core」のイメージをDockerfileで定義する](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md)
 - 「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する
