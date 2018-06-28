@@ -1,6 +1,7 @@
 # 「Jenkins+.NET Core」のイメージをDockerfileで定義する
 - 「Jenkins+.NET Core」のイメージをDockerfileで定義する
 - [「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する](https://github.com/kazenetu/blog-reports/blob/master/reports/26-docker-jenkins-dotnet/readme.md)
+- [「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる](https://github.com/kazenetu/blog-reports/blob/master/reports/27-docker-jenkins-dotnet21/readme.md)
 
 ## はじめに
 これまでVagrantで仮想サーバーを作成しました。  
