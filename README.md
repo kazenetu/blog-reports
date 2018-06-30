@@ -27,3 +27,5 @@
 
 ### その他 単発もの
 - [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariables/readme.md)
+
+- [VisualStudio2017のIIS Expressで「ASP.NET Core」を別PCからアクセス可能にする](https://github.com/kazenetu/blog-reports/blob/master/reports/28-dotnetcore-access/readme.md)
