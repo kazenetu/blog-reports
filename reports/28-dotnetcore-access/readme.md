@@ -31,7 +31,7 @@ VisualStudioで「ASP.NET Core」の開発を行う際、
         </sites>
         ～省略～
         ```
-    1. <binding protocol="http" bindingInformation="*:5000:localhost" />を探す
+    1. ```<binding protocol="http" bindingInformation="*:5000:localhost" />```を探す
     1. コピペしてbindingInformation属性のlocalhostをPCのIPアドレスに変更する  
         例）
         ```
