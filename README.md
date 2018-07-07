@@ -24,6 +24,7 @@
 - [「Jenkins+.NET Core」のイメージをDockerfileで定義する](https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md)
 - [「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する](https://github.com/kazenetu/blog-reports/blob/master/reports/26-docker-jenkins-dotnet/readme.md)
 - [「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる](https://github.com/kazenetu/blog-reports/blob/master/reports/27-docker-jenkins-dotnet21/readme.md)
+- [「mono+.NET Core」のDockerfileでWindowsFomsをビルドする](https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md)
 
 ### その他 単発もの
 - [.NET Core 環境変数の設定方法](https://github.com/kazenetu/blog-reports/tree/master/reports/24-dotnetCore-EnvironmentVariables/readme.md)
