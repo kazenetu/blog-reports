@@ -21,7 +21,7 @@
 1. 仮想サーバーにログインする 
     ```vagrant ssh```
 1. 前回ビルドしたjenkins_dotイメージを実行する  
-  ```sudo docker run -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
+  ```sudo docker run --rm -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
 1. ブラウザで```localhost:8080```にアクセスし、下記を行う
     1. MSTestプラグインのインストール
       1. 「Jenkinsの管理」をクリック

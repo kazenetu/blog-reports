@@ -68,7 +68,7 @@
 1. Dockerfileをビルドする(イメージ名をjenkins_dot:latestとする)  
   ```sudo docker build /vagrant -t jenkins_dot:latest```
 1. ビルドしたイメージを実行する  
-  ```sudo docker run -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
+  ```sudo docker run --rm -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot```
 1. 以降は前回以前と同じ
 1. 検証が終わったら終了する
     1. jenkins_dotコンテナを終了する  
