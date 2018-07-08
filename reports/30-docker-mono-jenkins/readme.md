@@ -6,7 +6,7 @@
 - 「Jenkins+.NET Core」のDockerfileにmonoを追加する
 
 ## はじめに
-[今回](https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md)はWindows以外のOSでWindowsFomsをビルドするためにmonoを利用しました。  
+[前回](https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md)はWindows以外のOSでWindowsFomsをビルドするためにmonoを利用しました。  
 今回は「「Jenkins+.NET Core」のDockerfile」にmonoのインストールを追加してみます。
 
 ## 環境
