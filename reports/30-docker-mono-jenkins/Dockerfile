@@ -21,11 +21,12 @@ RUN chown root:root /etc/apt/sources.list.d/microsoft-prod.list
 
 #CMD /bin/sh -c apt-get update
 RUN apt-get update
-RUN apt-get install -y dotnet-sdk-2.1-4
+RUN apt-get install -y dotnet-sdk-2.1.4
 
 # Add the Mono repository
 RUN apt install -y apt-transport-https dirmngr
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+RUN echo "deb https://download.mono-project.com/repo/debian preview-stretch main" | tee /etc/apt/sources.list.d/mono-official-preview.list
 RUN apt update
 
 # install mono

@@ -44,7 +44,7 @@
       # set timezone for OS by root
       RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-      # install dotnet-sdk-2.1
+      # install dotnet-sdk-2.1.4
       RUN apt-get update
       RUN apt-get install -y curl libunwind8 gettext apt-transport-https
 
@@ -62,6 +62,7 @@
       # Add the Mono repository
       RUN apt install -y apt-transport-https dirmngr
       RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+      RUN echo "deb https://download.mono-project.com/repo/debian preview-stretch main" | tee /etc/apt/sources.list.d/mono-official-preview.list
       RUN apt update
 
       # install mono
@@ -70,7 +71,7 @@
       USER jenkins
     ```
     実装内容
-    * 「Jenkins+.NET Core」にmonoをインストールする
+    * 「Jenkins+.NET Core」にmono(preview)をインストールする
 1. Dockerfileをビルドする(イメージ名をmono_dot_jenkins:latestとする)  
   ```sudo docker build ./ -t mono_dot_jenkins:latest```
 1. ビルドしたイメージを実行する  
