@@ -8,7 +8,7 @@ USER root
 # set timezone for OS by root
 RUN ln -sf /usr/share/zoneinfo/Asia/Tokyo /etc/localtime
 
-# install dotnet-sdk-2.1
+# install dotnet-sdk-2.1.4
 RUN apt-get update
 RUN apt-get install -y curl libunwind8 gettext apt-transport-https
 
