@@ -60,9 +60,9 @@
 * .NET Coreをプロジェクト用フレームワークに利用できた  。
   開発環境も支障がないため、デプロイ環境などを検証したら次回以降のプロジェクトで提案できそう。  
   [TinyServerClientFramework](https://github.com/kazenetu/TinyServerClientFramework)  
-* C#からTypeScriptに変換するツールを作成した。
+* C#からTypeScriptに変換するツールを作成した。  
   [ConvertCStoTS](https://github.com/kazenetu/ConvertCStoTS)  
-* ConvertCStoTSの反省点から「C#解析処理をDDDっぽい設計」で実装を開始した。
+* ConvertCStoTSの反省点から「C#解析処理をDDDっぽい設計」で実装を開始した。  
   [CSharpAnalyze](https://github.com/kazenetu/CSharpAnalyze)  
 
 # 【来年の抱負】
