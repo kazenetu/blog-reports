@@ -1,0 +1,87 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>Windowsで始める仮想サーバー その5<br>「ASP.NET CoreでPDF出力」</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md">環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">ASP.NET Coreの動作環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md">ASP.NET Coreサンプルプログラムの実行確認</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">PDF出力の環境作成</a></li>
+<li>ASP.NET CoreでPDF出力</li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">前回</a>はPDF出力できる環境を作成しました。<br>今回はASP.NET CoreでPDF出力できるようにします。<br>※<a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">第2回</a>の手順5で作成したcoretestを使ってみます。<br>　 あらかじめ仮想サーバー上で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">cp coretest /vagrant/ -r</span>を実行して<br>　ファイル共有のディレクトリにコピーするとWindows上での編集が可能になります。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+<li>.Net Core SDK 2.1.4</li>
+<li>wkhtmltopdf 0.12.1</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>Windowsでの作業：コマンドプロンプトで仮想サーバーの起動を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span>  </li>
+<li>Windowsでの作業：仮想サーバーにログインする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span><br>
+</li>
+<li>仮想サーバーでの作業：libwkhtmltoxの配置<br><a href="https://github.com/rdvojmoc/DinkToPdf/tree/master/v0.12.4">https://github.com/rdvojmoc/DinkToPdf/tree/master/v0.12.4</a>から32bit・64bitのどちらかをダウンロードし、プロジェクト直下にコピーする。<br>
+</li>
+<li>仮想サーバーでの作業：coretest.csprojを編集する<br>※ <strong>太文字</strong>が追加分<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;Project Sdk=&quot;Microsoft.NET.Sdk.Web&quot;&gt;</span>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%3CPropertyGroup%3E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```    &lt;TargetFramework&gt;netcoreapp2<span class="hljs-number">.0</span>&lt;/TargetFramework&gt;
+</span></pre>
+<strong><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;CopyLocalLockFileAssemblies&gt;true&lt;/CopyLocalLockFileAssemblies&gt;</span></strong>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%3C/PropertyGroup%3E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```  &lt;ItemGroup&gt;
+</span></pre>
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;PackageReference Include=&quot;Microsoft.AspNetCore.All&quot; Version=&quot;2.0.5&quot; /&gt;</span><br><strong><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;PackageReference Include=&quot;DinkToPdf&quot; Version=&quot;1.0.8&quot; /&gt;</span></strong><br><strong><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;Content Include=&quot;libwkhtmltox.dll&quot; CopyToOutputDirectory=&quot;PreserveNewest&quot; /&gt;</span></strong><br><strong><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;Content Include=&quot;libwkhtmltox.so&quot; CopyToOutputDirectory=&quot;PreserveNewest&quot; /&gt;</span></strong><br><strong><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;Content Include=&quot;libwkhtmltox.dylib&quot; CopyToOutputDirectory=&quot;PreserveNewest&quot; /&gt;</span></strong>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%3C/ItemGroup%3E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```  &lt;ItemGroup&gt;
+</span></pre>
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;DotNetCliToolReference Include=&quot;Microsoft.VisualStudio.Web.CodeGeneration.Tools&quot; Version=&quot;2.0.2&quot; /&gt;</span>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%3C/ItemGroup%3E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```&lt;/Project&gt;
+</span></pre>
+</li>
+<li>仮想サーバーでの作業：<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet restore</span>を実行する</li>
+<li>仮想サーバーでの作業：Controllers/HomeControllerへの追記  <br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-csharp code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> using DinkToPdf;
+ using System.Web;
+ using DinkToPdf.Contracts;
+
+ <span class="hljs-comment" style="color: #008000;">// ～省略～</span>
+
+ public IActionResult <span class="hljs-constructor">PDFDownload()</span>
+ {
+     var doc = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-constructor">HtmlToPdfDocument()</span>
+     {
+         GlobalSettings = {
+             ColorMode = ColorMode.Color,
+             Orientation = Orientation.Landscape,
+             PaperSize = PaperKind.A4Plus,
+             },
+             Objects = {
+             <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-constructor">ObjectSettings()</span> {
+                 PagesCount = <span class="hljs-literal" style="color: #a31515;">true</span>,
+                 HtmlContent = @<span class="hljs-string" style="color: #a31515;">"Lorem ipsum dolor sit amet, consectetur adipiscing elit. In consectetur mauris eget ultrices  iaculis. Ut                               odio viverra, molestie lectus nec, venenatis turpis."</span>,
+                 WebSettings = { DefaultEncoding = <span class="hljs-string" style="color: #a31515;">"utf-8"</span> },
+                 HeaderSettings = { FontSize = <span class="hljs-number">9</span>, Right = <span class="hljs-string" style="color: #a31515;">"Page [page] of [toPage]"</span>, Line = <span class="hljs-literal" style="color: #a31515;">true</span>, Spacing = <span class="hljs-number">2.812</span> }
+             }
+         }
+     };
+
+     var converter = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-constructor">SynchronizedConverter(<span class="hljs-params">new</span> PdfTools()</span>);
+     byte<span class="hljs-literal" style="color: #a31515;">[]</span> pdf = converter.<span class="hljs-constructor">Convert(<span class="hljs-params">doc</span>)</span>;
+
+     <span class="hljs-comment" style="color: #008000;">// サンプルのファイル名</span>
+     <span class="hljs-built_in" style="color: #00f;">string</span> fileName = <span class="hljs-built_in" style="color: #00f;">string</span>.<span class="hljs-constructor">Format(<span class="hljs-string" style="color: #a31515;">"テスト_{0:yyyyMMddHHmmss}.pdf"</span>, DateTime.Now)</span>;
+     fileName = HttpUtility.<span class="hljs-constructor">UrlEncode(<span class="hljs-params">fileName</span>, System.Text.Encoding.UTF8)</span>;
+
+     <span class="hljs-comment" style="color: #008000;">// ファイル名を設定</span>
+     Response.Headers.<span class="hljs-constructor">Add(<span class="hljs-string" style="color: #a31515;">"Content-Disposition"</span>, <span class="hljs-string" style="color: #a31515;">"attachment; filename="</span> + <span class="hljs-params">fileName</span>)</span>;
+
+     return <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-constructor">FileContentResult(<span class="hljs-params">pdf</span>, <span class="hljs-string" style="color: #a31515;">"application/pdf"</span>)</span>;
+ }   
+</span></pre>
+</li>
+<li>仮想サーバーでの作業：下記のメッセージが表示されることを確認する  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> Hosting <span class="hljs-string" style="color: #a31515;">environment:</span> Production
+ Content root <span class="hljs-string" style="color: #a31515;">path:</span> <span class="hljs-regexp">/vagrant/</span>coretest
+ Now listening <span class="hljs-string" style="color: #a31515;">on:</span> <span class="hljs-string" style="color: #a31515;">http:</span><span class="hljs-comment" style="color: #008000;">//localhost:5000</span>
+ Application started. Press Ctrl+C to shut down.
+</span></pre></li>
+<li>Windowsでの作業：ブラウザを立ち上げ、 <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">http://localhost:8080/Home/PDFDownload</span>にアクセスする<br>PDFがダウンロードされることを確認する</li>
+<li>「Ctrl+C」を押してプログラムの実行を終了する</li>
+<li>動作確認したら <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span> でログアウトする</li>
+<li>コマンドプロンプトで仮想サーバーの停止を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span>  </li>
+</ol>
+<br><b>おわりに</b><br>今回はASP.NET CoreでPDF出力できるようにしました。  <br>
+<br><b>参考</b><br><ul>
+<li><a href="https://github.com/kazenetu/dotNETCoreTest/blob/master/useDinkToPdf.md">DinkToPdfを使ってみた</a></li>
+</ul>
+</body></html>

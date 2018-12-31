@@ -1,0 +1,97 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>「Jenkins+.NET Core」のDockerfileにmonoを追加する</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/26-docker-jenkins-dotnet/readme.md">「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/27-docker-jenkins-dotnet21/readme.md">「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md">「mono+.NET Core」のDockerfileでWindowsFomsをビルドする</a></li>
+<li>「Jenkins+.NET Core」のDockerfileにmonoを追加する</li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md">前回</a>はWindows以外のOSでWindowsFomsをビルドするためにmonoを利用しました。<br>今回は「「Jenkins+.NET Core」のDockerfile」にmonoのインストールを追加してみます。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a>のVagrantfileをコピーする</li>
+<li>コマンドプロンプトで仮想サーバーの起動を行う<br> <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span></li>
+<li>Vagrantとのファイル共有を行う<ol>
+<li>ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant plugin install vagrant-vbguest</span>を実行</li>
+<li>ゲスト(CentOS)側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum update</span>を実行<br>※少し時間がかかります。</li>
+<li>ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant reload</span>を実行</li>
+</ol>
+</li>
+<li>仮想サーバーにログインする 
+ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>Dockerがインストールされているか確認する
+ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker --version</span><br> 表示例  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   [<span class="hljs-symbol" style="color: #00b0e8;">vagrant@</span>localhost ~]$ sudo docker --version
+   Docker version <span class="hljs-number">18.05</span><span class="hljs-number">.0</span>-ce, build f150324
+</span></pre></li>
+<li>ホスト側のファイル共有にDockerfileを作成する  <br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   <span class="hljs-keyword" style="color: #00f;">FROM</span> jenkins/jenkins:lts
+
+   ENV JAVA_OPTS=-Duser.timezone=Asia/Tokyo
+
+   # <span class="hljs-keyword" style="color: #00f;">set</span> timezone <span class="hljs-keyword" style="color: #00f;">for</span> Java runtime arguments
+   <span class="hljs-keyword" style="color: #00f;">USER</span> root
+
+   # <span class="hljs-keyword" style="color: #00f;">set</span> timezone <span class="hljs-keyword" style="color: #00f;">for</span> OS <span class="hljs-keyword" style="color: #00f;">by</span> root
+   RUN ln -sf /usr/<span class="hljs-keyword" style="color: #00f;">share</span>/zoneinfo/Asia/Tokyo /etc/<span class="hljs-built_in" style="color: #00f;">localtime</span>
+
+   # install dotnet-sdk<span class="hljs-number">-2.1</span><span class="hljs-number">.4</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> install -y curl libunwind8 gettext apt-transport-https
+
+   RUN wget -qO- https://packages.microsoft.com/keys/microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span> | gpg <span class="hljs-comment" style="color: #008000;">--dearmor &gt; microsoft.asc.gpg</span>
+   RUN mv microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span>.gpg /etc/apt/<span class="hljs-keyword" style="color: #00f;">trusted</span>.gpg.d/
+   RUN wget -q https://packages.microsoft.com/config/debian/<span class="hljs-number">9</span>/prod.list
+   RUN mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+   RUN chown root:root /etc/apt/<span class="hljs-keyword" style="color: #00f;">trusted</span>.gpg.d/microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span>.gpg
+   RUN chown root:root /etc/apt/sources.list.d/microsoft-prod.list
+
+   #CMD /bin/sh -c apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> install -y dotnet-sdk<span class="hljs-number">-2.1</span>
+
+   # <span class="hljs-keyword" style="color: #00f;">Add</span> the Mono repository
+   RUN apt install -y apt-transport-https dirmngr
+   RUN apt-key adv <span class="hljs-comment" style="color: #008000;">--keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF</span>
+   RUN echo "deb https://download.mono-project.com/repo/debian preview-stretch main" | tee /etc/apt/sources.list.d/mono-official-preview.list
+   RUN apt <span class="hljs-keyword" style="color: #00f;">update</span>
+
+   # install mono
+   RUN apt install -y mono-devel
+
+   <span class="hljs-keyword" style="color: #00f;">USER</span> jenkins
+</span></pre> 実装内容<br>
+<ul>
+<li>「Jenkins+.NET Core」にmono(preview)をインストールする</li>
+</ul>
+</li>
+<li>Dockerfileをビルドする(イメージ名をmono_dot_jenkins:latestとする)<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker build ./ -t mono_dot_jenkins:latest</span></li>
+<li>ビルドしたイメージを実行する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker run --rm -p 8080:8080 -p 50000:50000 -d -t --name mono_dot_jenkins -v /vagrant/volume/mono_dot_jenkins:/var/jenkins_home mono_dot_jenkins</span></li>
+<li>ゲスト(CentOS)でJenkinsのキーコードを取得する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker exec mono_dot_jenkins cat /var/jenkins_home/secrets/initialAdminPassword</span></li>
+<li>ブラウザで<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">localhost:8080</span>にアクセスし、下記を行う<ol>
+<li>Jenkinsの初期画面が表示されるため、あらかじめ取得しておいたJenkinsのキーコードを入力する</li>
+<li>ジョブが作成可能な状態までJenkinsのセットアップを続ける</li>
+<li>monoのバージョン確認ジョブを新規作成<ol>
+<li>「item name」に<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">CheckMonoVersion</span>を設定、「フリースタイル・プロジェクトのビルド」を選択、OKをクリック</li>
+<li>ビルドに「シェルの追加」を追加  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   mono <span class="hljs-comment" style="color: #008000;">--version</span>
+</span></pre></li>
+<li>保存をクリック</li>
+</ol>
+</li>
+<li>「ビルドの実行」をクリック</li>
+</ol>
+</li>
+<li>検証が終わったら終了する<ol>
+<li>仮想サーバーをログアウトする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span></li>
+<li>仮想サーバーを停止する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span></li>
+</ol>
+</li>
+</ol>
+<br><b>おわりに</b><br>今回はWindowsFormsアプリケーションのビルドをJenkinsジョブで実行できる環境を作成しました。<br>
+<ul>
+<li><a href="./Dockerfile">今回作成したDockerfile</a></li>
+</ul>
+</body></html>

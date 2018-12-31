@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>Windowsで始める仮想サーバー その4<br>「PDF出力の環境作成」</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md">環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">ASP.NET Coreの動作環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md">ASP.NET Coreサンプルプログラムの実行確認</a></li>
+<li>PDF出力の環境作成</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md">ASP.NET CoreでPDF出力</a></li>
+</ul>
+<br><b>はじめに</b><br>ASP.NET CoreでPDF出力を出力できる環境を作成します。<br>今回はwkhtmltopdfをCentOSにインストールします。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+<li>.Net Core SDK 2.1.4</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>Windowsでの作業：コマンドプロンプトで仮想サーバーの起動を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span>  </li>
+<li>Windowsでの作業：仮想サーバーにログインする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>仮想サーバーでの作業：wkhtmltopdfをインストールする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install epel-release</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install wkhtmltopdf</span>  </li>
+<li>仮想サーバーでの作業：日本語フォントをインストールする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts</span></li>
+<li>仮想サーバーでの作業：wkhtmltopdfの動作確認を行う
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">wkhtmltopdf --version</span><br>「wkhtmltopdf 0.12.1」と表示されればインストール完了</li>
+<li>確認したら <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span> でログアウトする</li>
+<li>コマンドプロンプトで仮想サーバーの停止を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span>  </li>
+</ol>
+<br><b>おわりに</b><br>今回はPDF出力環境を作成しました。<br>次回はASP.NET CoreでPDF出力できるようにします。<br>
+<br><b>参考</b><br><ul>
+<li><a href="http://hiroto1979.hatenablog.jp/entry/2016/09/29/223832">どこかに向かうらしい話：「シェルプログラミング実用テクニック」 CentOS7向け補足事項(1章～4章)</a></li>
+</ul>
+</body></html>

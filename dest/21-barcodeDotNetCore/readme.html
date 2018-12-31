@@ -1,0 +1,101 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>ASP.NET Core2でバーコードイメージを表示する</b><br><br><b>はじめに</b><br>今回はASP.NET Coreでバーコードイメージを表示します。<br>完成イメージは下記になります。<br><img src="runimage.png" alt="完成イメージ"> <br>
+完全なサンプルコードは<a href="https://github.com/kazenetu/blog-reports/tree/master/reports/21-barcodeDotNetCore/sample">sampleフォルダ</a>をご覧ください。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>.Net Core SDK 2.1.4</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>Linuxの場合は「libgdiplus」をインストールする<br>例）CentOSの場合：<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum install -y libgdiplus</span></li>
+<li>WebAPIを作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet new webapi -o プロジェクトフォルダ名</span></li>
+<li>csprojファイルに下記を追加<ul>
+<li><a href="https://www.nuget.org/packages/ZXing.Net/">ZXing.Net</a></li>
+<li><a href="https://www.nuget.org/packages/System.Drawing.Common/4.5.0-preview2-26406-04">System.Drawing.Common</a><pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;PackageReference <span class="hljs-keyword" style="color: #00f;">Include</span>="System.Drawing.Common" Version="4.5.0-preview2-26406-04" /&gt;
+&lt;PackageReference <span class="hljs-keyword" style="color: #00f;">Include</span>="ZXing.Net" Version="0.16.4" /&gt;
+</span></pre></li>
+</ul>
+</li>
+<li>ValuesController#Getメソッドを修正<br> [修正前]<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> [<span class="hljs-meta" style="color: #2b91af;">HttpGet</span>]
+ <span class="hljs-function"><span class="hljs-keyword" style="color: #00f;">public</span> IEnumerable&lt;<span class="hljs-keyword" style="color: #00f;">string</span>&gt; <span class="hljs-title" style="color: #a31515;">Get</span>(<span class="hljs-params"></span>)</span>
+ {
+     <span class="hljs-keyword" style="color: #00f;">return</span> <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-keyword" style="color: #00f;">string</span>[] { <span class="hljs-string" style="color: #a31515;">"value1"</span>, <span class="hljs-string" style="color: #a31515;">"value2"</span> };
+ }
+</span></pre> [修正後]<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> [HttpGet]
+ <span class="hljs-keyword" style="color: #00f;">public</span> ActionResult Get()
+ {
+   <span class="hljs-comment" style="color: #008000;">//QRコード化する文字列</span>
+   <span class="hljs-keyword" style="color: #00f;">var</span> data = <span class="hljs-string" style="color: #a31515;">"test"</span>;
+
+   <span class="hljs-comment" style="color: #008000;">//QRコード画像の大きさを指定(pixel)</span>
+   int size = <span class="hljs-number">200</span>;
+
+   <span class="hljs-keyword" style="color: #00f;">try</span>
+   {
+     <span class="hljs-comment" style="color: #008000;">// バーコード例</span>
+     <span class="hljs-comment" style="color: #008000;">//var writer = new BarcodeWriterPixelData</span>
+     <span class="hljs-comment" style="color: #008000;">//{</span>
+     <span class="hljs-comment" style="color: #008000;">//  Format = BarcodeFormat.CODE_128,</span>
+     <span class="hljs-comment" style="color: #008000;">//  Options = new EncodingOptions</span>
+     <span class="hljs-comment" style="color: #008000;">//  {</span>
+     <span class="hljs-comment" style="color: #008000;">//    Height = size / 5,</span>
+     <span class="hljs-comment" style="color: #008000;">//    Width = size</span>
+     <span class="hljs-comment" style="color: #008000;">//  }</span>
+     <span class="hljs-comment" style="color: #008000;">//};</span>
+
+     <span class="hljs-comment" style="color: #008000;">// QRコード例</span>
+     <span class="hljs-keyword" style="color: #00f;">var</span> writer = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-type" style="color: #a31515;">BarcodeWriterPixelData</span>
+     {
+       Format = BarcodeFormat.QR_CODE,
+       Options = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-type" style="color: #a31515;">EncodingOptions</span>
+       {
+         Margin = <span class="hljs-number">0</span>,
+         Height = size,
+         Width = size
+       }
+     };
+
+     <span class="hljs-keyword" style="color: #00f;">var</span> pixelData = writer.Write(data);
+
+     <span class="hljs-keyword" style="color: #00f;">using</span> (<span class="hljs-keyword" style="color: #00f;">var</span> bitmap = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-type" style="color: #a31515;">System</span>.Drawing.Bitmap(pixelData.Width, pixelData.Height, System.Drawing.Imaging.PixelFormat.Format32bppRgb))
+     <span class="hljs-keyword" style="color: #00f;">using</span> (<span class="hljs-keyword" style="color: #00f;">var</span> ms = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-type" style="color: #a31515;">MemoryStream</span>())
+     {
+       <span class="hljs-comment" style="color: #008000;">// lock the data area for fast access</span>
+       <span class="hljs-keyword" style="color: #00f;">var</span> bitmapData = bitmap.LockBits(<span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-type" style="color: #a31515;">System</span>.Drawing.Rectangle(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, pixelData.Width, pixelData.Height),
+          System.Drawing.Imaging.ImageLockMode.WriteOnly, System.Drawing.Imaging.PixelFormat.Format32bppRgb);
+       <span class="hljs-keyword" style="color: #00f;">try</span>
+       {
+         <span class="hljs-comment" style="color: #008000;">// we assume that the row stride of the bitmap is aligned to 4 byte multiplied by the width of the image</span>
+         System.Runtime.InteropServices.Marshal.Copy(pixelData.Pixels, <span class="hljs-number">0</span>, bitmapData.Scan0,
+            pixelData.Pixels.Length);
+       }
+       finally
+       {
+         bitmap.UnlockBits(bitmapData);
+       }
+
+       <span class="hljs-comment" style="color: #008000;">// save to stream as PNG</span>
+       bitmap.Save(ms, System.Drawing.Imaging.ImageFormat.Png);
+       ms.Position = <span class="hljs-number">0</span>;
+
+       <span class="hljs-keyword" style="color: #00f;">return</span> File(ms.GetBuffer(), <span class="hljs-string" style="color: #a31515;">"image/png"</span>);
+
+     }
+   }
+   <span class="hljs-keyword" style="color: #00f;">catch</span> (WriterException e)
+   {
+     <span class="hljs-keyword" style="color: #00f;">return</span> BadRequest(e.Message);
+   }
+ }
+</span></pre> ※GitHub「<a href="https://github.com/micjahn/ZXing.Net/">micjahn/ZXing.Net</a>」の「<a href="https://github.com/micjahn/ZXing.Net/blob/master/Clients/ASP.NetCoreDemo/Helper/BarcodeTagHelper.cs#L86-L127">ZXing.Net/Clients/ASP.NetCoreDemo/Helper/BarcodeTagHelper.cs</a>」を参考に実装<br>
+</li>
+<li>デバッグ実行・動作確認  <ol>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet run</span>を実行  </li>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">ルートパス/api/values</span>にアクセス<br><img src="runimage.png" alt="完成イメージ"> </li>
+</ol>
+</li>
+</ol>
+<br><b>おわりに</b><br>とりあえずWindows、CentOS7で動作することを確認できました。<br><a href="https://www.nuget.org/packages/DinkToPdf/">DinkToPdf</a>を併用することでPDF出力もできそうですね。<br>
+<br><b>参考</b><br>ｰ GitHub:<a href="https://github.com/micjahn/ZXing.Net/blob/master/Clients/ASP.NetCoreDemo">ZXing.Net/Clients/ASP.NetCoreDemo</a><br>
+</body></html>

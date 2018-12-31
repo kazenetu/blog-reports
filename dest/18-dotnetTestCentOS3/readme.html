@@ -1,0 +1,46 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>Windowsで始める仮想サーバー その3<br>「ASP.NET Coreサンプルプログラムの実行確認」</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md">環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">ASP.NET Coreの動作環境作成</a></li>
+<li>ASP.NET Coreサンプルプログラムの実行確認</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">PDF出力の環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md">ASP.NET CoreでPDF出力</a></li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">前回</a>はASP.NET CoreのLinux系OSでの実行環境を構築しました。<br>今回はwindowsでの動作確認のみ実施済みの<a href="https://github.com/kazenetu/ASPdotNETCoreTest">https://github.com/kazenetu/ASPdotNETCoreTest</a>が<br>CentOSで動作するか確認します。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+<li>.Net Core SDK 2.1.4</li>
+</ul>
+<br><b>手順</b><br>ファイル共有を前提の手順となっています。<br>実施する前に<a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">前回</a>の「発生した問題と対策」を実施してください。<br>
+<ol>
+<li>Windowsでの作業：サンプルプログラムをダウンロードまたはCloneする
+<a href="https://github.com/kazenetu/ASPdotNETCoreTest">https://github.com/kazenetu/ASPdotNETCoreTest</a></li>
+<li>Windowsでの作業：サンプルプログラムの「WebApi」フォルダに移動する</li>
+<li>Windowsでの作業：Windows上でLinux展開用ファイル群を作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet publish --configuration Release --self-contained -r centos.7-x64</span></li>
+<li>Windowsでの作業：Vagrantfileのフォルダに「ASPdotNETCoreTest」フォルダを作成する
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">WebApi\bin\Release\netcoreapp2.0\centos.7-x64\publish</span></li>
+<li>Windowsでの作業：「ASPdotNETCoreTest」フォルダに以下のフォルダの中身をコピーする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">WebApi\bin\Release\netcoreapp2.0\centos.7-x64\publish</span></li>
+<li>Windowsでの作業：暫定的に動作させるために設定ファイルの置き換えを行う<br>※DBにSQLiteを利用するようにする<ol>
+<li>「appsettings.json」を削除する</li>
+<li>「appsettings.Development.json」を「appsettings.json」にリネームする</li>
+</ol>
+</li>
+<li>Windowsでの作業：コマンドプロンプトで仮想サーバーの起動を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span>  </li>
+<li>Windowsでの作業：仮想サーバーにログインする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>仮想サーバーでの作業：共有ディレクトリの「ASPdotNETCoreTest」ディレクトリに移動する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">cd /vagrant/ASPdotNETCoreTest</span></li>
+<li>仮想サーバーでの作業：プログラム(webApi.dll)を実行する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet WebApi.dll</span>  </li>
+<li>仮想サーバーでの作業：下記のメッセージが表示されることを確認する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">Hosting environment: Production</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">Content root path: /vagrant/ASPdotNETCoreTest</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">Now listening on: http://localhost:5000</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">Application started. Press Ctrl+C to shut down.</span>  </li>
+<li>Windowsでの作業：ブラウザを立ち上げ、 <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">http://localhost:8080/</span>にアクセスする<br>下記の操作ができることを確認する<ol>
+<li>ログイン画面が表示される</li>
+<li>test/testでログインする</li>
+<li>ユーザーマスタ検索で検索する</li>
+</ol>
+</li>
+<li>「Ctrl+C」を押してプログラム(webApi.dll)の実行を終了する</li>
+<li>動作確認したら <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span> でログアウトする</li>
+<li>コマンドプロンプトで仮想サーバーの停止を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span>  </li>
+</ol>
+<br><b>おわりに</b><br>windowsでの動作確認のみ実施済みの<a href="https://github.com/kazenetu/ASPdotNETCoreTest">https://github.com/kazenetu/ASPdotNETCoreTest</a>が<br>CentOSで動作するか確認しました。  <br>
+</body></html>

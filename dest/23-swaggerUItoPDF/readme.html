@@ -1,0 +1,117 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>wkhtmltopdfを使ってSWAGGER UIのPDFを作成する</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/readme.md">ASP.NET Core2でSWAGGER UIを使う</a></li>
+<li>wkhtmltopdfを使ってSWAGGER UIのPDFを作成する</li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/readme.md">前回はWebAPIのドキュメントを自動生成するSWAGGER UI</a>を紹介しました。<br>しかし、このままではWebサーバーを立ち上げない限りWebAPIドキュメントを確認できません。<br>
+今回はwkhtmltopdfを実行し、PDFファイルに出力する方法をご紹介します。<br>
+完全なサンプルコードは<a href="https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF/sample">sampleフォルダ</a>をご覧ください。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>.Net Core SDK 2.1.4</li>
+<li>wkhtmltopdf 0.12.4 (with patched qt)</li>
+</ul>
+<br><b>手順</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/sample">前回のサンプルコード</a>を利用します。<br>
+<ol>
+<li>wkhtmltopdfのインストール<br>
+<ul>
+<li>Windowsの場合<ol>
+<li>wkhtmltopdfのインストール<ol>
+<li><a href="https://wkhtmltopdf.org/downloads.html">https://wkhtmltopdf.org/downloads.html</a>からOSと32bit・64bitを選択してダウンロード<br>(Windowsの場合は「Windows(MinGW)」を選択)</li>
+<li>ダウンロードしたファイルを実行し、インストール</li>
+</ol>
+</li>
+<li>wkhtmltopdfのbinフォルダにパスを通す<ol>
+<li>Windowsシステムツールのシステムを選択</li>
+<li>システムを選択</li>
+<li>システムの詳細設定をクリック</li>
+<li>ダイアログ下部の環境変数をクリック</li>
+<li>システム環境変数のPathを選択</li>
+<li>編集をクリック</li>
+<li>インストールフォルダのbinフォルダのパスを追加<br>例)C:\Program Files\wkhtmltopdf\bin</li>
+<li>OKを押して閉じる</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>CentOSの場合<ol>
+<li>wkhtmltopdfをインストールする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install epel-release</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install wkhtmltopdf</span>  </li>
+<li>日本語フォントをインストールする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum -y install ipa-gothic-fonts ipa-mincho-fonts ipa-pgothic-fonts ipa-pmincho-fonts</span></li>
+</ol>
+</li>
+</ul>
+</li>
+<li>WebAPIをコピーする<br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/sample">前回のサンプルコード</a>をコピーしてきます。<br>
+</li>
+<li>プロジェクトファイルのルートフォルダにswaggerUI用HTML(swaggerIndex.html)を追加します。<br>
+※ここではポイントを説明ます。<br>　htmlファイル全体は<a href="https://github.com/kazenetu/blog-reports/blob/master/reports/23-swaggerUItoPDF/sample/webapi/swaggerIndex.html">GitHub</a>を参照してください。<br>　また、このHTMLはGitHubの<a href="https://github.com/domaindrivendev/Swashbuckle.AspNetCore/blob/master/src/Swashbuckle.AspNetCore.SwaggerUI/index.html">Swashbuckle.AspNetCore/src/Swashbuckle.AspNetCore.SwaggerUI/index.html</a>をベースとしています。<br>
+<ul>
+<li>headタグ内にPolyfill用jsの読み込みを追加<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">head</span>&gt;</span>
+ ～中略～
+
+ <span class="hljs-comment" style="color: #008000;">&lt;!-- Polyfills for wkhtmltopdf --&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span> <span class="hljs-attr" style="color: #f00;">src</span>=<span class="hljs-string" style="color: #a31515;">"https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.10/es5-shim.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span> <span class="hljs-attr" style="color: #f00;">src</span>=<span class="hljs-string" style="color: #a31515;">"https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span> <span class="hljs-attr" style="color: #f00;">src</span>=<span class="hljs-string" style="color: #a31515;">"https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.35.3/es6-sham.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span> <span class="hljs-attr" style="color: #f00;">src</span>=<span class="hljs-string" style="color: #a31515;">"https://cdnjs.cloudflare.com/ajax/libs/es7-shim/6.0.0/es7-shim.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span> <span class="hljs-attr" style="color: #f00;">src</span>=<span class="hljs-string" style="color: #a31515;">"https://cdnjs.cloudflare.com/ajax/libs/babel-polyfill/6.16.0/polyfill.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+
+ ～中略～
+<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">head</span>&gt;</span>
+</span></pre></li>
+<li>WebAPIの展開を設定<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">configObject.docExpansion = &#39;full&#39;;</span>を追加する<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">script</span>&gt;</span><span class="javascript">
+ <span class="hljs-built_in" style="color: #00f;">window</span>.onload = <span class="hljs-function"><span class="hljs-keyword" style="color: #00f;">function</span> (<span class="hljs-params"></span>) </span>{
+   <span class="hljs-keyword" style="color: #00f;">var</span> configObject = <span class="hljs-built_in" style="color: #00f;">JSON</span>.parse(<span class="hljs-string" style="color: #a31515;">'%(ConfigObject)'</span>);
+   <span class="hljs-keyword" style="color: #00f;">var</span> oauthConfigObject = <span class="hljs-built_in" style="color: #00f;">JSON</span>.parse(<span class="hljs-string" style="color: #a31515;">'%(OAuthConfigObject)'</span>);
+
+   <span class="hljs-comment" style="color: #008000;">// Apply mandatory parameters</span>
+   configObject.dom_id = <span class="hljs-string" style="color: #a31515;">"#swagger-ui"</span>;
+   configObject.presets = [SwaggerUIBundle.presets.apis, SwaggerUIStandalonePreset];
+   configObject.layout = <span class="hljs-string" style="color: #a31515;">"StandaloneLayout"</span>;
+   configObject.docExpansion = <span class="hljs-string" style="color: #a31515;">'full'</span>; <span class="hljs-comment" style="color: #008000;">// 追加</span>
+
+   <span class="hljs-comment" style="color: #008000;">// If oauth2RedirectUrl isn't specified, use the built-in default</span>
+   <span class="hljs-keyword" style="color: #00f;">if</span> (!configObject.hasOwnProperty(<span class="hljs-string" style="color: #a31515;">"oauth2RedirectUrl"</span>))
+     configObject.oauth2RedirectUrl = <span class="hljs-built_in" style="color: #00f;">window</span>.location.href.replace(<span class="hljs-string" style="color: #a31515;">"index.html"</span>, <span class="hljs-string" style="color: #a31515;">"oauth2-redirect.html"</span>);
+
+   <span class="hljs-comment" style="color: #008000;">// Build a system</span>
+   <span class="hljs-keyword" style="color: #00f;">const</span> ui = SwaggerUIBundle(configObject);
+
+   <span class="hljs-comment" style="color: #008000;">// Apply OAuth config</span>
+   ui.initOAuth(oauthConfigObject);
+ }
+</span><span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">script</span>&gt;</span>
+</span></pre></li>
+</ul>
+</li>
+<li>デバッグ実行<ol>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet run</span>を実行  </li>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">ルートパス/swagger/</span>にアクセスし、WebAPIドキュメントが表示されることを確認  </li>
+</ol>
+</li>
+<li>コマンドプロンプトなどで下記を実行<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> <span class="hljs-keyword" style="color: #00f;">cd</span> PDF出力先
+ wkhtmltopdf - ルートパス<span class="hljs-string" style="color: #a31515;">/swagger/</span> 出力PDF名<span class="hljs-string" style="color: #a31515;">.pdf</span>
+</span></pre>※<em>PDF出力先</em> フォルダに <em>出力PDF名</em>.pdf が出力される</li>
+</ol>
+<br><b>おわりに</b><br>PDFとしてWebAPIドキュメントを残すことができました。<br>コマンドプロンプトやシェルで実行できるため、CIに組み込むこともできますね。<br>
+<br><b>参考</b><br>wkhtmltopdfのインストール<br>
+<ul>
+<li>Windows<ul>
+<li><a href="https://github.com/kazenetu/dotNETCoreTest/blob/master/useDinkToPdf.md">DinkToPdfを使ってみた</a></li>
+</ul>
+</li>
+<li>CentOS7<ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">Windowsで始める仮想サーバー その4「PDF出力の環境作成」</a></li>
+</ul>
+</li>
+</ul>
+Polyfills設定<br>
+<ul>
+<li>wkhtmltopdf/wkhtmltopdf issue<ul>
+<li><a href="https://github.com/wkhtmltopdf/wkhtmltopdf/issues/2952">Wkhtmltopdf not generating my ReactJs App</a></li>
+</ul>
+</li>
+</ul>
+</body></html>

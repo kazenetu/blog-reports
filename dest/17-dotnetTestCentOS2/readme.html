@@ -1,0 +1,57 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>Windowsで始める仮想サーバー その2<br>「ASP.NET Coreの動作環境作成」</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/16-dotnetTestCentOS/readme.md">環境作成</a></li>
+<li>ASP.NET Coreの動作環境作成</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md">ASP.NET Coreサンプルプログラムの実行確認</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">PDF出力の環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md">ASP.NET CoreでPDF出力</a></li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/readme.md">前回</a>は仮想環境の構築を行いました。<br>今回はASP.NET CoreのLinux系OS(CentOS)での実行環境を構築できるようにします。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+</ul>
+<br><b>手順</b><br>実施する前に<a href="https://github.com/kazenetu/blog-reports/blob/master/reports/16-dotnetTestCentOS/readme.md">前回</a>を参照してください<br>
+<ol>
+<li>Vagrantfileを編集する<ul>
+<li>80番ポートをホスト(Windows)側で8080ポートにマッピングする</li>
+<li>.NetCore2.0のインストールを行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">Vagrant.configure(&quot;2&quot;) do |config|</span>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%uFF5E%u7701%u7565%uFF5E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```  config.vm.network <span class="hljs-string" style="color: #a31515;">"forwarded_port"</span>, guest: <span class="hljs-number">80</span>, host: <span class="hljs-number">8080</span>
+</span></pre>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-%uFF5E%u7701%u7565%uFF5E%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">```  config.vm.provision <span class="hljs-string" style="color: #a31515;">"shell"</span>, <span class="hljs-keyword" style="color: #00f;">inline</span>: &lt;&lt;-SHELL
+</span></pre>
+<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo rpm --import https://packages.microsoft.com/keys/microsoft.asc</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo sh -c &#39;echo -e &quot;[packages-microsoft-com-prod]\nname=packages-microsoft-com-prod \nbaseurl= https://packages.microsoft.com/yumrepos/microsoft-rhel7.3-prod\nenabled=1\ngpgcheck=1\ngpgkey=https://packages.microsoft.com/keys/microsoft.asc&quot; &gt; /etc/yum.repos.d/dotnetdev.repo&#39;</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum update</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum install -y libunwind</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum install -y libicu</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum install -y dotnet-sdk-2.1.4</span>  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-SHELL%60%60%60 code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">%60%60%60end
+</span></pre>
+</li>
+</ul>
+</li>
+<li>コマンドプロンプトで仮想サーバーの起動を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span>  </li>
+<li>仮想サーバーにログインする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>下記を参考にしてApacheを設定する<br><a href="https://docs.microsoft.com/ja-jp/aspnet/core/host-and-deploy/linux-apache?tabs=aspnetcore2x">Apache 搭載の Linux で ASP.NET Core をホストする</a><br>※注意点：  <ul>
+<li>ファイアウォールの設定を行う<ol>
+<li>sudo firewall-cmd --add-port=80/tcp --permanentを実行する</li>
+<li>sudo firewall-cmd --reloadを実行する</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>ログイン後、以下のコマンドを発行する<ol>
+<li>フォルダを作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">mkdir coretest</span></li>
+<li>サンプルプロジェクトを作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">cd coretest</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet new mvc</span></li>
+<li>サンプルプロジェクトを実行する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet run</span>  </li>
+</ol>
+</li>
+<li>Windowsのブラウザで <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">http://localhost:8080/</span>にアクセスし、Core MVCの画面が表示されることを確認する</li>
+<li>動作確認したら <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span> でログアウトする</li>
+<li>コマンドプロンプトで仮想サーバーの停止を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span>  </li>
+</ol>
+<br><b>発生した問題と対策</b><br><ul>
+<li>ファイル共有ができない<br>→ ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant plugin install vagrant-vbguest</span>を実行する<br>→ ゲスト(CentOS)側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum update</span>を実行する<br>→ ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant reload</span>を実行する  </li>
+</ul>
+<br><b>おわりに</b><br>とりあえずASP.NET Coreが実行できるようになりました。<br>次回はWindowsでの動作確認のみ実施済みの<a href="https://github.com/kazenetu/ASPdotNETCoreTest">https://github.com/kazenetu/ASPdotNETCoreTest</a>が<br>CentOSで動作するか確認します。<br>
+<a href="./Vagrantfile">今回利用したVagrantfile</a><br>
+<br><b>参考資料</b><br><ul>
+<li>Qiita:<a href="https://qiita.com/yusk24/items/96a0000716fed7ca62f6">Vagrant ファイル共有　決定版</a></li>
+<li>Qiita:<a href="https://qiita.com/takutoki/items/33cf1230e032931f9adc">vagrant up 時の共有フォルダのマウントエラー解消方法</a></li>
+</ul>
+</body></html>

@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>.NET Core 環境変数の設定方法</b><br><br><b>はじめに</b><br>.NET Coreではデータベースの接続情報などを<br>「appsettings.Development.json」や「appsettings.json」に記述することができます。<br>ただ、GitHubなど誰でも閲覧できる場所に本番系の情報を記述するのはおすすめできません。<br>環境変数に本番系の情報を設定を行うようにします。  <br>
+今回はVisualStudio2017を例に説明します。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>.Net Core SDK 2.1.4</li>
+<li>VisualStudio2017</li>
+<li>appsettings.Development.jsonは以下のとおり  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">{
+  ～省略～
+  <span class="hljs-string" style="color: #a31515;">"DB"</span>: {
+    <span class="hljs-string" style="color: #a31515;">"ConnectionStrings"</span>: {
+      <span class="hljs-string" style="color: #a31515;">"sqlite"</span>: <span class="hljs-string" style="color: #a31515;">"接続文字列1"</span>
+    }
+  }
+}
+</span></pre>※sqliteの値を「上書き済み」に上書きする</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>「プロジェクトプロパティ」を開く</li>
+<li>「デバッグ」を選択</li>
+<li>「環境変数」の行を追加</li>
+<li>下記のキーと値を設定<br>
+ | キー※                      |値         |
+ |:---------------------------|:----------|
+ |DB:ConnectionStrings:sqlite | 上書き済み |
+ <strong>※入れ子は「:」で区切る</strong><br>
+</li>
+</ol>
+<br><b>おわりに</b><br>環境変数でデータベースの接続文字列を上書きする方法を説明しました。<br>「入れ子構造になっているときは「:」で区切る」がポイントです。<br>Azure WebAppsなどでも環境変数の設定が行えるので、キーの設定方法はそのまま利用できると思います。<br>
+</body></html>

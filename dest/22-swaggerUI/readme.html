@@ -1,0 +1,41 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>ASP.NET Core2でSWAGGER UIを使う</b><br><ul>
+<li>ASP.NET Core2でSWAGGER UIを使う</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/23-swaggerUItoPDF/readme.md">wkhtmltopdfを使ってSWAGGER UIのPDFを作成する</a></li>
+</ul>
+<br><b>はじめに</b><br>WebAPIの開発で面倒な作業というとWebAPIの仕様書です。<br>ウォーターフォール開発ではWebAPIの仕様書を書くわけですが、<br>実装時の試行錯誤で頻繁に実装が変わるケースはよくあることです。<br>「仕様書も同期させればよい」<br>ごもっともです。  <br>
+でも、仕様書が自動的に作成されるとしたら？<br>仕様書の作成や更新に開放されるとしたら？  <br>
+実現方法の一つ、SWAGGER UIを紹介します。<br> <img src="runimage.png" alt="イメージ"> <br>
+完全なサンプルコードは<a href="https://github.com/kazenetu/blog-reports/tree/master/reports/22-swaggerUI/sample">sampleフォルダ</a>をご覧ください。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>.Net Core SDK 2.1.4</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>WebAPIを作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet new webapi -o プロジェクトフォルダ名</span></li>
+<li>csprojファイルに下記を追加<ul>
+<li>クラス・メソッドのコメントをXMLで出力するように設定<br>※DocumentationFileタグとNoWarnタグを追加<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">PropertyGroup</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">TargetFramework</span>&gt;</span>netcoreapp2.0<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">TargetFramework</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">DocumentationFile</span>&gt;</span>bin\Debug\$(TargetFramework)\webApi.xml<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">DocumentationFile</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">NoWarn</span>&gt;</span>1701;1702;1705;1591<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">NoWarn</span>&gt;</span>
+<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">PropertyGroup</span>&gt;</span>
+</span></pre></li>
+<li><a href="https://www.nuget.org/packages/Swashbuckle.AspNetCore/">Swashbuckle.AspNetCore</a><pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"><span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">ItemGroup</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">PackageReference</span> <span class="hljs-attr" style="color: #f00;">Include</span>=<span class="hljs-string" style="color: #a31515;">"Microsoft.AspNetCore.All"</span> <span class="hljs-attr" style="color: #f00;">Version</span>=<span class="hljs-string" style="color: #a31515;">"2.0.6"</span> /&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">PackageReference</span> <span class="hljs-attr" style="color: #f00;">Include</span>=<span class="hljs-string" style="color: #a31515;">"Swashbuckle.AspNetCore"</span> <span class="hljs-attr" style="color: #f00;">Version</span>=<span class="hljs-string" style="color: #a31515;">"2.4.0"</span> /&gt;</span>
+<span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">ItemGroup</span>&gt;</span>
+</span></pre></li>
+</ul>
+</li>
+<li>実行・動作確認  <ol>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">dotnet run</span>を実行  </li>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">ルートパス/swagger/</span>にアクセス<br><img src="runimage.png" alt="イメージ"> </li>
+</ol>
+</li>
+</ol>
+<br><b>おわりに</b><br>こんなに簡単にWebAPIのドキュメントが自動生成されるようになりました。<br>※実際には「デバッグ時のみ表示」などの制御が必要かと思います。<br>
+<br><b>参考</b><br><ul>
+<li><a href="https://swagger.io/swagger-ui/">SWAGGER UI 公式ページ</a></li>
+<li>Qiita:<a href="https://qiita.com/search?q=tag%3Aswagger&amp;sort=created">swaggerタグが付いた記事一覧</a></li>
+</ul>
+</body></html>

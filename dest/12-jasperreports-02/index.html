@@ -27,24 +27,21 @@ JasperReportsでPDFを出力する その2<br>
 <img src="1_jrxml.PNG" alt="レポート作成例"><br>※StaticTextを張り付けたファイルです。<br>
 </li>
 <li>サンプルソースファイル<br>jersey(JAX-RS)でPDFファイルを出力する例です。<br>
-<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-Java code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">JRDataSource dataSource = <span class="hljs-keyword" style="color: #00f;">new</span> JRBeanCollectionDataSource(Arrays.asList(<span class="hljs-string" style="color: #a31515;">"dummy"</span>));
-<span class="hljs-built_in" style="color: #00f;">Map</span>&lt;<span class="hljs-built_in" style="color: #00f;">String</span>, <span class="hljs-built_in" style="color: #00f;">Object</span>&gt; params = <span class="hljs-keyword" style="color: #00f;">new</span> HashMap&lt;&gt;();
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="lang-Java code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">JRDataSource dataSource = <span class="hljs-keyword" style="color: #00f;">new</span> <span class="hljs-constructor">JRBeanCollectionDataSource(Arrays.<span class="hljs-params">asList</span>(<span class="hljs-string" style="color: #a31515;">"dummy"</span>)</span>);
+Map&lt;String, Object&gt; params = <span class="hljs-keyword" style="color: #00f;">new</span> HashMap&lt;&gt;<span class="hljs-literal" style="color: #a31515;">()</span>;
 
 <span class="hljs-keyword" style="color: #00f;">try</span> {
-   <span class="hljs-built_in" style="color: #00f;">String</span> filePath = <span class="hljs-keyword" style="color: #00f;">this</span>.getClass().getClassLoader().getResource((<span class="hljs-string" style="color: #a31515;">"sample.jrxml"</span>)).getPath();
-   JasperReport report = JasperCompileManager.compileReport(filePath);
+   String filePath = this.get<span class="hljs-constructor">Class()</span>.get<span class="hljs-constructor">ClassLoader()</span>.get<span class="hljs-constructor">Resource((<span class="hljs-string" style="color: #a31515;">"sample.jrxml"</span>)</span>).get<span class="hljs-constructor">Path()</span>;
+   JasperReport report = <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">JasperCompileManager</span>.</span></span>compile<span class="hljs-constructor">Report(<span class="hljs-params">filePath</span>)</span>;
 
-   <span class="hljs-keyword" style="color: #00f;">return</span> Response.ok(JasperRunManager.runReportToPdf(report, params, dataSource))
-           .build();
+   return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Response</span>.</span></span>ok(<span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">JasperRunManager</span>.</span></span>run<span class="hljs-constructor">ReportToPdf(<span class="hljs-params">report</span>, <span class="hljs-params">params</span>, <span class="hljs-params">dataSource</span>)</span>)
+           .build<span class="hljs-literal" style="color: #a31515;">()</span>;
 
-} <span class="hljs-keyword" style="color: #00f;">catch</span> (JRException e) {
-   <span class="hljs-keyword" style="color: #00f;">return</span> Response.serverError().build();
+} catch (JRException e) {
+   return <span class="hljs-module-access"><span class="hljs-module"><span class="hljs-identifier">Response</span>.</span></span>server<span class="hljs-constructor">Error()</span>.build<span class="hljs-literal" style="color: #a31515;">()</span>;
 }
 </span></pre>
 </li>
 </ol>
-<br><b>おわりに</b><br>MavenでJasperReportsを取得して、簡単なPDFを出力することができました。<br>次回はさらにバーコードやQRコードをPDF出力するときに嵌ったポイントを説明します。<br>
-よかったらクリックしてください。
-<a href="http://it.blogmura.com/"><img src="http://it.blogmura.com/img/it88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ＩＴ技術ブログへ"></a>
-<a href="http://game.blogmura.com/game_work/"><img src="http://game.blogmura.com/game_work/img/game_work88_31.gif" width="88" height="31" border="0" alt="にほんブログ村 ゲームブログ ゲーム制作へ"></a><br><a href="http://game.blogmura.com/game_work/">にほんブログ村</a><br>
+<br><b>おわりに</b><br>MavenでJasperReportsを取得して、簡単なPDFを出力することができました。  <br>
 </body></html>

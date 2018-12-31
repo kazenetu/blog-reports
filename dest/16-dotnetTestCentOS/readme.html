@@ -1,0 +1,35 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>Windowsで始める仮想サーバー その1<br>「環境作成」</b><br><ul>
+<li>環境作成</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/17-dotnetTestCentOS2/readme.md">ASP.NET Coreの動作環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/18-dotnetTestCentOS3/readme.md">ASP.NET Coreサンプルプログラムの実行確認</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/19-dotnetTestCentOS4/readme.md">PDF出力の環境作成</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/20-dotnetTestCentOS5/readme.md">ASP.NET CoreでPDF出力</a></li>
+</ul>
+<br><b>はじめに</b><br>ASP.NET CoreのLinux系OSでの実行環境を構築できるようにします。<br>今回はVirtualBoxとVagrantを使ってLinux系の仮想サーバーが作成できるようにします。<br>
+<br><b>環境</b><br>Windows10 Home  <br>
+<br><b>手順</b><br><ol>
+<li>VirtualBoxインストール<ul>
+<li>VirtualBoxダウンロード<br><a href="https://www.virtualbox.org/wiki/Downloads">https://www.virtualbox.org/wiki/Downloads</a><br>※バージョン 5.2.6を使用</li>
+</ul>
+</li>
+<li>Vagrantインストール<ul>
+<li>Vagrantダウンロード<br><a href="https://www.vagrantup.com/downloads.html">https://www.vagrantup.com/downloads.html</a><br>※バージョン2.0.2を使用</li>
+</ul>
+</li>
+<li>Vagrant用フォルダを作成</li>
+<li>コマンドプロンプトでcentos7のVagrantfileを作成する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">cd vagrantフォルダ</span><br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant init bento/centos-7.2</span></li>
+<li>コマンドプロンプトで仮想サーバーのダウンロードと実行を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span>  </li>
+<li>仮想サーバーにログインする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>ログインできることを確認したら <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span> でログアウトする</li>
+<li>コマンドプロンプトで仮想サーバーの削除を行う<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant destroy</span>  </li>
+</ol>
+<br><b>発生した問題と対策</b><br><ul>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant init centos/7</span> で作成した場合、<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span>で仮想サーバーにログインできない<br>「Permission denied (publickey,gssapi-keyex,gssapi-with-mic)」と表示される<br>→ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant init bento/centos-7.2</span> を作成するように変更</li>
+</ul>
+<br><b>おわりに</b><br>まずは仮想環境を用意できるようにしました。<br>次回はさらにASP.NET Coreが実行できるようにします。<br>
+<a href="./Vagrantfile">今回利用したVagrantfile</a><br>
+<br><b>参考資料</b><br><ul>
+<li>WEB+DB PRESS Vol.98 特集2 これから始めるDocker</li>
+</ul>
+</body></html>

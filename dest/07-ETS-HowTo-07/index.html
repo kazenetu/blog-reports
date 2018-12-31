@@ -16,8 +16,8 @@ TypeScriptでenchant.jsを使ってサンプルを作ってみる その7<br>
   <span class="hljs-keyword" style="color: #00f;">private</span> mapWidth: number = <span class="hljs-number">0</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
 
   <span class="hljs-keyword" style="color: #00f;">private</span> touchPanel: Rf.ETS.FrameWork.Sprite = <span class="hljs-literal" style="color: #a31515;">null</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
-  <span class="hljs-keyword" style="color: #00f;">private</span> touchX: number = <span class="hljs-number">-1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
-  <span class="hljs-keyword" style="color: #00f;">private</span> touchY: number = <span class="hljs-number">-1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> touchX: number = -<span class="hljs-number">1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
+  <span class="hljs-keyword" style="color: #00f;">private</span> touchY: number = -<span class="hljs-number">1</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
   <span class="hljs-keyword" style="color: #00f;">private</span> isTouch: boolean = <span class="hljs-literal" style="color: #a31515;">false</span>; <span class="hljs-comment" style="color: #008000;">//※1</span>
 
   <span class="hljs-comment" style="color: #008000;">/**
@@ -114,14 +114,14 @@ TypeScriptでenchant.jsを使ってサンプルを作ってみる その7<br>
       <span class="hljs-keyword" style="color: #00f;">if</span> (Math.abs(tempX) &lt; Math.abs(tempY)) {
         <span class="hljs-comment" style="color: #008000;">//Yの距離のほうが値が大きい</span>
         <span class="hljs-keyword" style="color: #00f;">if</span> (tempY &lt; <span class="hljs-number">0</span>) {
-          addY = <span class="hljs-number">-1</span>;
+          addY = -<span class="hljs-number">1</span>;
         } <span class="hljs-keyword" style="color: #00f;">else</span> {
           addY = <span class="hljs-number">1</span>;
         }
       } <span class="hljs-keyword" style="color: #00f;">else</span> {
         <span class="hljs-comment" style="color: #008000;">//Xの距離のほうが値が大きい</span>
         <span class="hljs-keyword" style="color: #00f;">if</span> (tempX &lt; <span class="hljs-number">0</span>) {
-          addX = <span class="hljs-number">-1</span>;
+          addX = -<span class="hljs-number">1</span>;
         } <span class="hljs-keyword" style="color: #00f;">else</span> {
           addX = <span class="hljs-number">1</span>;
         }
@@ -129,20 +129,20 @@ TypeScriptでenchant.jsを使ってサンプルを作ってみる その7<br>
     }
 
     <span class="hljs-comment" style="color: #008000;">//値を加算する //※4.2</span>
-    <span class="hljs-keyword" style="color: #00f;">this</span>.group.x += <span class="hljs-number">-16</span> * addX;
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group.x += -<span class="hljs-number">16</span> * addX;
     <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.x &gt; <span class="hljs-number">0</span>) {
       <span class="hljs-keyword" style="color: #00f;">this</span>.group.x = <span class="hljs-number">0</span>;
     }
-    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.x &lt; <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth) {
-      <span class="hljs-keyword" style="color: #00f;">this</span>.group.x = <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth;
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.x &lt; -<span class="hljs-number">16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.x = -<span class="hljs-number">16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapWidth + <span class="hljs-keyword" style="color: #00f;">this</span>.screenWidth;
     }
 
-    <span class="hljs-keyword" style="color: #00f;">this</span>.group.y += <span class="hljs-number">-16</span> * addY;
+    <span class="hljs-keyword" style="color: #00f;">this</span>.group.y += -<span class="hljs-number">16</span> * addY;
     <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.y &gt; <span class="hljs-number">0</span>) {
       <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = <span class="hljs-number">0</span>;
     }
-    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.y &lt;= <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight) {
-      <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = <span class="hljs-number">-16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight;
+    <span class="hljs-keyword" style="color: #00f;">if</span> (<span class="hljs-keyword" style="color: #00f;">this</span>.group.y &lt;= -<span class="hljs-number">16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight) {
+      <span class="hljs-keyword" style="color: #00f;">this</span>.group.y = -<span class="hljs-number">16</span> * <span class="hljs-keyword" style="color: #00f;">this</span>.mapHeight + <span class="hljs-keyword" style="color: #00f;">this</span>.screenHeight;
     }
   }
 }

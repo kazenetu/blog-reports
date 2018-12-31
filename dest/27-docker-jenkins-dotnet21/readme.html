@@ -1,0 +1,81 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/26-docker-jenkins-dotnet/readme.md">「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する</a></li>
+<li>「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる</li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md">「mono+.NET Core」のDockerfileでWindowsFomsをビルドする</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/30-docker-mono-jenkins/readme.md">「Jenkins+.NET Core」のDockerfileにmonoを追加する</a></li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a>では.NET Core2.0をインストールしました。<br>今回は.NET Core2.1をインストールしてみます。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a>のVagrantfileをコピーする</li>
+<li>コマンドプロンプトで仮想サーバーの起動を行う<br> <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span></li>
+<li>Vagrantとのファイル共有を行う<ol>
+<li>ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant plugin install vagrant-vbguest</span>を実行</li>
+<li>ゲスト(CentOS)側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo yum update</span>を実行<br>※少し時間がかかります。</li>
+<li>ホスト側で<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant reload</span>を実行</li>
+</ol>
+</li>
+<li>仮想サーバーにログインする 
+ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>Dockerがインストールされているか確認する
+ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker --version</span><br> 表示例  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   [<span class="hljs-symbol" style="color: #00b0e8;">vagrant@</span>localhost ~]$ sudo docker --version
+   Docker version <span class="hljs-number">18.05</span><span class="hljs-number">.0</span>-ce, build f150324
+</span></pre></li>
+<li>ホスト側のファイル共有にDockerfileを作成する<br>※前回と相違点は「dotnet-sdk-2.1.4」→「dotnet-sdk-2.1」<br>
+<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   <span class="hljs-keyword" style="color: #00f;">FROM</span> jenkins/jenkins:lts
+
+   ENV JAVA_OPTS=-Duser.timezone=Asia/Tokyo
+
+   # <span class="hljs-keyword" style="color: #00f;">set</span> timezone <span class="hljs-keyword" style="color: #00f;">for</span> Java runtime arguments
+   <span class="hljs-keyword" style="color: #00f;">USER</span> root
+
+   # <span class="hljs-keyword" style="color: #00f;">set</span> timezone <span class="hljs-keyword" style="color: #00f;">for</span> OS <span class="hljs-keyword" style="color: #00f;">by</span> root
+   RUN ln -sf /usr/<span class="hljs-keyword" style="color: #00f;">share</span>/zoneinfo/Asia/Tokyo /etc/<span class="hljs-built_in" style="color: #00f;">localtime</span>
+
+   # install dotnet-sdk<span class="hljs-number">-2.1</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> install -y curl libunwind8 gettext apt-transport-https
+
+   RUN wget -qO- https://packages.microsoft.com/keys/microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span> | gpg <span class="hljs-comment" style="color: #008000;">--dearmor &gt; microsoft.asc.gpg</span>
+   RUN mv microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span>.gpg /etc/apt/<span class="hljs-keyword" style="color: #00f;">trusted</span>.gpg.d/
+   RUN wget -q https://packages.microsoft.com/config/debian/<span class="hljs-number">9</span>/prod.list
+   RUN mv prod.list /etc/apt/sources.list.d/microsoft-prod.list
+   RUN chown root:root /etc/apt/<span class="hljs-keyword" style="color: #00f;">trusted</span>.gpg.d/microsoft.<span class="hljs-keyword" style="color: #00f;">asc</span>.gpg
+   RUN chown root:root /etc/apt/sources.list.d/microsoft-prod.list
+
+   #CMD /bin/sh -c apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> <span class="hljs-keyword" style="color: #00f;">update</span>
+   RUN apt-<span class="hljs-keyword" style="color: #00f;">get</span> install -y dotnet-sdk<span class="hljs-number">-2.1</span>
+
+   <span class="hljs-keyword" style="color: #00f;">USER</span> jenkins
+</span></pre> 実装内容<br>
+<ul>
+<li>jenkinsイメージにdotnet-sdk-2.1をインストールする</li>
+<li>タイムゾーンをJSTに設定</li>
+</ul>
+</li>
+<li>Dockerfileをビルドする(イメージ名をjenkins_dot:latestとする)<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker build /vagrant -t jenkins_dot:latest</span></li>
+<li>ビルドしたイメージを実行する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker run --rm -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot</span></li>
+<li>以降は前回以前と同じ</li>
+<li>検証が終わったら終了する<ol>
+<li>jenkins_dotコンテナを終了する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker stop jenkins_dot</span></li>
+<li>仮想サーバーをログアウトする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span></li>
+<li>仮想サーバーを停止する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span></li>
+</ol>
+</li>
+</ol>
+<br><b>おわりに</b><br>.NET Coreのバージョンアップを行うことができました。
+.NET Core2.1 LTSが来たときのバージョンアップも比較的容易に行えそうです。<br>
+<ul>
+<li><a href="./Dockerfile">今回作成したDockerfile</a></li>
+</ul>
+<br><b>参考資料</b><br><ul>
+<li>Microsoft:<a href="https://www.microsoft.com/net/download/linux-package-manager/debian9/sdk-2.1.301">Install .NET Core 2.1 SDK (v2.1.301) on Linux Debian 9</a></li>
+</ul>
+</body></html>

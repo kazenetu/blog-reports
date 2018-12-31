@@ -1,0 +1,51 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する</b><br><ul>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">「Jenkins+.NET Core」のイメージをDockerfileで定義する</a></li>
+<li>「Jenkins+.NET Core」を実行し.NET Coreのテストジョブを作成、実行する</li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/27-docker-jenkins-dotnet21/readme.md">「Jenkins+.NET Core」のDockerfileを.NET Core2.1に対応してみる</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/29-docker-mono-dot/readme.md">「mono+.NET Core」のDockerfileでWindowsFomsをビルドする</a></li>
+<li><a href="https://github.com/kazenetu/blog-reports/blob/master/reports/30-docker-mono-jenkins/readme.md">「Jenkins+.NET Core」のDockerfileにmonoを追加する</a></li>
+</ul>
+<br><b>はじめに</b><br><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">前回</a>はJenkinsのDockerイメージを元に.NET Core SDKをインストールしました。<br>今回は<a href="https://github.com/kazenetu/TinyServerClientFramework/readme.md">TinyServerClientFramework</a>のWebAPITestを実行してみます。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VirtualBox 5.2.6  </li>
+<li>Vagrant 2.0.2</li>
+<li><a href="https://github.com/kazenetu/blog-reports/tree/master/reports/25-dockerfile/readme.md">前回の作業</a>が完了している前提です。</li>
+</ul>
+<br><b>手順</b><br><ol>
+<li>コマンドプロンプトで仮想サーバーの起動を行う<br> <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant up</span></li>
+<li>仮想サーバーにログインする 
+ <span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant ssh</span></li>
+<li>前回ビルドしたjenkins_dotイメージを実行する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker run --rm -p 8080:8080 -p 50000:50000 -d -t --name jenkins_dot -v /vagrant/volume/jenkins_dot:/var/jenkins_home jenkins_dot</span></li>
+<li>ブラウザで<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">localhost:8080</span>にアクセスし、下記を行う<ol>
+<li>MSTestプラグインのインストール<ol>
+<li>「Jenkinsの管理」をクリック</li>
+<li>「プラグインの管理」をクリック</li>
+<li>「利用可能」タグをクリック</li>
+<li>「MSTest」のチェックを入れる</li>
+<li>「ダウンロードして再起動してインストール」をクリック</li>
+</ol>
+</li>
+<li>Test用ジョブを新規作成<ol>
+<li>「item name」に<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">WebAPITest</span>を設定、「フリースタイル・プロジェクトのビルド」を選択、OKをクリック</li>
+<li>「ソース管理」に「Git」を選択、リポジトリに「<span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">https://github.com/kazenetu/TinyServerClientFramework.git</span>」を設定  </li>
+<li>ビルドに「シェルの追加」を追加  <pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">   <span class="hljs-built_in" style="color: #00f;">cd</span> Example/WebAPITest
+   dotnet <span class="hljs-built_in" style="color: #00f;">test</span> --logger trx;
+</span></pre></li>
+<li>ビルド後の処理に「Publish MSTest test result report」を選択</li>
+<li>保存をクリック</li>
+</ol>
+</li>
+<li>「ビルドの実行」をクリック</li>
+</ol>
+</li>
+<li>検証が終わったら終了する<ol>
+<li>jenkins_dotコンテナを終了する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">sudo docker stop jenkins_dot</span></li>
+<li>仮想サーバーをログアウトする<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">exit</span></li>
+<li>仮想サーバーを停止する<br><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">vagrant halt</span></li>
+</ol>
+</li>
+</ol>
+<br><b>おわりに</b><br>今回は.NET Coreのテストを行いました。  <br>
+</body></html>

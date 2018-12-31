@@ -1,0 +1,70 @@
+<!DOCTYPE html><html lang="ja"><head><meta charset="utf-8"></head><body>
+<br><b>VisualStudio2017のIIS Expressで「ASP.NET Core」を別PCからアクセス可能にする</b><br><br><b>はじめに</b><br>VisualStudioで「ASP.NET Core」の開発を行う際、<br>「イントラネット上の別PCからアクセスする」必要のあるケースがあります。<br>今回は初回設定と起動ごとの設定を紹介します。<br>
+<br><b>環境</b><br><ul>
+<li>Windows10 Home  </li>
+<li>VisualStudio 2017</li>
+<li>.NET Core 2.0 (2.1.201)</li>
+</ul>
+<br><b>手順</b><br><ul>
+<li>初回設定</li>
+<li>.vs/config/applicationhost.configの編集<ol>
+<li>.vs/config/applicationhost.configをテキストエディタで開く</li>
+<li>sites要素を探す</li>
+<li>WebAPI要素を探す<br> 例）<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;"> ～省略～
+ <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">sites</span>&gt;</span>
+   <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">site</span> <span class="hljs-attr" style="color: #f00;">name</span>=<span class="hljs-string" style="color: #a31515;">"WebAPI"</span> <span class="hljs-attr" style="color: #f00;">id</span>=<span class="hljs-string" style="color: #a31515;">"2"</span>&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">application</span> <span class="hljs-attr" style="color: #f00;">path</span>=<span class="hljs-string" style="color: #a31515;">"/"</span> <span class="hljs-attr" style="color: #f00;">applicationPool</span>=<span class="hljs-string" style="color: #a31515;">"WebAPI AppPool"</span>&gt;</span>
+       <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">virtualDirectory</span> <span class="hljs-attr" style="color: #f00;">path</span>=<span class="hljs-string" style="color: #a31515;">"/"</span> <span class="hljs-attr" style="color: #f00;">physicalPath</span>=<span class="hljs-string" style="color: #a31515;">"実際のファイルパス\Example\WebAPI"</span> /&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">application</span>&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+         <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">binding</span> <span class="hljs-attr" style="color: #f00;">protocol</span>=<span class="hljs-string" style="color: #a31515;">"http"</span> <span class="hljs-attr" style="color: #f00;">bindingInformation</span>=<span class="hljs-string" style="color: #a31515;">"*:5000:localhost"</span> /&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+   <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">site</span>&gt;</span>
+ <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">sites</span>&gt;</span>
+ ～省略～
+</span></pre></li>
+<li><span class="code" style="_font-family: 'courier new', monospace; background-color: #EEF; color: #000; font-family: monospace, monospace; font-size: 0.98em;">&lt;binding protocol=&quot;http&quot; bindingInformation=&quot;*:5000:localhost&quot; /&gt;</span>を探す</li>
+<li>コピペしてbindingInformation属性のlocalhostをPCのIPアドレスに変更する<br> 例）<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">     <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+         <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">binding</span> <span class="hljs-attr" style="color: #f00;">protocol</span>=<span class="hljs-string" style="color: #a31515;">"http"</span> <span class="hljs-attr" style="color: #f00;">bindingInformation</span>=<span class="hljs-string" style="color: #a31515;">"*:5000:localhost"</span> /&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+</span></pre>  ↓<pre style="background-color: #EFF4E4; overflow: auto; white-space: pre-wrap; word-wrap: break-word;"><span class="code" style="_font-family: 'courier new', monospace; background-color: #EFF4E4; color: #000; font-family: monospace, monospace; font-size: 0.98em;">     <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+         <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">binding</span> <span class="hljs-attr" style="color: #f00;">protocol</span>=<span class="hljs-string" style="color: #a31515;">"http"</span> <span class="hljs-attr" style="color: #f00;">bindingInformation</span>=<span class="hljs-string" style="color: #a31515;">"*:5000:localhost"</span> /&gt;</span>
+         <span class="hljs-tag" style="color: #00f;">&lt;<span class="hljs-name" style="color: #00f;">binding</span> <span class="hljs-attr" style="color: #f00;">protocol</span>=<span class="hljs-string" style="color: #a31515;">"http"</span> <span class="hljs-attr" style="color: #f00;">bindingInformation</span>=<span class="hljs-string" style="color: #a31515;">"*:5000:IPアドレス"</span> /&gt;</span>
+     <span class="hljs-tag" style="color: #00f;">&lt;/<span class="hljs-name" style="color: #00f;">bindings</span>&gt;</span>
+</span></pre></li>
+<li>applicationhost.configを保存し閉じる</li>
+</ol>
+</li>
+<li>ファイアウォールのポート(今回は5000ポート)を空ける<br>
+<ul>
+<li>Windows10の場合<ol>
+<li>「設定」(ギアのアイコン)を開く</li>
+<li>「ネットワークとインターネット」を開く</li>
+<li>「状態タグ」(初期表示)を選択、「Windowsファイアウォール」を開く</li>
+<li>「詳細設定」リンクをクリック</li>
+<li>「セキュリティが強化されたWindows Defenderファイアウォール」ウィンドウが開く<ol>
+<li>「送信の規制」を選択、「新しい規制」をクリック</li>
+<li>「ポート」を選択、「次へ」をクリック</li>
+<li>「特定のポート」に5000を設定(ASP.NET Coreのデフォルト値)、「次へ」をクリック</li>
+<li>「接続を許可する」を選択、「次へ」をクリック</li>
+<li>「ドメイン」「プライベート」にチェックを入れ、「次へ」をクリック</li>
+<li>「名前」などを入力し、「完了」をクリック<br>※ 「受信の規制」も同じように設定すること</li>
+</ol>
+</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>起動ごとの設定<br>
+</li>
+<li>VisualStudio2017を<strong>管理者モード</strong>で実行する</li>
+<li>ASP.NET Coreのソリューションを開く</li>
+<li>実行環境を「<strong>IIS Express</strong>」に設定する</li>
+<li>デバッグ実行する</li>
+<li>別PCでブラウザを立ち上げ「デバッグ実行しているPC」のIPアドレスとポートを指定しアクセスできることを確認する</li>
+</ul>
+<br><b>おわりに</b><br>ASP.NET CoreのWebアプリケーションをイントラネット上の別PCからアクセスできるまでの手順を説明しました。<br>手間ですが、それほど面倒なこともないと思います。<br>
+<br><b>参考資料</b><br><ul>
+<li>Qiita:<a href="https://qiita.com/k_saito/items/790884389e0c0611b258">Visual Studio 2015のIIS Expressにlocalhost以外からアクセスできるようにする方法</a></li>
+</ul>
+</body></html>
