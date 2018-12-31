@@ -6,10 +6,10 @@
 	"keywords": [
 		"gulp-markdown"
 	],
-	"devDependencies":{
-		"gulp": "*",
+	"devDependencies": {
+		"gulp": "3.*",
 		"gulp-markdown": "1.2.0",
-		"highlight.js":"*",
-		"gulp-inline-css":"*"
+		"highlight.js": "*",
+		"gulp-inline-css": "*"
 	}
 }
